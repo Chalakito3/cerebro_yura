@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07141a">
+  <title>Yura | Sistema educativo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='voice-2') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-draft.css') }}">
+</head>
+<body data-visual-state="MENU" class="{{ 'theme-soft' if request.args.get('theme') == 'soft' else '' }}">
+  <main class="stage" aria-live="polite">
+    <header class="topbar">
+      <div class="brand-mark" aria-label="Yura">
+        <span class="brand-dot"></span>
+        <div class="brand-copy">
+          <span class="brand-name">YURA</span>
+          <span class="brand-subtitle">ROBOT EDUCATIVO</span>
+        </div>
+      </div>
+      <div class="topbar-center" aria-hidden="true">
+        <span class="thread-mark"></span>
+        <span class="thread-mark"></span>
+        <span class="thread-mark"></span>
+        <span class="thread-mark"></span>
+        <span class="thread-mark"></span>
+      </div>
+      <div class="system-readout" id="system-readout">
+        <span class="signal-dot"></span>
+        <span>SISTEMA LOCAL</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Estado de Yura">
+      <div class="orbit orbit-one"><span class="orbit-node"></span></div>
+      <div class="orbit orbit-two"><span class="orbit-node"></span></div>
+      <div class="orbit orbit-three"><span class="orbit-node"></span></div>
+      <div class="energy-points" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="listening-waves" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="robot-wrap">
+        <div class="robot-halo"></div>
+        <div class="robot" aria-label="Representación visual de Yura">
+          <div class="antenna"><span></span></div>
+          <div class="arm arm-left"></div>
+          <div class="arm arm-right"></div>
+          <div class="head">
+            <div class="ear ear-left"></div>
+            <div class="ear ear-right"></div>
+            <div class="face">
+              <div class="eyes"><span></span><span></span></div>
+              <div class="mouth"></div>
+            </div>
+          </div>
+          <div class="neck"></div>
+          <div class="body">
+            <div class="chest-line"></div>
+            <div class="chest-light"></div>
+          </div>
+        </div>
+        <div class="energy-base" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="status-panel">
+        <p class="institution">CULTURA QUECHUA BOLIVIANA</p>
+        <p class="eyebrow"><span class="eyebrow-line"></span> ESTADO ACTUAL</p>
+        <div class="state-badge"><span class="state-badge-dot"></span><span id="state-label">ESPERANDO</span></div>
+        <h1 id="state">YURA</h1>
+        <div class="activity-line">
+          <span class="activity-pulse"></span>
+          <span id="activity">ESPERANDO</span>
+        </div>
+        <p class="message" id="message">ESPERANDO</p>
+        <div class="secondary-status" aria-hidden="true">
+          <span class="secondary-dot"></span>
+          <span id="secondary-status">SISTEMA EN ESPERA</span>
+        </div>
+        <section class="content-card" aria-label="Contenido de Yura">
+          <div class="content-heading"><span>YURA DICE</span><span class="content-rule"></span></div>
+          <p class="content-main" id="content-main"></p>
+          <p class="content-translation" id="content-translation"></p>
+        </section>
+      </div>
+
+      <aside class="word-panel" aria-label="Ejemplo de palabra en quechua">
+        <div class="word-card">
+          <div class="word-card-header">
+            <span class="word-card-tag">EJEMPLO</span>
+          </div>
+          <h2 id="word-title">Rimaykullayki</h2>
+          <div class="word-row">
+            <span class="word-label">Escritura</span>
+            <strong id="word-written">Rimaykullayki</strong>
+          </div>
+          <div class="word-row">
+            <span class="word-label">Pronunciación</span>
+            <strong id="word-pronunciation">Ri-ma-y-ku-llay-ki</strong>
+          </div>
+          <div class="word-row">
+            <span class="word-label">Significado</span>
+            <strong id="word-meaning">Hola</strong>
+          </div>
+          <div class="word-row">
+            <span class="word-label">Ejemplo</span>
+            <strong id="word-example">Hola, ¿cómo estás?</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>YURA</span>
+      <span id="updated">CONEXIÓN LOCAL · ESPERANDO ACTIVIDAD</span>
+    </footer>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js', v='voice-2') }}"></script>
+</body>
+</html>

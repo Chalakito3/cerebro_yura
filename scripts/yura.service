@@ -1,0 +1,22 @@
+[Unit]
+Description=Yura robot brain and local web interface
+After=pipewire.service wireplumber.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/.env.local
+Environment="YURA_INPUT_DEVICE=Logitech USB Headset"
+Environment="YURA_OUTPUT_DEVICE=Logitech USB Headset"
+Environment=YURA_GEMINI_ENABLED=1
+Environment=YURA_GEMINI_TRANSCRIBE_MODEL=gemini-3.8-flash
+Environment=YURA_WHISPER_MODEL=base
+Environment=YURA_GROQ_MODEL=openai/gpt-oss-20b
+ExecStart=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/.venv/bin/python /home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/web/app.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

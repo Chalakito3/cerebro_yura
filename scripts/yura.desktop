@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Yura
+Comment=Interfaz de Yura en pantalla completa
+Exec=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/scripts/yura-open-browser.sh
+Terminal=false
+X-GNOME-Autostart-enabled=true

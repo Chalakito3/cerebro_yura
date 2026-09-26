@@ -1,0 +1,20 @@
+Buenas tardes.
+
+
+# 1. Recargar el sistema operativo para limpiar memorias previas
+sudo systemctl daemon-reload
+
+# 2. Despertar a YURA con su nuevo cerebro corregido y en línea
+sudo systemctl start yura.service
+
+sudo systemctl stop yura.service
+
+# 3. Abrir la consola en vivo para interactuar y hablarle
+sudo journalctl -u yura.service -f
+
+
+
+
+Las claves API deben guardarse únicamente en .env.local, con permisos 600.
+No pegarlas en este archivo ni en conversaciones.
+

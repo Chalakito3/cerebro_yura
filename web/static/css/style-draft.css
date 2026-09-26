@@ -1,0 +1,164 @@
+body.theme-soft {
+  background: linear-gradient(180deg, #f4f0ea 0%, #f0f7f8 100%);
+}
+
+body.theme-soft::before {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(164, 214, 221, 0.28), transparent 26rem),
+    linear-gradient(120deg, #f5f1ea 0%, #eef4f6 45%, #f7f3ee 100%);
+}
+
+body.theme-soft .robot {
+  width: 17rem;
+  filter: drop-shadow(0 1.2rem 2rem rgba(130, 117, 90, 0.18));
+}
+
+body.theme-soft .robot-halo {
+  border-color: rgba(121, 179, 204, 0.35);
+  box-shadow: 0 0 4.5rem rgba(121, 179, 204, 0.14), inset 0 0 3rem rgba(121, 179, 204, 0.08);
+}
+
+body.theme-soft .arm {
+  position: absolute;
+  top: 10.9rem;
+  width: 2.4rem;
+  height: 6rem;
+  border-radius: 1.3rem;
+  background: linear-gradient(180deg, #f3e4b7 0%, #d8c58e 100%);
+  border: 0.28rem solid #d7c99c;
+  z-index: 0;
+}
+
+body.theme-soft .arm::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.8rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #e8d9a8;
+  border: 0.22rem solid #d3c291;
+}
+
+body.theme-soft .arm-left {
+  left: -1.1rem;
+  transform: rotate(12deg);
+}
+
+body.theme-soft .arm-right {
+  right: -1.1rem;
+  transform: rotate(-12deg);
+}
+
+body.theme-soft .head,
+body.theme-soft .body,
+body.theme-soft .neck,
+body.theme-soft .ear {
+  background: linear-gradient(145deg, #f7f0d6 0%, #e8d9a8 100%);
+  border-color: #d7c99c;
+}
+
+body.theme-soft .head {
+  position: relative;
+  height: 8.5rem;
+  border-radius: 2.3rem 2.3rem 1.8rem 1.8rem;
+}
+
+body.theme-soft .body {
+  width: 12.8rem;
+  height: 7.1rem;
+  border-radius: 1.8rem 1.8rem 2.5rem 2.5rem;
+}
+
+body.theme-soft .neck {
+  width: 2.9rem;
+  height: 1.2rem;
+  border-radius: 0.9rem;
+}
+
+body.theme-soft .face {
+  background: linear-gradient(180deg, #ecf5f7 0%, #d8edf1 100%);
+  border-color: rgba(102, 145, 170, 0.35);
+  border-radius: 1.8rem 1.8rem 1.3rem 1.3rem;
+}
+
+body.theme-soft .eyes span {
+  width: 0.72rem;
+  height: 0.72rem;
+  background: #5ec2d9;
+  box-shadow: 0 0 1.1rem rgba(94, 194, 217, 0.7);
+}
+
+body.theme-soft .mouth {
+  width: 2.2rem;
+  height: 0.8rem;
+  border-bottom-color: #c78e69;
+}
+
+body.theme-soft .chest-light,
+body.theme-soft .antenna span {
+  background: #5ec2d9;
+  box-shadow: 0 0 1.1rem rgba(94, 194, 217, 0.7);
+}
+
+body.theme-soft .content-card {
+  border: 1px solid rgba(133, 171, 185, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+body.theme-soft .content-main {
+  color: #3d6f7c;
+  text-shadow: none;
+}
+
+body.theme-soft .state-badge,
+body.theme-soft .activity-line,
+body.theme-soft .brand-name,
+body.theme-soft .brand-subtitle,
+body.theme-soft .system-readout,
+body.theme-soft .footer,
+body.theme-soft .secondary-status {
+  color: #557688;
+}
+
+body.theme-soft .brand-dot,
+body.theme-soft .signal-dot,
+body.theme-soft .activity-pulse,
+body.theme-soft .secondary-dot {
+  background: #8ec9d6;
+  box-shadow: 0 0 1rem rgba(142, 201, 214, 0.7);
+}
+
+body.theme-soft .energy-base {
+  background: rgba(126, 178, 200, 0.12);
+  box-shadow: 0 0 2rem rgba(126, 178, 200, 0.24);
+}
+
+body.theme-soft .energy-base span {
+  background: rgba(98, 175, 201, 0.8);
+  box-shadow: 0 0 0.8rem rgba(98, 175, 201, 0.4);
+}
+
+body.theme-soft .listening-waves span {
+  border-color: rgba(98, 175, 201, 0.5);
+}
+
+body.theme-soft [data-phase='HABLANDO'] .robot-halo {
+  box-shadow: 0 0 7rem rgba(142, 201, 214, 0.28), inset 0 0 4rem rgba(142, 201, 214, 0.14);
+}
+
+body.theme-soft .content-heading {
+  color: #7d8e76;
+}
+
+body.theme-soft .content-rule {
+  background: rgba(125, 142, 118, 0.6);
+}
+
+body.theme-soft .orbits, 
+body.theme-soft .orbit {
+  opacity: 0.8;
+}
