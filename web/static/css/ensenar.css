@@ -60,6 +60,6 @@ button.boton:disabled { opacity: .45; cursor: not-allowed; }
 }
 .filtros input:focus-visible, .filtros select:focus-visible { outline: 3px solid var(--yellow); outline-offset: 1px; }
 
-tr.elegida td { background: rgba(117, 226, 192, .1); }
+tr.elegida td { background: rgba(91, 155, 255, .1); }
 td.grabaciones { color: var(--muted); }
 td.grabaciones.si { color: var(--aqua); font-weight: 700; }

@@ -1,13 +1,13 @@
 /* Página de resultados de Yura: misma paleta que la pantalla del robot. */
 :root {
-  --ink: #e9f4ef;
-  --muted: #9fbab4;
-  --line: rgba(152, 205, 191, .2);
-  --deep: #071419;
-  --panel: #0d2226;
-  --aqua: #75e2c0;
-  --yellow: #f6d77a;
-  --red-soft: #f09a88;
+  --ink: #f5f8ff;
+  --muted: #a9b8d6;
+  --line: rgba(150, 180, 235, .2);
+  --deep: #06122b;
+  --panel: #0c2150;
+  --aqua: #5b9bff;
+  --yellow: #ff5a5f;
+  --red-soft: #ff7a7a;
 }
 
 * { box-sizing: border-box; }
@@ -97,7 +97,7 @@ code { color: var(--aqua); }
   margin-bottom: 16px;
 }
 
-.tabla-contenedor { overflow-x: auto; scrollbar-color: rgba(152, 205, 191, .35) transparent; }
+.tabla-contenedor { overflow-x: auto; scrollbar-color: rgba(150, 180, 235, .35) transparent; }
 
 table { width: 100%; border-collapse: collapse; }
 
@@ -176,4 +176,17 @@ button.boton.secundario { border: 1px solid var(--line); }
   h1 { font-size: 1.8rem; }
   .dias li { grid-template-columns: 6.5rem 1fr; }
   .dias li .num { grid-column: 1 / -1; text-align: left; }
+}
+
+/* Franja con los colores de la unidad educativa: rojo, blanco y azul. */
+body::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 6px;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(90deg, #e63946 0 33.4%, #ffffff 33.4% 66.6%, #2f6fe4 66.6% 100%);
 }
