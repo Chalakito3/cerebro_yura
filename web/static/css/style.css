@@ -216,6 +216,9 @@ h1 { margin: 0; font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: .9; letter-s
 .mode::before { width: .35rem; height: .35rem; content: ''; border: 1px solid var(--line); transform: rotate(45deg); }
 .mode-active::before { border-color: var(--coral); background: rgba(255, 154, 118, .35); box-shadow: 0 0 .6rem rgba(255, 154, 118, .45); }
 .footer { padding-top: 1.25rem; font-size: .58rem; }
+/* Discreto para que los estudiantes no lo presionen por curiosidad. */
+.boton-docente { color: var(--muted); text-decoration: none; border: 1px solid var(--line); border-radius: .4rem; padding: .5rem .8rem; letter-spacing: .12em; min-height: 2.2rem; display: inline-flex; align-items: center; }
+.boton-docente:hover, .boton-docente:focus-visible { color: var(--aqua); border-color: var(--aqua); outline: none; }
 .mode-detail { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1rem 0 .2rem; }
 .detail-copy { display: flex; align-items: baseline; gap: 1rem; }
 .detail-kicker, .detail-stats b { color: var(--gold); font-family: 'Courier New', monospace; font-size: .58rem; letter-spacing: .16em; }
@@ -410,4 +413,46 @@ h1 { margin: 0; font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: .9; letter-s
     grid-row: 1 / span 2;
     justify-content: center;
   }
+}
+
+/* Resultado del juego (✔ / ✘) bajo la palabra. */
+.content-result { min-height: 1.4em; margin: .6rem 0 0; font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 700; }
+.content-result[data-result='ok'] { color: var(--aqua); }
+.content-result[data-result='error'] { color: var(--coral); }
+
+/* Filas de la tarjeta que no aplican a la palabra actual. */
+.word-row[hidden] { display: none; }
+
+/* Pantallas de 7" en horizontal (1024x600, 800x480): todo debe caber sin
+   desplazarse; antes "YURA DICE" quedaba debajo del borde. */
+@media (orientation: landscape) and (max-height: 700px) {
+  html, body { overflow: hidden; background: var(--deep); }
+  .stage { height: 100vh; min-height: 0; padding: .5rem 1rem .4rem; }
+  .topbar { padding-bottom: .4rem; }
+  .brand-subtitle, .topbar-center, .institution, .eyebrow, .secondary-status { display: none; }
+  /* Todo cabe: sin barras de desplazamiento (la regla de max-width: 800px las activaba). */
+  .hero { gap: .8rem; padding-top: .2rem; overflow: hidden; }
+  /* "scale" y no "transform": la animación float usa transform y lo pisaba. */
+  .robot-wrap { min-height: 11rem; }
+  .robot { scale: .5; }
+  .orbit, .energy-points, .energy-base { display: none; }
+  /* El nombre ya está en la barra superior: el título grande se oculta
+     para que el robot no lo tape. */
+  h1 { display: none; }
+  .state-badge { margin-bottom: .3rem; }
+  .activity-line { margin-top: .4rem; font-size: .9rem; }
+  .message { margin-top: .4rem; font-size: .95rem; }
+  .content-card { margin-top: .5rem; }
+  .content-main { font-size: clamp(1.4rem, 4.5vh, 2.2rem); }
+  .word-card { padding: .8rem 1rem; }
+  .word-card h2 { font-size: 1.4rem; margin: .3rem 0; }
+  .word-row { padding: .3rem 0; }
+  .footer { padding-top: .3rem; }
+}
+
+/* 800x480: aún menos alto; robot más pequeño y sin el mensaje de ánimo. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .robot { scale: .36; }
+  .robot-wrap { min-height: 8rem; }
+  .message { display: none; }
 }

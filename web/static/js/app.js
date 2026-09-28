@@ -12,13 +12,17 @@ const wordWrittenNode = document.querySelector('#word-written');
 const wordPronunciationNode = document.querySelector('#word-pronunciation');
 const wordMeaningNode = document.querySelector('#word-meaning');
 const wordExampleNode = document.querySelector('#word-example');
+const contentResultNode = document.querySelector('#content-result');
+const wordTagNode = document.querySelector('.word-card-tag');
+// Cada 2 s (antes 5 s): la pantalla iba hasta 5 s atrasada respecto de la voz.
+const INTERVALO_ESTADO_MS = 2000;
 const FALLBACK_CONTENT = 'Rimaykullayki';
 const FALLBACK_CARD = {
   title: 'Rimaykullayki',
   written: 'Rimaykullayki',
   pronunciation: 'Ri-ma-y-ku-llay-ki',
-  meaning: 'Rimaykullayki',
-  example: 'Rimaykullayki, imaynalla kashanki?'
+  meaning: 'Hola',
+  example: 'Rimaykullayki, imaynalla kachkanki?'
 };
 let wordExamples = {};
 const phaseCopy = {
@@ -32,50 +36,25 @@ const phaseCopy = {
   SIN_CONEXION: { label: '⚠️ SIN CONEXIÓN', message: '⚠️ La conexión con Yura está caída.' },
 };
 
+// Modo actual de Yura, visible en la pantalla (antes solo se veía la fase).
 const modeCopy = {
-  MENU: { label: '🌟 ESPERANDO', message: '🌟 Esperando a que me saludes.', content: 'Rimaykullayki', translation: '' },
-  JUEGO: { label: '🧠 PENSANDO', message: '🧠 ¡A jugar y aprender!', content: 'Rimaykullayki', translation: '' },
-  CONVERSAR: { label: '🎧 ESCUCHANDO', message: '🎧 Estoy escuchando tus palabras.', content: 'Rimaykullayki', translation: '' },
-  TRADUCIR: { label: '✨ TRADUCIENDO', message: '✨ Estoy traduciendo lo que dices.', content: 'Rimaykullayki', translation: '' },
-  SILENCIO: { label: '🤫 SILENCIOSA', message: '🤫 Estoy en silencio.', content: 'Rimaykullayki', translation: '' },
+  MENU: { label: '🏠 MENÚ PRINCIPAL' },
+  JUEGO: { label: '🎮 JUEGO' },
+  CONVERSAR: { label: '💬 CONVERSACIÓN' },
+  TRADUCIR: { label: '🔤 TRADUCTOR' },
+  SILENCIO: { label: '🤫 EN SILENCIO' },
+  ENSENAR: { label: '🎙️ MODO DOCENTE' },
+  SALIR: { label: '👋 APAGANDO' },
+  BACKEND_NOT_STARTED: { label: '⚠️ SIN CONEXIÓN' },
 };
 
-function extractQuechuaPhrase(value) {
-  const text = (value || '').trim();
-  if (!text) return '';
-
-  const patterns = [
-    /rimaykullayki/i,
-    /allin\s+p[' ]?unchay/i,
-    /allin\s+tuta/i,
-    /yusulpayki/i,
-    /anchata\s+munakuyki/i,
-    /imaynalla\s+kachkanki/i
-  ];
-
-  for (const pattern of patterns) {
-    const match = text.match(pattern);
-    if (match) {
-      return match[0].trim();
-    }
-  }
-
-  const directMatch = text.match(/(?:en\s+quechua\s+se\s+dice|se\s+dice|significa)\s+([A-Za-z0-9'\s]+)/i);
-  if (directMatch && directMatch[1]) {
-    return directMatch[1].trim().replace(/[.,;!?]+$/, '');
-  }
-
-  return '';
-}
-
 function normalizeExampleKey(value) {
-  const phrase = extractQuechuaPhrase(value);
-  if (!phrase) return 'rimaykullayki';
-
-  const clean = phrase
+  // Sin tildes y sin apóstrofo solo para elegir la tarjeta de ejemplo.
+  const clean = (value || '')
     .toLowerCase()
-    .replace(/[^a-z0-9\s']/g, ' ')
-    .replace(/[\'’]/g, '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -90,39 +69,11 @@ function normalizeExampleKey(value) {
 }
 
 function pickVisibleContent(value, fallback) {
+  // El cerebro ya envía la palabra quechua y su significado separados; se
+  // muestran tal cual. Antes una expresión regular cortaba el texto en la
+  // primera tilde o ñ ("papá" se veía "pap", "niño" se veía "ni").
   const text = (value || '').trim();
-  if (!text) return fallback;
-
-  const normalized = text.toLowerCase();
-  const blocked = [
-    'no entendí',
-    'no entendi',
-    'prueba con una palabra',
-    'yura está',
-    'esperando',
-    'escuchando',
-    'pensando',
-    'hablando',
-    'sin conexión',
-    'sistema desconectado',
-    'hasta luego',
-    'tupananchiskama',
-    'adios',
-    'terminamos por ahora',
-    'nos vemos',
-    'me voy'
-  ];
-
-  if (blocked.some(part => normalized.includes(part))) {
-    return fallback;
-  }
-
-  const extracted = extractQuechuaPhrase(text);
-  if (extracted) {
-    return extracted;
-  }
-
-  return text;
+  return text || fallback;
 }
 
 async function loadWordExamples() {
@@ -143,6 +94,10 @@ async function loadWordExamples() {
   }
 }
 
+function showRow(node, visible) {
+  node.closest('.word-row').hidden = !visible;
+}
+
 function renderWordExample(value) {
   const key = normalizeExampleKey(value);
   const sample = wordExamples[key] || wordExamples.rimaykullayki || FALLBACK_CARD;
@@ -152,6 +107,39 @@ function renderWordExample(value) {
   wordPronunciationNode.textContent = sample.pronunciation;
   wordMeaningNode.textContent = sample.meaning;
   wordExampleNode.textContent = sample.example;
+  wordTagNode.textContent = 'EJEMPLO';
+  showRow(wordPronunciationNode, true);
+  showRow(wordExampleNode, true);
+}
+
+// Si Yura está enseñando una palabra (quechua + significado), la tarjeta
+// muestra esa palabra; si no, una de las tarjetas de ejemplo.
+function renderWordCard(content, translation) {
+  const isWord = content && translation && content.length <= 40;
+  if (!isWord) {
+    renderWordExample(content);
+    return;
+  }
+  wordTitleNode.textContent = content;
+  wordWrittenNode.textContent = content;
+  wordMeaningNode.textContent = translation;
+  wordTagNode.textContent = 'PALABRA';
+  showRow(wordPronunciationNode, false);
+  showRow(wordExampleNode, false);
+}
+
+function renderResult(status) {
+  const inGame = status.state === 'JUEGO';
+  if (inGame && status.result === 'CORRECTO') {
+    contentResultNode.textContent = '✔ ¡Correcto!';
+    contentResultNode.dataset.result = 'ok';
+  } else if (inGame && status.result === 'INCORRECTO') {
+    contentResultNode.textContent = '✘ Sigue intentando';
+    contentResultNode.dataset.result = 'error';
+  } else {
+    contentResultNode.textContent = '';
+    delete contentResultNode.dataset.result;
+  }
 }
 
 function renderStatus(status) {
@@ -164,7 +152,7 @@ function renderStatus(status) {
   const activityText = activity.toUpperCase();
   stateNode.textContent = state === 'BACKEND_NOT_STARTED' ? 'SIN CONEXIÓN' : state === 'SILENCIO' ? 'SILENCIO' : 'YURA';
   stateLabelNode.textContent = phaseInfo.label;
-  activityNode.textContent = phaseInfo.label;
+  activityNode.textContent = copy.label;
   messageNode.textContent = phaseInfo.message;
   const safeFallback = FALLBACK_CONTENT;
   const nextContent = pickVisibleContent(status.content, safeFallback);
@@ -181,7 +169,8 @@ function renderStatus(status) {
   if (contentTranslationNode.textContent !== nextTranslation) {
     contentTranslationNode.textContent = nextTranslation;
   }
-  renderWordExample(nextContent);
+  renderWordCard(nextContent, nextTranslation);
+  renderResult(status);
   document.body.dataset.visualState = visualState;
   document.body.dataset.phase = phase;
   secondaryStatusNode.textContent = activityText;
@@ -189,7 +178,9 @@ function renderStatus(status) {
 
   if (status.updated_at) {
     const time = new Date(status.updated_at);
-    updatedNode.textContent = `CONEXIÓN LOCAL · ${time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+    const hora = time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    const quien = status.participante ? ` · JUEGA: ${status.participante}` : '';
+    updatedNode.textContent = `CONEXIÓN LOCAL · ${hora}${quien}`;
   }
 }
 
@@ -203,8 +194,11 @@ async function refreshStatus() {
     stateLabelNode.textContent = 'SIN CONEXIÓN';
     activityNode.textContent = 'ESPERANDO AL BACKEND';
     messageNode.textContent = 'La pantalla no puede consultar el estado de Yura.';
-    contentMainNode.textContent = FALLBACK_CONTENT;
-    contentTranslationNode.textContent = '';
+    // Sin conexión no se deja una palabra vieja en pantalla como si fuera actual.
+    contentMainNode.textContent = '…';
+    contentTranslationNode.textContent = 'Esperando a Yura';
+    renderResult({});
+    renderWordExample('');
     secondaryStatusNode.textContent = 'SISTEMA DESCONECTADO';
     document.body.dataset.visualState = 'DISCONNECTED';
     document.body.dataset.phase = 'SIN_CONEXION';
@@ -216,7 +210,7 @@ async function refreshStatus() {
 async function initializeDisplay() {
   await loadWordExamples();
   refreshStatus();
-  setInterval(refreshStatus, 5000);
+  setInterval(refreshStatus, INTERVALO_ESTADO_MS);
 }
 
 initializeDisplay();

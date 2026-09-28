@@ -1,0 +1,275 @@
+# 06 - Extractos plataforma Laravel (copia solo lectura, commit d419bd0 2026-09-15, clon superficial)
+
+=== app/Http/Controllers/Api/RobotActivityController.php
+     1	<?php
+     2	
+     3	namespace App\Http\Controllers\Api;
+     4	
+     5	use App\Http\Controllers\Controller;
+     6	use App\Models\Grade;
+     7	use Illuminate\Http\Request;
+     8	
+     9	class RobotActivityController extends Controller
+    10	{
+    11	    public function store(Request $request)
+    12	    {
+    13	        $data = $request->validate([
+    14	            'activity_id' => 'required|string|max:100',
+    15	            'student_id' => 'required|integer|exists:students,id',
+    16	            'subject_id' => 'required|integer|exists:subjects,id',
+    17	            'score' => 'required|numeric|min:0|max:100',
+    18	            'activity_type' => 'required|string|max:50',
+    19	            'observations' => 'nullable|string|max:1000',
+    20	        ]);
+    21	
+    22	        $grade = Grade::firstOrNew([
+    23	            'student_id' => $data['student_id'],
+    24	            'subject_id' => $data['subject_id'],
+    25	            'robot_activity_id' => $data['activity_id'],
+    26	        ]);
+    27	
+    28	        $observations = $data['observations'] ?? sprintf(
+    29	            'Robot activity %s (%s) received.',
+    30	            $data['activity_id'],
+    31	            $data['activity_type']
+    32	        );
+    33	
+    34	        $wasExisting = $grade->exists;
+    35	        $grade->fill([
+    36	            'score' => $data['score'],
+    37	            'type' => 'robot',
+    38	            'observations' => $observations,
+    39	            'status' => 'completed',
+    40	            'is_robot_activity' => true,
+    41	            'activity_category' => $data['activity_type'],
+    42	        ])->save();
+    43	
+    44	        $statusCode = $wasExisting ? 200 : 201;
+    45	        $message = $wasExisting
+    46	            ? 'Resultado de YURA actualizado correctamente.'
+    47	            : 'Resultado de YURA registrado correctamente.';
+    48	
+    49	        return response()->json([
+    50	            'success' => true,
+    51	            'message' => $message,
+    52	            'data' => $grade,
+    53	        ], $statusCode);
+    54	    }
+    55	}
+
+=== database/migrations/2026_07_02_000006_create_interactions_and_results_tables.php
+     1	<?php
+     2	
+     3	use Illuminate\Database\Migrations\Migration;
+     4	use Illuminate\Database\Schema\Blueprint;
+     5	use Illuminate\Support\Facades\Schema;
+     6	
+     7	return new class extends Migration
+     8	{
+     9	    public function up(): void
+    10	    {
+    11	        Schema::create('interactions', function (Blueprint $table) {
+    12	            $table->id();
+    13	            $table->foreignId('session_id')->constrained('activity_sessions')->cascadeOnDelete();
+    14	            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+    15	            $table->text('question');
+    16	            $table->text('answer')->nullable();
+    17	            $table->boolean('is_correct')->default(false);
+    18	            $table->unsignedInteger('response_time')->default(0);
+    19	            $table->timestamps();
+    20	        });
+    21	
+    22	        Schema::create('results', function (Blueprint $table) {
+    23	            $table->id();
+    24	            $table->foreignId('session_id')->constrained('activity_sessions')->cascadeOnDelete();
+    25	            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+    26	            $table->unsignedInteger('score')->default(0);
+    27	            $table->text('feedback')->nullable();
+    28	            $table->timestamps();
+    29	        });
+    30	    }
+    31	
+    32	    public function down(): void
+    33	    {
+    34	        Schema::dropIfExists('results');
+    35	        Schema::dropIfExists('interactions');
+    36	    }
+    37	};
+
+=== database/migrations/2026_07_02_000005_create_groups_and_group_student_tables.php
+     1	<?php
+     2	
+     3	use Illuminate\Database\Migrations\Migration;
+     4	use Illuminate\Database\Schema\Blueprint;
+     5	use Illuminate\Support\Facades\Schema;
+     6	
+     7	return new class extends Migration
+     8	{
+     9	    public function up(): void
+    10	    {
+    11	        Schema::create('groups', function (Blueprint $table) {
+    12	            $table->id();
+    13	            $table->foreignId('session_id')->constrained('activity_sessions')->cascadeOnDelete();
+    14	            $table->string('name');
+    15	            $table->timestamps();
+    16	        });
+    17	
+    18	        Schema::create('group_student', function (Blueprint $table) {
+    19	            $table->id();
+    20	            $table->foreignId('group_id')->constrained('groups')->cascadeOnDelete();
+    21	            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+    22	            $table->timestamps();
+    23	            $table->unique(['group_id', 'student_id']);
+    24	        });
+    25	    }
+    26	
+    27	    public function down(): void
+    28	    {
+    29	        Schema::dropIfExists('group_student');
+    30	        Schema::dropIfExists('groups');
+    31	    }
+    32	};
+
+=== database/seeders/RobotCategorySeeder.php
+     1	<?php
+     2	
+     3	namespace Database\Seeders;
+     4	
+     5	use Illuminate\Database\Seeder;
+     6	use Illuminate\Support\Facades\DB;
+     7	
+     8	class RobotCategorySeeder extends Seeder
+     9	{
+    10	    public function run(): void
+    11	    {
+    12	        $categories = [
+    13	            'robot_alimentos' => ['Manzana', 'Pan', 'Leche', 'Arroz', 'Carne'],
+    14	            'robot_colores' => ['Rojo', 'Azul', 'Amarillo', 'Verde', 'Negro'],
+    15	            'robot_casa_items' => ['Silla', 'Mesa', 'Cama', 'Puerta', 'Ventana'],
+    16	            'robot_naturaleza_items' => ['Árbol', 'Río', 'Montaña', 'Flor', 'Sol'],
+    17	            'robot_familia_items' => ['Madre', 'Padre', 'Hermano', 'Abuela', 'Tío'],
+    18	            'robot_herramientas_items' => ['Martillo', 'Destornillador', 'Llave', 'Taladro', 'Alicate'],
+    19	            'robot_lugares_items' => ['Escuela', 'Parque', 'Mercado', 'Iglesia', 'Plaza'],
+    20	        ];
+    21	
+    22	        foreach ($categories as $table => $items) {
+    23	            DB::table($table)->delete();
+    24	            foreach ($items as $item) {
+    25	                DB::table($table)->insert(['name' => $item, 'created_at' => now(), 'updated_at' => now()]);
+    26	            }
+    27	        }
+    28	    }
+    29	}
+
+=== app/Http/Controllers/GradeController.php:418-486
+     1	    public function createRobotActivity()
+     2	    {
+     3	        /** @var User $user */
+     4	        $user = Auth::user();
+     5	
+     6	        if (! $user->isProfesor()) {
+     7	            abort(403, __('messages.unauthorized'));
+     8	        }
+     9	
+    10	        $parallels = Parallel::with('course')->get();
+    11	        $subjects = Subject::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
+    12	        $categories = [
+    13	            'Alimentos' => 'robot_alimentos',
+    14	            'Colores' => 'robot_colores',
+    15	            'Elementos de Casa' => 'robot_casa_items',
+    16	            'Elementos Naturales' => 'robot_naturaleza_items',
+    17	            'Familia' => 'robot_familia_items',
+    18	            'Herramientas' => 'robot_herramientas_items',
+    19	            'Lugares' => 'robot_lugares_items',
+    20	        ];
+    21	
+    22	        return view('robot.create', compact('parallels', 'subjects', 'categories'));
+    23	    }
+    24	
+    25	    public function storeRobotActivity(Request $request)
+    26	    {
+    27	        /** @var User $user */
+    28	        $user = Auth::user();
+    29	
+    30	        if (! $user->isProfesor()) {
+    31	            abort(403, __('messages.unauthorized'));
+    32	        }
+    33	
+    34	        $request->validate([
+    35	            'parallel_id' => 'required|exists:parallels,id',
+    36	            'subject_id' => 'required|exists:subjects,id',
+    37	            'category' => 'required|string|in:Alimentos,Colores,Elementos de Casa,Elementos Naturales,Familia,Herramientas,Lugares',
+    38	            'description' => 'nullable|string|max:500',
+    39	        ]);
+    40	
+    41	        $parallel = Parallel::with('students')->findOrFail($request->parallel_id);
+    42	        if (! TeachingAssignment::where('teacher_user_id', $user->id)
+    43	            ->where('subject_id', $request->subject_id)
+    44	            ->where('parallel_id', $parallel->id)
+    45	            ->where('active', true)
+    46	            ->exists()) {
+    47	            abort(403, __('messages.unauthorized'));
+    48	        }
+    49	        if ($parallel->students->isEmpty()) {
+    50	            return back()->with('error', 'No se pudo crear la actividad porque el paralelo no tiene estudiantes registrados.');
+    51	        }
+    52	
+    53	        $robotActivityId = (string) Str::uuid();
+    54	        foreach ($parallel->students as $student) {
+    55	            Grade::create([
+    56	                'student_id' => $student->id,
+    57	                'subject_id' => $request->subject_id,
+    58	                'score' => 0,
+    59	                'type' => 'robot',
+    60	                'observations' => $request->description,
+    61	                'status' => 'pending',
+    62	                'activity_category' => $request->category,
+    63	                'is_robot_activity' => true,
+    64	                'robot_activity_id' => $robotActivityId,
+    65	            ]);
+    66	        }
+    67	
+    68	        return redirect()->route('grades.index')->with('success', 'Actividad de YURA registrada en estado pendiente.');
+    69	    }
+
+=== routes/web.php:64-76
+    Route::middleware(['rol:admin,academic,profesor'])->group(function () {
+        Route::get('/grades', [GradeController::class, 'index'])->name('grades.index');
+    });
+
+    Route::middleware(['rol:profesor'])->group(function () {
+        Route::post('/grades/save', [GradeController::class, 'save'])->name('grades.save');
+        Route::post('/grades/update-score', [GradeController::class, 'updateScore'])->name('grades.updateScore');
+        Route::post('/attendance/save', [App\Http\Controllers\GradeController::class, 'saveAttendance'])->name('attendance.save');
+        Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('grades.update');
+        Route::post('/grades/batch', [GradeController::class, 'batchUpdate'])->name('grades.batchUpdate');
+        Route::get('/robot-activities/create', [GradeController::class, 'createRobotActivity'])->name('robot-activities.create');
+        Route::post('/robot-activities', [GradeController::class, 'storeRobotActivity'])->name('robot-activities.store');
+    });
+
+=== app/Http/Controllers/StudentController.php:495-513
+        }
+
+        if ($user->isEstudiante() && $student->getAttribute($studentUserForeignKey) == $user->id) {
+            if ($manage) {
+                abort(403, 'Los estudiantes no pueden modificar su información desde este módulo.');
+            }
+
+            return;
+        }
+
+        if ($user->isFamilyOf($student)) {
+            if ($manage) {
+                abort(403, 'Los familiares no pueden modificar el registro del estudiante.');
+            }
+
+            return;
+        }
+
+        abort(403, 'No tienes permiso para acceder a este estudiante.');
+
+=== tests/QA/analisis-qa-yura.md:17
+No se encontró en este repositorio el código fuente de la APK ni del software interno del robot físico. Esos componentes requieren información y pruebas independientes.
+
+=== Controladores que usan Group/Interaction/Result/ActivitySession (esperado: ninguno)
+(ninguno)

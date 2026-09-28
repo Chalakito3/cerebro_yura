@@ -1,0 +1,62 @@
+# Verificacion de regresion de los cambios de hoy (sin red, BD mode=ro)
+import sys, os, sqlite3, tempfile, inspect
+from unittest.mock import Mock
+P="/home/yura/Proyecto Yura /cerebro_yura"; sys.path.insert(0,P); sys.dont_write_bytecode=True
+import main_robot, conversacion, traductor, gemini_transcriber
+from main_robot import BrainYura, RobotStates
+ro=sqlite3.connect(f"file:{P}/diccionario.db?mode=ro",uri=True, check_same_thread=False)
+conversacion._conexion_vocabulario=ro
+def brain(state, frase):
+    b=object.__new__(BrainYura); b.state=state; b.running=True; b.saludo_inicial_done=True
+    b.hw=Mock(); b._set_web_status=Mock(); b.groq_client=None; b.db_conn=ro
+    b.escuchar_voz=Mock(return_value=b._normalizar_texto(frase)); b.historial_conversacion=[]
+    return b
+def run(state, frase, metodo):
+    b=brain(state, frase)
+    try: getattr(b,metodo)()
+    except Exception as e: return f"EXC {type(e).__name__}"
+    return f"state={b.state} running={b.running}"
+print("R1 menu 'apagar'           ->", run(RobotStates.MENU,"apagar","ejecutar_menu"))
+print("R2 menu 'adiós'            ->", run(RobotStates.MENU,"adiós","ejecutar_menu"))
+print("R3 menu 'salir'            ->", run(RobotStates.MENU,"salir","ejecutar_menu"))
+print("R4 conversar 'menú'        ->", run(RobotStates.CONVERSAR,"menú","ejecutar_conversar"))
+print("R5 conversar 'salir'       ->", run(RobotStates.CONVERSAR,"salir","ejecutar_conversar"))
+print("R6 menu 'no quiero apagar' ->", run(RobotStates.MENU,"no quiero apagar","ejecutar_menu"))
+# R7 BD ausente: conversacion no crea archivo
+d=tempfile.mkdtemp(); orig=conversacion.__file__; conversacion.__file__=os.path.join(d,"conversacion.py")
+conversacion._conexion_vocabulario=None
+try: c=conversacion._obtener_conexion_vocabulario()
+except Exception as e: c=f"EXC {e}"
+print("R7 BD ausente: conexion=",c," archivo creado=",os.path.exists(os.path.join(d,"diccionario.db")))
+conversacion.__file__=orig; conversacion._conexion_vocabulario=ro
+# R8 parametros Groq
+cli=Mock(); cli.chat.completions.create.return_value=Mock(choices=[Mock(message=Mock(content="ok"),finish_reason="stop")])
+traductor.consultar_modelo_groq(cli,[{"role":"user","content":"x"}],0.3,80)
+kw=cli.chat.completions.create.call_args.kwargs
+print("R8 Groq kwargs:", {k:kw.get(k) for k in ("model","reasoning_effort","max_completion_tokens","timeout")})
+# R9 vocabulario verificado
+v=traductor.formatear_vocabulario(traductor.vocabulario_relevante("como se dice perro", ro))
+print("R9 vocabulario inyectado contiene Allqo:", "Allqo" in v, "| lineas:", v.count("\n")+1)
+# R10 ambiguedad
+r=traductor.buscar_vocabulario("papa","espanol",ro); print("R10 papa ambiguo:",r["ambiguo"],[x["quechua"] for x in r["resultados"]])
+print("R10b describir_opciones:", traductor.describir_opciones(r["resultados"])[:120] if hasattr(traductor,"describir_opciones") else "n/a")
+# R11 gemini
+print("R11 modelo Gemini por defecto:", gemini_transcriber.__dict__.get("MODELO_TRANSCRIPCION") or [l.strip() for l in open(gemini_transcriber.__file__) if "gemini-3.8" in l][:1])
+# R12 Tata
+print("R12 familia:", ro.execute("select id,palabra_frase,traduccion from nivel1_familia where palabra_frase='Tata'").fetchall())
+print("R12b 'padre'->",traductor.consultar_diccionario_local("padre",ro),"| 'papá'->",traductor.buscar_vocabulario("papá","espanol",ro)["ambiguo"])
+# SALIDA
+R1 menu 'apagar'           -> state=SALIR running=False
+R2 menu 'adiós'            -> state=SILENCIO running=True
+R3 menu 'salir'            -> state=SILENCIO running=True
+R4 conversar 'menú'        -> state=MENU running=True
+R5 conversar 'salir'       -> state=MENU running=True
+R6 menu 'no quiero apagar' -> state=SALIR running=False
+R7 BD ausente: conexion= None  archivo creado= False
+R8 Groq kwargs: {'model': 'openai/gpt-oss-120b', 'reasoning_effort': 'low', 'max_completion_tokens': 480, 'timeout': None}
+R9 vocabulario inyectado contiene Allqo: True | lineas: 5
+R10 papa ambiguo: True ['Papa', 'Tata']
+R10b describir_opciones: Tiene varios significados: Papa, de alimentos, se dice Papa; Papá, de familia, se dice Tata.
+R11 modelo Gemini por defecto: ['"gemini-3.8-flash"']
+R12 familia: [(1, 'Tata', 'Padre'), (7, 'Tata', 'Papá')]
+R12b 'padre'-> Tata | 'papá'-> True

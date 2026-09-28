@@ -1,0 +1,62 @@
+[TRADUCTOR] Usuario: ni o
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> ni o
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ALERTA GROQ]: no hay cliente disponible para fallback online.
+[TRADUCTOR] ONLINE: error -> no se obtuvo respuesta del servicio
+'niño' => No estoy seguro de cómo traducir esa frase. ¿Puedes decirla de otra manera?
+[TRADUCTOR] Usuario: monta a
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> monta a
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ALERTA GROQ]: no hay cliente disponible para fallback online.
+[TRADUCTOR] ONLINE: error -> no se obtuvo respuesta del servicio
+'montaña' => No estoy seguro de cómo traducir esa frase. ¿Puedes decirla de otra manera?
+[TRADUCTOR] Usuario: agua
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Uma
+'agua' => En quechua se dice: Uma. Elemento vital.
+[TRADUCTOR] Usuario: papa
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: varias opciones -> Tiene varios significados: Papa, de alimentos, se dice Papa; Papá, de familia, se dice Tata.
+'papá' => Tiene varios significados: Papa, de alimentos, se dice Papa; Papá, de familia, se dice Tata.
+[TRADUCTOR] Usuario: uno
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: varias opciones -> Tiene varios significados: Uno, de numeros, se dice Huk; Uno, de adjetivos determinativos, se dice Huk.
+'uno' => Tiene varios significados: Uno, de numeros, se dice Huk; Uno, de adjetivos determinativos, se dice Huk.
+[TRADUCTOR] Usuario: buenos dias
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Allin punchay
+'buenos días' => En quechua se dice: Allin punchay.
+[TRADUCTOR] Usuario: como estas
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Imaynalla
+'cómo estás' => En quechua se dice: Imaynalla.
+[TRADUCTOR] Usuario: mar
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: varias opciones -> Tiene varios significados: Amarillo, de colores, se dice Q'ello; Marrón / Café, de colores, se dice Ch'umpi; Martillo de piedra, de herramientas, se dice Rumi maqana.
+'mar' => Tiene varios significados: Amarillo, de colores, se dice Q'ello; Marrón / Café, de colores, se dice Ch'umpi; Martillo de piedra, de herramientas, se dice Rumi maqana.
+[TRADUCTOR] Usuario: pie
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Chaki
+'pie' => En quechua se dice: Chaki.
+[TRADUCTOR] Usuario: dieciocho
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Chunka pusqayuq
+'dieciocho' => En quechua se dice: Chunka pusqayuq. Diez con ocho.
+[TRADUCTOR] Usuario: naranja
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Q'ello-puka
+'naranja' => En quechua se dice: Q'ello-puka.
+[TRADUCTOR] Usuario: mono
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> K'uchi
+'mono' => En quechua se dice: K'uchi. Mamífero amazónico.
+[TRADUCTOR] Usuario: cabeza
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Uma
+'cabeza' => En quechua se dice: Uma.
+[TRADUCTOR] Usuario: mesa
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> K'uchu
+'mesa' => En quechua se dice: K'uchu. Mueble escolar.

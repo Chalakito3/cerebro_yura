@@ -1,0 +1,62 @@
+[2026-09-27 00:23:20,526] ERROR in app: Exception on /api/status [GET]
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/web/app.py", line 167, in status
+    return jsonify(_status_payload())
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/web/app.py", line 120, in _status_payload
+    web_status = current_robot.get_web_status()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g06_web.py", line 36, in get_web_status
+    raise RuntimeError("fallo interno simulado")
+RuntimeError: fallo interno simulado
+[2026-09-27 00:23:20,528] ERROR in app: Exception on /api/status [GET]
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/web/app.py", line 167, in status
+    return jsonify(_status_payload())
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/web/app.py", line 125, in _status_payload
+    "running": bool(current_robot.running),
+                    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'running'
+[OK] YURA-EXT-601 | web | /api/status con robot None | entrada=GET | esperado=200 BACKEND_NOT_STARTED | obtenido=200 BACKEND_NOT_STARTED (1 ms)
+[FALLA] YURA-EXT-602 | web | /api/status con get_web_status que lanza excepción | entrada=GET | esperado=JSON de error controlado (p. ej. 503) que app.js pueda mostrar | obtenido=500 content-type=text/html; charset=utf-8 cuerpo=b'<!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title>\n<h1>Inte' (1 ms)
+[OK] YURA-EXT-603 | web | /api/status con estado desconocido y web_status vacío | entrada=GET | esperado=200 con valores por defecto | obtenido=200 {'activity': 'ACTIVIDAD DEL ROBOT', 'content': '', 'message': 'Yura está trabajando.', 'phase': 'ESPERANDO', 'result': None, 'robot': 'YURA', 'running': True, 'state': 'ESTADO_INVENTADO', 'translation': '', 'updated_at': '2026-09-27T04:23:20.527705+00:00'} (0 ms)
+[FALLA] YURA-EXT-604 | web | /api/status con robot sin atributo running | entrada=GET | esperado=200 o error controlado | obtenido=500 (1 ms)
+[OK] YURA-EXT-605 | web | /api/status con HTML/<script> en content | entrada=<script>alert('x')</script><img src=x onerror=alert(1)> | esperado=JSON válido; la página lo pinta como texto (textContent) | obtenido=200; JSON devuelve el texto tal cual; app.js usa textContent (líneas 175-182) -> no se ejecuta (0 ms)
+[OBSERVACION] YURA-EXT-606 | web | /api/status con content de 1 MB | entrada=1.048.576 caracteres 'Ñ' | esperado=limitar tamaño | obtenido=200 respuesta=6291702 bytes en 12 ms (sin límite de tamaño) (0 ms)
+[OK] YURA-EXT-610 | web | GET /no-existe | entrada=/no-existe | esperado=404/405 sin filtrar información | obtenido=404 (0 ms)
+[OK] YURA-EXT-611 | web | GET /api/status/../../etc/passwd | entrada=/api/status/../../etc/passwd | esperado=404/405 sin filtrar información | obtenido=404 (0 ms)
+[OK] YURA-EXT-612 | web | POST /api/status | entrada=/api/status | esperado=404/405 sin filtrar información | obtenido=405 (0 ms)
+[OK] YURA-EXT-613 | web | DELETE /api/card | entrada=/api/card | esperado=404/405 sin filtrar información | obtenido=405 (0 ms)
+[OK] YURA-EXT-614 | web | PUT / | entrada=/ | esperado=404/405 sin filtrar información | obtenido=405 (0 ms)
+[OK] YURA-EXT-620 | web | 1.000 peticiones seguidas a /api/status | entrada=1000 x GET | esperado=todas 200; sin límite de frecuencia es observación | obtenido=códigos={200} total=0.21s (0.2084 ms por petición) (0 ms)
+[OK] YURA-EXT-621 | web | 1.000 peticiones en 10 hilos + escritor concurrente | entrada=10x100 GET + 2000 _set_web_status | esperado=sin errores | obtenido=errores=0 tiempo=0.25s (0 ms)
+[OBSERVACION] YURA-EXT-630 | web | Cabeceras de seguridad en GET / | entrada=GET / | esperado=CSP, nosniff, X-Frame-Options, Referrer-Policy | obtenido=200 faltan=['content-security-policy', 'x-content-type-options', 'x-frame-options', 'referrer-policy'] (0 ms)
+[OBSERVACION] YURA-EXT-631 | web | Cache-Control en /api/status | entrada=GET | esperado=no-store | obtenido=Cache-Control=None (0 ms)
+
+RESUMEN: {'OK': 10, 'FALLA': 2, 'OBSERVACION': 3} total 15
+Matriz escrita en ../05_g06_matriz.md

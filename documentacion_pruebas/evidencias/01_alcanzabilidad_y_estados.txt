@@ -1,0 +1,49 @@
+faltan anotaciones: []
+Counter({'CORRECTO/COHERENTE': 103, 'REQUIERE REVISIÓN': 32, 'POSIBLE ERROR': 26, 'INCONSISTENTE': 14, 'NO VERIFICADO': 9, 'DUPLICADO': 3})
+no alcanzables qué significa: 42 no alcanzables traducir: 4
+  nivel1_alimentos 7 K'anka Carne asada | TRADUCIR, "qué significa": NO, práctica
+  nivel1_alimentos 10 T'anta manka Horno de barro | TRADUCIR, "qué significa": NO, práctica
+  nivel1_colores 8 Q'ello Amarillo | TRADUCIR, "qué significa": NO, práctica
+  nivel1_colores 10 Q'omer Verde | TRADUCIR, "qué significa": NO, práctica
+  nivel1_colores 14 Ch'umpi Marrón / Café | TRADUCIR, "qué significa": NO, práctica
+  nivel1_colores 16 Q'ello-puka Naranja | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 1 T'anta Pan | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 3 K'anchay Luz | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 4 Sach'a Árbol | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 12 Urqu Montaña | TRADUCIR: NO alcanzable, "qué significa": sí, práctica
+  nivel1_elementos_naturales 13 Ñan Camino | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 14 Ch'aki ñan Sendero | TRADUCIR, "qué significa": NO, práctica
+  nivel1_elementos_naturales 15 T'ikari wasi Jardín | TRADUCIR, "qué significa": NO, práctica
+  nivel1_familia 3 Wawa Niño | TRADUCIR: NO alcanzable, "qué significa": sí, práctica
+  nivel1_herramientas 1 Llamk'ana Herramienta | TRADUCIR, "qué significa": NO, práctica
+  nivel1_herramientas 4 T'uksu Pala | TRADUCIR, "qué significa": NO, práctica
+  nivel1_herramientas 5 Ch'aki maqana Hacha | TRADUCIR, "qué significa": NO, práctica
+  nivel1_lugares 7 Ch'askañawi Mirador | TRADUCIR, "qué significa": NO, práctica
+  nivel1_objetos_escolares 2 T'anta wasi Escuela | TRADUCIR, "qué significa": NO, práctica
+  nivel1_objetos_escolares 5 P'anka Cuaderno | TRADUCIR, "qué significa": NO, práctica
+  nivel1_objetos_escolares 6 K'ipi Mochila | TRADUCIR, "qué significa": NO, práctica
+  nivel1_objetos_escolares 7 K'uchu Mesa | TRADUCIR, "qué significa": NO, práctica
+  nivel1_objetos_escolares 9 K'anchay rikhuy Pizarra | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 2 Ñawi Ojo | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 6 K'aki Diente | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 8 K'uchu Espalda | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 11 Mak'a Mano | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 15 K'uchu chaki Talón | TRADUCIR, "qué significa": NO, práctica
+  nivel1_partes_del_cuerpo 17 K'ullu Hueso | TRADUCIR, "qué significa": NO, práctica
+  nivel1_utensilios_cocina 3 K'uchara Cuchara | TRADUCIR, "qué significa": NO, práctica
+  nivel1_utensilios_cocina 4 T'ikari manka Sartén | TRADUCIR, "qué significa": NO, práctica
+  nivel1_utensilios_cocina 6 K'uchillu Cuchillo | TRADUCIR, "qué significa": NO, práctica
+  nivel1_utensilios_cocina 7 Q'ipina Bolsa | TRADUCIR, "qué significa": NO, práctica
+  nivel1_utensilios_cocina 8 Manka michi Olla pequeña | TRADUCIR: NO alcanzable, "qué significa": sí, práctica
+  nivel1_utensilios_cocina 9 K'uchuna Tijera | TRADUCIR, "qué significa": NO, práctica
+  nivel2_adjetivos_calificativos 4 Huchuy Pequeño | TRADUCIR: NO alcanzable, "qué significa": sí, práctica
+  nivel2_adjetivos_calificativos 8 Q'uychi Caliente | TRADUCIR, "qué significa": NO, práctica
+  nivel2_adjetivos_calificativos 11 K'anchay Brillante | TRADUCIR, "qué significa": NO, práctica
+  nivel2_adjetivos_calificativos 12 Ch'upi Opaco | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 16 Ch'ita Gato montés | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 17 Hamp'atu Sapo | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 19 K'anchisapa Luciérnaga | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 20 Wanak'u Abeja | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 21 Ch'iwchi Avispa | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 24 K'achi Lagarto | TRADUCIR, "qué significa": NO, práctica
+  nivel2_animales 26 K'uchi Mono | TRADUCIR, "qué significa": NO, práctica

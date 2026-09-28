@@ -1,0 +1,45 @@
+# 06 - Hardware/entorno real (2026-09-27) vs tesis 6.3/6.4/7.4.3
+
+$ grep PRETTY /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+
+$ lscpu | grep -E 'Model name|^CPU\(s\)'
+CPU(s):                                  8
+Model name:                              Intel(R) Core(TM) i3-10100 CPU @ 3.60GHz
+CPU(s) scaling MHz:                      88%
+
+$ free -h | head -2
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       6.6Gi       1.2Gi       125Mi       8.1Gi       9.0Gi
+
+$ lsblk -d -e7 -o NAME,SIZE,ROTA,MODEL
+NAME      SIZE ROTA MODEL
+sda     931.5G    1 WDC WD10EZEX-00WN4A0
+nvme0n1 238.5G    0 SAMSUNG MZVLW256HEHP-000L7
+
+$ lsusb
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 18f8:1485 [Maxxter] USB OPTICAL MOUSE 
+Bus 001 Device 003: ID c0f4:03f5 Usb KeyBoard Usb KeyBoard
+Bus 001 Device 004: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
+Bus 001 Device 005: ID 0d8c:0012 C-Media Electronics, Inc. USB Audio Device
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+$ xrandr | grep ' connected'
+HDMI-0 connected primary 3840x2160+0+0 (normal left inverted right x axis y axis) 800mm x 450mm
+
+$ grep -ci touch /proc/bus/input/devices
+0
+
+$ ls /dev/ttyUSB* /dev/ttyACM*
+ls: cannot access '/dev/ttyUSB*': No such file or directory
+ls: cannot access '/dev/ttyACM*': No such file or directory
+
+$ nvidia-smi --query-gpu=name,memory.total --format=csv
+name, memory.total [MiB]
+NVIDIA GeForce GTX 1650, 4096 MiB
+
+$ which apache2 php mysql mariadb
+
+$ .venv/bin/pip list | grep -iE 'faster|ctranslate|scipy|serial|whisper'
+openai-whisper         20250625

@@ -1,0 +1,145 @@
+# 06 - Búsquedas de trazabilidad (2026-09-27). Cerebro=/home/yura/Proyecto Yura /cerebro_yura ; Plataforma=/tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/yura-platform (copia solo lectura, commit d419bd0)
+
+## CEREBRO grep -nE 'faster|whisper'
+requirements.txt:4:openai-whisper
+main_robot.py:17:import whisper
+main_robot.py:417:        whisper_name = os.environ.get("YURA_WHISPER_MODEL", "base").strip() or "base"
+main_robot.py:418:        print(f"[WHISPER]: Cargando modelo {whisper_name}...")
+main_robot.py:419:        self.whisper_model = whisper.load_model(whisper_name)
+main_robot.py:420:        print(f"[WHISPER]: Modelo cargado {whisper_name}.")
+main_robot.py:818:            elif self.whisper_model is not None:
+main_robot.py:822:                inicio_whisper = time.perf_counter()
+main_robot.py:823:                resultado = self.whisper_model.transcribe(
+main_robot.py:845:                    f"{time.perf_counter() - inicio_whisper:.1f}s"
+(fin)
+
+## CEREBRO grep -nE 'scipy|butter|bandpass|filtfilt|compute_type|int8'
+(fin)
+
+## CEREBRO grep -nE 'phonetic|precision fon|porcentaje'
+(fin)
+
+## CEREBRO grep -nE 'requests\.|urllib|httpx|/v1/robot|sanctum|mysql'
+(fin)
+
+## CEREBRO grep -nE 'serial|esp32|ESP32|mover_actuador'
+juego.py:17:        mover_actuador,
+juego.py:27:        self.mover_actuador = mover_actuador
+juego.py:177:            self.mover_actuador("CELEBRAR_ALEGRE")
+juego.py:191:            self.mover_actuador("TRISTE")
+main_robot.py:173:            r"^\s*\*?\s*object\.serial\s*=\s*\"?(\d+)",
+main_robot.py:382:    def mover_actuador(self, comando):
+main_robot.py:473:            self._mover_actuador,
+main_robot.py:499:    def _mover_actuador(self, comando):
+main_robot.py:504:        self.hw.mover_actuador(comando)
+(fin)
+
+## CEREBRO grep -nE '<button|<form|<input|onclick|touch'
+(fin)
+
+## CEREBRO grep -nE 'grupo|equipo|puntaje|score'
+(fin)
+
+## CEREBRO grep -nE 'INSERT|CREATE TABLE|\.commit\('
+(fin)
+
+## CEREBRO grep -nE 'groq|gemini-|genai'
+gemini_transcriber.py:5:    from google import genai
+gemini_transcriber.py:6:    from google.genai import types
+gemini_transcriber.py:8:    genai = None
+gemini_transcriber.py:18:            "gemini-3.8-flash"
+gemini_transcriber.py:30:        if genai is None:
+gemini_transcriber.py:38:            self.client = genai.Client(
+main_robot.py:19:from groq import Groq
+main_robot.py:433:        self.groq_client = self._crear_cliente_groq()
+main_robot.py:596:    def _obtener_api_key_groq(self):
+main_robot.py:666:    def _crear_cliente_groq(self):
+main_robot.py:668:        api_key = self._obtener_api_key_groq()
+main_robot.py:1042:            self.groq_client
+(fin)
+
+## CEREBRO grep -nE 'perf_counter|latenc'
+main_robot.py:822:                inicio_whisper = time.perf_counter()
+main_robot.py:845:                    f"{time.perf_counter() - inicio_whisper:.1f}s"
+(fin)
+
+## CEREBRO grep -nE 'language="es"'
+main_robot.py:825:                    language="es",
+(fin)
+
+## PLATAFORMA grep -rnE 'phonetic_evaluations' app routes database resources
+(fin)
+
+## PLATAFORMA grep -rnE 'whisper' app routes database resources
+(fin)
+
+## PLATAFORMA grep -rnE 'ESP32|esp32' app routes database resources
+(fin)
+
+## PLATAFORMA grep -rnE 'kotlin|Kotlin|\.apk' app routes database resources
+(fin)
+
+## PLATAFORMA grep -rnE 'Notification::|->notify\(|broadcast|firebase|fcm' app routes database resources
+(fin)
+
+## PLATAFORMA grep -rnE 'Group::|Interaction::|Result::|ActivitySession::' app routes database resources
+app/Models/ActivitySession.php:37:        return $this->hasMany(Group::class, 'session_id');
+app/Models/ActivitySession.php:42:        return $this->hasMany(Interaction::class, 'session_id');
+app/Models/ActivitySession.php:47:        return $this->hasMany(Result::class, 'session_id');
+app/Models/Group.php:22:        return $this->belongsTo(ActivitySession::class, 'session_id');
+app/Models/Group.php:33:        return $this->hasMany(Interaction::class, 'group_id');
+app/Models/Activity.php:34:        return $this->hasMany(ActivitySession::class, 'activity_id');
+app/Models/Student.php:73:        return $this->belongsToMany(Group::class, 'group_student', 'student_id', 'group_id')
+app/Models/Student.php:133:        return $this->hasMany(Interaction::class, 'student_id');
+app/Models/Student.php:138:        return $this->hasMany(Result::class, 'student_id');
+app/Models/SchoolClass.php:45:        return $this->hasMany(ActivitySession::class, 'class_id');
+(fin)
+
+## PLATAFORMA grep -rnE 'precision|pronunci' app routes database resources
+(fin)
+
+## PLATAFORMA routes/api.php
+     1	<?php
+     2	
+     3	use Illuminate\Http\Request;
+     4	use Illuminate\Support\Facades\Route;
+     5	use App\Http\Controllers\Api\StudentController;
+     6	use App\Http\Controllers\Api\AuthController;
+     7	use App\Http\Controllers\Api\DashboardController;
+     8	use App\Http\Controllers\Api\UserController;
+     9	use App\Http\Controllers\Api\RobotActivityController;
+    10	use App\Http\Controllers\TutorController;
+    11	
+    12	Route::post('/login', [AuthController::class, 'loginApi']);
+    13	
+    14	Route::get('/user', function (Request $request) {
+    15	    return $request->user();
+    16	})->middleware('auth:sanctum');
+    17	
+    18	Route::middleware('auth:sanctum')->group(function () {
+    19	    Route::post('/logout', [AuthController::class, 'logout']);
+    20	    Route::get('/tutor/my-children', [TutorController::class, 'myChildren']);
+    21	    Route::get('/dashboard', [DashboardController::class, 'index']);
+    22	    Route::get('/students', [StudentController::class, 'index']);
+    23	    Route::post('/students', [StudentController::class, 'store']);
+    24	    Route::get('/students/{id}', [StudentController::class, 'show']);
+    25	    Route::post('/students/{id}/update-score', [StudentController::class, 'updatePuntaje']);
+    26	
+    27	    // User Management (Admin)
+    28	    Route::get('/users', [UserController::class, 'index']);
+    29	    Route::post('/users', [UserController::class, 'store']);
+    30	    Route::patch('/users/{user}/status', [UserController::class, 'toggleStatus']);
+    31	    Route::post('/v1/robot/activity', [RobotActivityController::class, 'store']);
+    32	});
+
+## PLATAFORMA phpunit.xml BD de pruebas
+26:        <env name="DB_CONNECTION" value="sqlite"/>
+27:        <env name="DB_DATABASE" value=":memory:"/>
+28:        <env name="DB_URL" value=""/>
+
+## CEREBRO pytest -q
+............................                                             [100%]
+28 passed in 2.90s
+
+## Búsqueda de datos de campo (apk, ino, kt, csv, sql, encuestas) en /home/yura (excluye .venv/.cache/.config/snap/.local; resultados de ~/.vscode (stubs de Pylance) filtrados)
+(fin)

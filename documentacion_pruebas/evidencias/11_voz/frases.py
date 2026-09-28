@@ -1,0 +1,28 @@
+"""Frases de prueba: (texto que se dice, tipo de verificación, valor esperado)."""
+FRASES = [
+    ("Quiero jugar", "orden", "jugar"),
+    ("Traducir", "orden", "traducir"),
+    ("Enséñame quechua", "contiene", "enseñame"),
+    ("Apágate", "apagar", None),
+    ("Sí", "afirmacion", None),
+    ("¿Cómo se dice perro en quechua?", "contiene", "perro"),
+    ("¿Cómo se dice niño en quechua?", "contiene", "niño"),
+    ("¿Qué significa ñawi?", "quechua", "ñawi"),
+    ("Despierta", "orden", "despierta"),
+    ("Volver al menú", "contiene", "menu"),
+    ("Allqu", "quechua", "Allqu"),
+    ("Misi", "quechua", "Misi"),
+    ("Yaku", "quechua", "Yaku"),
+    ("Wasi", "quechua", "Wasi"),
+    ("Inti", "quechua", "Inti"),
+    ("Jamp'ara", "quechua", "Jamp'ara"),
+    ("Q'illu", "quechua", "Q'illu"),
+    ("Sinqa", "quechua", "Sinqa"),
+    ("Yachay wasi", "quechua", "Yachay wasi"),
+    ("Imaynalla kachkanki", "quechua", "Imaynalla kachkanki"),
+    ("Allin p'unchay", "quechua", "Allin p'unchay"),
+    ("Rimaykullayki", "quechua", "Rimaykullayki"),
+    ("Pillpintu", "quechua", "Pillpintu"),
+    ("Chunka pusaqniyuq", "quechua", "Chunka pusaqniyuq"),
+]
+VOCES = ["es-BO-SofiaNeural", "es-BO-MarceloNeural", "es-PE-CamilaNeural", "es-EC-LuisNeural"]

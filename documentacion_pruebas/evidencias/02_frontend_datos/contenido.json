@@ -1,0 +1,890 @@
+{
+ "C01_vacio": {
+  "entrada": [
+   "",
+   ""
+  ],
+  "pantalla": "Rimaykullayki",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Rimaykullayki",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C02_presentacion": {
+  "entrada": [
+   "Ñuqaqa Yura kani",
+   "Ñuqaqa Yura kani"
+  ],
+  "pantalla": "Ñuqaqa Yura kani",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Ñuqaqa Yura kani",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C03_error_no_alcance": {
+  "entrada": [
+   "No alcancé a entender esa frase",
+   "No alcancé a entender esa frase"
+  ],
+  "pantalla": "No alcancé a entender esa frase",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   911,
+   536,
+   1007
+  ],
+  "statusRect": [
+   24,
+   525,
+   568,
+   1007
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "No alcancé a entender esa frase",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C04_error_no_seguro": {
+  "entrada": [
+   "No estoy seguro de cómo traducir esa frase",
+   "No estoy seguro de cómo traducir esa frase"
+  ],
+  "pantalla": "No estoy seguro de cómo traducir esa frase",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   911,
+   536,
+   1007
+  ],
+  "statusRect": [
+   24,
+   525,
+   568,
+   1007
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "No estoy seguro de cómo traducir esa frase",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C05_ambiguo": {
+  "entrada": [
+   "Tiene varios significados: papa, de alimentos, se dice Papa; papá, de familia, se dice Tata",
+   "Tiene varios significados: papa, de alimentos, se dice Papa; papá, de familia, se dice Tata"
+  ],
+  "pantalla": "Papa",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Papa",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C06_dos_puntos_tata": {
+  "entrada": [
+   ": Tata",
+   ": Tata"
+  ],
+  "pantalla": ": Tata",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": ": Tata",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C07_dos_puntos_allin": {
+  "entrada": [
+   ": Allin p'unchay",
+   ": Allin p'unchay"
+  ],
+  "pantalla": "Allin p'unchay",
+  "traduccion": "",
+  "tarjeta": [
+   "Allin p'unchay",
+   "Allin p'unchay",
+   "Allin p'unchay, wawqi."
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Allin p'unchay",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C08_modo_traductor": {
+  "entrada": [
+   "Modo traductor",
+   "Modo traductor"
+  ],
+  "pantalla": "Modo traductor",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Modo traductor",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C09_hasta_luego": {
+  "entrada": [
+   "Hasta luego",
+   "Hasta luego"
+  ],
+  "pantalla": "Rimaykullayki",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Rimaykullayki",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C10_sin_traduccion": {
+  "entrada": [
+   "No tengo una traducción segura de 'computadora' en mi vocabulario local todavía",
+   ""
+  ],
+  "pantalla": "No tengo una traducción segura de 'computadora' en mi vocabulario local todavía",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   839,
+   536,
+   1031
+  ],
+  "statusRect": [
+   24,
+   453,
+   568,
+   1031
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "No tengo una traducción segura de 'computadora' en mi vocabulario local todavía",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C11_significa": {
+  "entrada": [
+   "Wawa significa niño, y se usa así: Wawa pukllan",
+   ""
+  ],
+  "pantalla": "ni",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "ni",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C12_se_dice_enie": {
+  "entrada": [
+   "Hermana se dice Ñaña",
+   ""
+  ],
+  "pantalla": "Hermana se dice Ñaña",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Hermana se dice Ñaña",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C13_se_dice_tilde": {
+  "entrada": [
+   "Se dice Tata y significa papá",
+   ""
+  ],
+  "pantalla": "Tata y significa pap",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Tata y significa pap",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C14_largo300": {
+  "entrada": [
+   "Hoy vamos a practicar los colores del arco iris, los números del uno al diez y los nombres de los animales de la granja; después repasaremos las partes del cuerpo y las frutas del mercado, para que al final de la semana puedas presentarte con tu nombre, tu edad y tu comida favorita delante de toda la clase.",
+   ""
+  ],
+  "pantalla": "Hoy vamos a practicar los colores del arco iris, los números del uno al diez y los nombres de los animales de la granja; después repasaremos las partes del cuerpo y las frutas del mercado, para que al final de la semana puedas presentarte con tu nombre, tu edad y tu comida favorita delante de toda la clase.",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   833,
+   536,
+   1457
+  ],
+  "statusRect": [
+   24,
+   447,
+   568,
+   1457
+  ],
+  "doc": [
+   1920,
+   1504
+  ],
+  "fuera": [],
+  "html": "Hoy vamos a practicar los colores del arco iris, los números del uno al diez y los nombres de los animales de la granja; después repasaremos las partes del cuerpo y las frutas del mercado, para que al final de la semana puedas presentarte con tu nombre, tu edad y tu comida favorita delante de toda la clase.",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C15_emoji": {
+  "entrada": [
+   "😀 Allinmi kashani 🎉🦙",
+   ""
+  ],
+  "pantalla": "😀 Allinmi kashani 🎉🦙",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "😀 Allinmi kashani 🎉🦙",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C16_html_b": {
+  "entrada": [
+   "<b>hola</b>",
+   ""
+  ],
+  "pantalla": "<b>hola</b>",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "&lt;b&gt;hola&lt;/b&gt;",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C17_script": {
+  "entrada": [
+   "<script>window.__xss=1</script><img src=x onerror=\"window.__xss=2\">",
+   "<svg onload=\"window.__xss=3\">"
+  ],
+  "pantalla": "<script>window.__xss=1</script><img src=x onerror=\"window.__xss=2\">",
+  "traduccion": "<svg onload=\"window.__xss=3\">",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   859,
+   536,
+   1003
+  ],
+  "statusRect": [
+   24,
+   472,
+   568,
+   1025
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "&lt;script&gt;window.__xss=1&lt;/script&gt;&lt;img src=x onerror=\"window.__xss=2\"&gt;",
+  "thtml": "&lt;svg onload=\"window.__xss=3\"&gt;",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C18_juego_pregunta": {
+  "entrada": [
+   "¿Cómo se dice, perro, en quechua?",
+   ""
+  ],
+  "pantalla": "¿Cómo se dice, perro, en quechua?",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   911,
+   536,
+   1007
+  ],
+  "statusRect": [
+   24,
+   525,
+   568,
+   1007
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "¿Cómo se dice, perro, en quechua?",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C19_juego_hasta_luego": {
+  "entrada": [
+   "¿Cómo se dice, hasta luego, en quechua?",
+   "Tupananchiskama"
+  ],
+  "pantalla": "Rimaykullayki",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Rimaykullayki",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C20_juego_resultado": {
+  "entrada": [
+   "¿Cómo se dice, agua, en quechua?",
+   "Uma"
+  ],
+  "pantalla": "¿Cómo se dice, agua, en quechua?",
+  "traduccion": "Uma",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   902,
+   536,
+   998
+  ],
+  "statusRect": [
+   24,
+   485,
+   568,
+   1020
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "¿Cómo se dice, agua, en quechua?",
+  "thtml": "Uma",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C21_apostrofo_tipografico": {
+  "entrada": [
+   "Allin p’unchay",
+   ""
+  ],
+  "pantalla": "Allin p’unchay",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Allin p’unchay",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C22_palabra_bloqueada": {
+  "entrada": [
+   "Estoy pensando en la palabra Allqu",
+   ""
+  ],
+  "pantalla": "Rimaykullayki",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Rimaykullayki",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C23_rimay_en_frase": {
+  "entrada": [
+   "No digas rimaykullayki a tu perro, dile Allqu",
+   ""
+  ],
+  "pantalla": "rimaykullayki",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "rimaykullayki",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ },
+ "C24_palabra_sin_espacios": {
+  "entrada": [
+   "Antidesestablecimientarianamentequechuaqhichwasimirimanakuypaqyanapakuqkunawan",
+   ""
+  ],
+  "pantalla": "Antidesestablecimientarianamentequechuaqhichwasimirimanakuypaqyanapakuqkunawan",
+  "traduccion": "",
+  "tarjeta": [
+   "Rimaykullayki",
+   "Rimaykullayki",
+   "Rimaykullayki, imaynalla kashanki?"
+  ],
+  "contentRect": [
+   56,
+   947,
+   536,
+   995
+  ],
+  "statusRect": [
+   24,
+   561,
+   568,
+   995
+  ],
+  "doc": [
+   1920,
+   1080
+  ],
+  "fuera": [],
+  "html": "Antidesestablecimientarianamentequechuaqhichwasimirimanakuypaqyanapakuqkunawan",
+  "thtml": "",
+  "hijos": 0,
+  "xss": null,
+  "scripts": 1,
+  "imgs": 0,
+  "alerta": null
+ }
+}

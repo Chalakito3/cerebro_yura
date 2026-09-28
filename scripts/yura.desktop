@@ -1,7 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=Yura
-Comment=Interfaz de Yura en pantalla completa
-Exec=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/scripts/yura-open-browser.sh
+Comment=Pantalla de Yura en pantalla completa
+Exec="/home/yura/Proyecto Yura /cerebro_yura/scripts/yura-open-browser.sh"
 Terminal=false
 X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=5

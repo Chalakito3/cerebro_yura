@@ -1,0 +1,18 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: copia de archivos versionados (git ls-files) + cambios actuales, SIN diccionario.db -> pytest -q
+
+
+tests/test_vocabulario_groq.py:85: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[CONVERSACION] No existe el vocabulario: /tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/backend/clon/diccionario.db
+=========================== short test summary info ============================
+FAILED tests/test_conversacion_ui.py::test_buenas_noches_no_se_confunde_con_la_palabra_no
+FAILED tests/test_conversacion_ui.py::test_como_digo_buenas_noches_usa_la_traduccion_local
+FAILED tests/test_conversacion_ui.py::test_como_digo_color_amarillo_usa_el_diccionario_local
+FAILED tests/test_vocabulario_groq.py::test_vocabulario_incluye_palabra_mencionada_y_saludos
+FAILED tests/test_vocabulario_groq.py::test_vocabulario_incluye_todo_el_tema_nombrado
+FAILED tests/test_vocabulario_groq.py::test_conversacion_envia_vocabulario_verificado_a_groq
+FAILED tests/test_vocabulario_groq.py::test_traductor_online_envia_vocabulario_verificado_a_groq
+FAILED tests/test_vocabulario_groq.py::test_padre_y_papa_se_dicen_tata - Asse...
+FAILED tests/test_vocabulario_groq.py::test_traductor_dice_todas_las_opciones_si_la_palabra_es_ambigua
+9 failed, 19 passed in 2.53s

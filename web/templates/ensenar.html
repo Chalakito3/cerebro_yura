@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07141a">
+  <title>Modo docente de Yura</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ensenar.css') }}">
+</head>
+<body>
+  <main class="pagina">
+    <header class="cabecera">
+      <div>
+        <p class="marca">YURA · MODO DOCENTE</p>
+        <h1>Enseñar pronunciación</h1>
+        <p class="nota">Elija una palabra, presione <strong>Grabar</strong> y dígala al micrófono de Yura. Si está bien dicha, guárdela: Yura la usará para calificar y la hará escuchar a los estudiantes.</p>
+      </div>
+      <nav class="acciones">
+        <a class="boton secundario" href="{{ url_for('pagina_resultados') }}">Resultados</a>
+        <a class="boton secundario" href="{{ url_for('index') }}" id="volver">Pantalla de Yura</a>
+      </nav>
+    </header>
+
+    <section class="panel modo" aria-live="polite">
+      <div>
+        <p class="etiqueta">Estado</p>
+        <p class="estado-modo" id="estado-modo">Consultando…</p>
+      </div>
+      <button type="button" class="boton grande" id="boton-modo" disabled>Activar modo docente</button>
+    </section>
+
+    <section class="panel grabacion" id="panel-grabacion" hidden aria-live="polite">
+      <p class="etiqueta">Palabra elegida</p>
+      <h2 class="palabra"><span id="palabra-quechua"></span> <small id="palabra-espanol"></small></h2>
+      <p class="aviso" id="aviso-grabacion"></p>
+      <div class="escuchado" id="escuchado" hidden>
+        <p>Yura escuchó: <strong id="texto-escuchado"></strong></p>
+        <p class="nota" id="nota-escuchado"></p>
+        <audio id="audio-pendiente" controls preload="none"></audio>
+      </div>
+      <div class="acciones">
+        <button type="button" class="boton grande" id="boton-grabar">🎙️ Grabar</button>
+        <button type="button" class="boton grande correcto" id="boton-guardar" hidden>✅ Guardar como correcta</button>
+        <button type="button" class="boton secundario" id="boton-descartar" hidden>Descartar</button>
+      </div>
+      <div id="guardadas"></div>
+    </section>
+
+    <section class="panel">
+      <div class="filtros">
+        <label>Buscar <input id="buscar" autocomplete="off" placeholder="quechua o castellano"></label>
+        <label>Categoría <select id="categoria"><option value="">Todas</option></select></label>
+        <label class="casilla"><input type="checkbox" id="sin-grabar"> Solo sin grabar</label>
+      </div>
+      <p class="nota" id="conteo"></p>
+      <div class="tabla-contenedor">
+        <table>
+          <thead><tr><th>Quechua</th><th>Castellano</th><th>Categoría</th><th>Grabaciones</th><th></th></tr></thead>
+          <tbody id="lista-palabras"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='js/ensenar.js') }}"></script>
+</body>
+</html>

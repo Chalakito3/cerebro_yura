@@ -3,8 +3,10 @@ import math
 import os
 import re
 import subprocess
+import threading
 from collections import deque
 import sounddevice as sd
+import depuracion
 
 
 class AudioManager:
@@ -22,6 +24,28 @@ class AudioManager:
         nivel_ruido = max(0.0005, min(nivel_ruido, 0.0800))
         return max(0.0060, min(0.1200, nivel_ruido * 1.25 + 0.0040))
 
+    def _ruido_para_umbral(self, nivel_ruido):
+        """Nivel de ruido a usar y si la calibración parece contener voz.
+
+        Si se mide mucho más ruido que el normal de la sala, es que la
+        persona ya estaba hablando: antes eso subía el umbral hasta 17 veces
+        y la respuesta ("sí") se perdía.
+        """
+        nivel_ruido = float(nivel_ruido or 0.0)
+        referencia = self.ruido_referencia
+
+        if referencia is None:
+            if nivel_ruido > 0.03:
+                return 0.002, True
+            self.ruido_referencia = nivel_ruido
+            return nivel_ruido, False
+
+        if nivel_ruido > max(0.01, referencia * 4):
+            return referencia, True
+
+        self.ruido_referencia = referencia * 0.8 + nivel_ruido * 0.2
+        return nivel_ruido, False
+
     @staticmethod
     def _bloques_minimos_inicio_voz(bloque_ms):
         duracion_bloque = max(0.01, float(bloque_ms) / 1000.0)
@@ -36,6 +60,10 @@ class AudioManager:
         self.input_sample_rate = sample_rate
         self.input_channels = channels
         self.input_candidates = []
+        # Ruido normal de la sala, aprendido en calibraciones anteriores.
+        self.ruido_referencia = None
+        # Al activar el modo docente se corta la escucha en curso.
+        self.cancelar = threading.Event()
 
         print("[AUDIO] Buscando dispositivos...")
         self.detectar_dispositivos()
@@ -177,48 +205,6 @@ class AudioManager:
         return prioridad
 
     @staticmethod
-    def _es_jack_directo(nombre):
-        nombre = str(nombre).lower()
-        if any(
-            palabra in nombre
-            for palabra in ("usb", "headset", "bluetooth", "bluez", "alt analog")
-        ):
-            return False
-        return any(
-            identificador in nombre
-            for identificador in ("hw:0,0", "alc662", "hda intel pch")
-        )
-
-    @staticmethod
-    def _fuente_predeterminada_es_logitech():
-        try:
-            resultado = subprocess.run(
-                ["wpctl", "inspect", "@DEFAULT_AUDIO_SOURCE@"],
-                capture_output=True,
-                text=True,
-                check=False,
-                timeout=2
-            )
-        except (OSError, subprocess.SubprocessError):
-            return False
-
-        propiedades = resultado.stdout.lower()
-        if resultado.returncode != 0 or "media.class = \"audio/source\"" not in propiedades:
-            return False
-        return (
-            "alsa_input.usb-logitech_" in propiedades
-            and "alsa.card_name = \"logitech usb headset\"" in propiedades
-            and "node.nick = \"logitech usb headset\"" in propiedades
-        )
-
-    @classmethod
-    def _es_entrada_logitech(cls, dispositivo):
-        nombre = str(dispositivo["name"])
-        if nombre.strip().lower() == "pipewire":
-            return cls._fuente_predeterminada_es_logitech()
-        return False
-
-    @staticmethod
     def _prioridad_salida(dispositivo):
         nombre = str(dispositivo["name"]).lower()
         prioridad = 0
@@ -246,7 +232,7 @@ class AudioManager:
             nombre = str(dispositivo.get("name", "Desconocido"))
             entradas = int(dispositivo.get("max_input_channels", 0) or 0)
             salidas = int(dispositivo.get("max_output_channels", 0) or 0)
-            print(
+            depuracion.depurar(
                 f"[AUDIO] Dispositivo {indice}: {nombre} "
                 f"(entrada={entradas}, salida={salidas})"
             )
@@ -317,7 +303,7 @@ class AudioManager:
         for candidato in candidatos:
             frecuencia, canales = self.validar_entrada(candidato)
             if frecuencia is None:
-                print(
+                depuracion.depurar(
                     f"[AUDIO] Dispositivo {candidato['name']} no disponible. "
                     "Probando siguiente dispositivo..."
                 )
@@ -326,10 +312,10 @@ class AudioManager:
             self.input_device = candidato["index"]
             self.input_sample_rate = frecuencia
             self.input_channels = canales
-            print(f"[AUDIO] Entrada seleccionada: {candidato['name']}")
-            print(f"[AUDIO] Canales: {canales}")
-            print(f"[AUDIO] Sample rate: {frecuencia}")
-            print("[AUDIO] Dispositivo validado correctamente.")
+            depuracion.depurar(
+                f"[AUDIO] Entrada seleccionada: {candidato['name']} "
+                f"({canales} canal(es), {frecuencia} Hz)"
+            )
             return
 
         print("[AUDIO] No se encontró una entrada de audio compatible.")
@@ -405,68 +391,6 @@ class AudioManager:
 
         print("[AUDIO] No se encontró una salida de audio validada.")
 
-    def grabar(self, duracion):
-        self.detectar_dispositivos()
-        self.seleccionar_entrada()
-
-        if self.input_device is None or not self.input_candidates:
-            print("[AUDIO] El micrófono JACK no está disponible.")
-            return None
-
-        candidatos = list(self.input_candidates)
-        if self.input_device is not None:
-            candidatos.sort(
-                key=lambda candidato: (
-                    candidato["index"] != self.input_device,
-                    -candidato["priority"]
-                )
-            )
-
-        for candidato in candidatos:
-            frecuencia, canales = self.validar_entrada(candidato)
-            if frecuencia is None:
-                continue
-
-            try:
-                audio = sd.rec(
-                    int(frecuencia * duracion),
-                    samplerate=frecuencia,
-                    channels=canales,
-                    dtype="float32",
-                    device=candidato["index"]
-                )
-                sd.wait()
-                audio = np.asarray(audio, dtype=np.float32)
-                audio = audio - np.mean(audio, axis=0, keepdims=True)
-                audio = audio.mean(axis=1)
-                audio = np.clip(audio, -1.0, 1.0)
-                audio = np.where(
-                    audio < 0,
-                    audio * 32768.0,
-                    audio * 32767.0
-                ).astype(np.int16)
-
-                if frecuencia != self.sample_rate:
-                    cantidad = int(round(len(audio) * self.sample_rate / frecuencia))
-                    posiciones = np.linspace(0, len(audio) - 1, cantidad)
-                    audio = np.interp(
-                        posiciones,
-                        np.arange(len(audio)),
-                        audio
-                    )
-
-                self.input_device = candidato["index"]
-                self.input_sample_rate = frecuencia
-                self.input_channels = canales
-                return np.asarray(audio, dtype=np.int16).tobytes()
-
-            except Exception as exc:
-                print(
-                    f"[AUDIO] Dispositivo {candidato['name']} no disponible: {exc}. "
-                    "Probando siguiente dispositivo..."
-                )
-
-        return None
 
     def grabar_hasta_silencio(
         self,
@@ -500,7 +424,7 @@ class AudioManager:
         )
 
         try:
-            print(
+            depuracion.depurar(
                 "[DEBUG AUDIO] abriendo InputStream "
                 f"device={self.input_device} samplerate={frecuencia} "
                 f"channels={canales} blocksize={frames_por_bloque}"
@@ -512,29 +436,31 @@ class AudioManager:
                 samplerate=frecuencia,
                 blocksize=frames_por_bloque
             ) as stream:
-                print("[DEBUG AUDIO] InputStream abierto")
+                depuracion.depurar("[DEBUG AUDIO] InputStream abierto")
                 # El micrófono USB necesita estabilizarse, pero no debemos
                 # consumir el inicio de la frase del usuario.
                 bloques_arranque = max(1, int(0.2 * frecuencia / frames_por_bloque))
                 for _ in range(bloques_arranque):
-                    print("[DEBUG AUDIO] antes de esperar audio arranque")
+                    depuracion.depurar("[DEBUG AUDIO] antes de esperar audio arranque")
                     stream.read(frames_por_bloque)
-                    print("[DEBUG AUDIO] después de recibir audio arranque")
+                    depuracion.depurar("[DEBUG AUDIO] después de recibir audio arranque")
 
                 calibracion = []
                 for _ in range(max(1, int(0.2 * frecuencia / frames_por_bloque))):
-                    print("[DEBUG AUDIO] antes de esperar audio calibración")
+                    depuracion.depurar("[DEBUG AUDIO] antes de esperar audio calibración")
                     bloque, _ = stream.read(frames_por_bloque)
-                    print("[DEBUG AUDIO] después de recibir audio calibración")
+                    depuracion.depurar("[DEBUG AUDIO] después de recibir audio calibración")
                     calibracion.append(np.asarray(bloque, dtype=np.float32))
 
                 ruido = np.concatenate(calibracion, axis=0)
                 ruido = ruido.mean(axis=1)
                 nivel_ruido = self._calcular_nivel_audio(ruido)
-                umbral = self._calcular_umbral_ruido(nivel_ruido)
-                print(
+                nivel_usado, voz_en_calibracion = self._ruido_para_umbral(nivel_ruido)
+                umbral = self._calcular_umbral_ruido(nivel_usado)
+                depuracion.depurar(
                     f"[AUDIO] Calibración: ruido={nivel_ruido:.4f}; "
                     f"umbral={umbral:.4f}"
+                    + (" (voz durante la calibración: se conserva)" if voz_en_calibracion else "")
                 )
 
                 bloques_audio = []
@@ -542,18 +468,30 @@ class AudioManager:
                     maxlen=max(2, int(0.24 / (bloque_ms / 1000)))
                 )
                 voz_detectada = False
+                if voz_en_calibracion:
+                    # Una respuesta rápida ("sí") empezó durante la
+                    # calibración: ese audio es el inicio de la frase.
+                    voz_detectada = True
+                    bloques_audio.extend(
+                        np.asarray(bloque, dtype=np.float32).mean(axis=1)
+                        for bloque in calibracion
+                    )
                 silencio_consecutivo = 0
                 voz_consecutiva = 0
                 bloques_voz_inicio = self._bloques_minimos_inicio_voz(bloque_ms)
 
                 for numero_bloque in range(bloques_maximos):
-                    print(
+                    depuracion.depurar(
                         f"[DEBUG AUDIO] antes de esperar audio bloque={numero_bloque}"
                     )
                     bloque, _ = stream.read(frames_por_bloque)
-                    print(
+                    depuracion.depurar(
                         f"[DEBUG AUDIO] después de recibir audio bloque={numero_bloque}"
                     )
+                    cancelar = getattr(self, "cancelar", None)
+                    if cancelar is not None and cancelar.is_set():
+                        depuracion.depurar("[DEBUG AUDIO] escucha cancelada")
+                        return None
                     bloque = np.asarray(bloque, dtype=np.float32)
                     bloque = bloque.mean(axis=1)
                     nivel = self._calcular_nivel_audio(bloque)
@@ -568,11 +506,11 @@ class AudioManager:
                         else:
                             voz_consecutiva = 0
                         if not voz_detectada and numero_bloque >= bloques_espera:
-                            print(
+                            depuracion.depurar(
                                 "[AUDIO] No se detectó voz dentro del tiempo "
                                 f"de espera (umbral={umbral:.4f})."
                             )
-                            print("[DEBUG AUDIO] finalizando captura sin voz")
+                            depuracion.depurar("[DEBUG AUDIO] finalizando captura sin voz")
                             return None
                         continue
 
@@ -586,7 +524,7 @@ class AudioManager:
                         break
 
                 if not bloques_audio:
-                    print("[DEBUG AUDIO] captura finalizada sin bloques de audio")
+                    depuracion.depurar("[DEBUG AUDIO] captura finalizada sin bloques de audio")
                     return None
 
                 audio = np.concatenate(bloques_audio)
@@ -612,10 +550,10 @@ class AudioManager:
                     f"[AUDIO] Voz capturada: {duracion_real:.1f}s; "
                     f"umbral={umbral:.4f}"
                 )
-                print("[DEBUG AUDIO] captura finalizada con voz")
+                depuracion.depurar("[DEBUG AUDIO] captura finalizada con voz")
                 return np.asarray(audio, dtype=np.int16).tobytes()
 
         except Exception as exc:
             print(f"[AUDIO] Falló la grabación por actividad de voz: {exc}")
-            print(f"[DEBUG AUDIO] excepción en grabación: {type(exc).__name__}: {exc}")
+            depuracion.depurar(f"[DEBUG AUDIO] excepción en grabación: {type(exc).__name__}: {exc}")
             return None

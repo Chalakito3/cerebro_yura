@@ -1,0 +1,13 @@
+  warnings.warn("Performing inference on CPU when CUDA is available")
+  warnings.warn("Performing inference on CPU when CUDA is available")
+  warnings.warn("Performing inference on CPU when CUDA is available")
+  warnings.warn("Performing inference on CPU when CUDA is available")
+  warnings.warn("Performing inference on CPU when CUDA is available")
+carga CPU 0.83s
+f2 CPU: ' Perro.' 1.12s
+f4 CPU: ' ¿Cómo se dice gato en quechua?.' 1.74s
+f6 CPU: ' Rimaykullayki.' 1.29s
+f7 CPU: ' Imaynalla kachkanki.' 1.44s
+## Palabras quechua de la BD que NO están en el initial_prompt de Whisper (GPU)
+Allqo -> ' Ayo.' | normalizado: ayo | exacto: False | búsqueda quechua en BD: []
+Misi -> ' Misi.' | normalizado: misi | exacto: True | búsqueda quechua en BD: ['Gato']

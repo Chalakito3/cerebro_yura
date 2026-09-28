@@ -1,0 +1,46 @@
+
+########## GRUPO 2: JUEGO ##########
+[EVALUACION]: Usuario='respuesta equivocada' | Correcta='allqo' | Similitud=0.24
+[EVALUACION]: Usuario='respuesta equivocada' | Correcta='wasi' | Similitud=0.17
+[EVALUACION]: Usuario='respuesta equivocada' | Correcta='misi' | Similitud=0.17
+[EVALUACION]: Usuario='respuesta equivocada' | Correcta='sach a' | Similitud=0.31
+[FALLA] YURA-EXT-201 | juego | Responder mal todas | entrada=4x 'respuesta equivocada' | esperado=al final informar puntaje/aciertos; no felicitar con 0 aciertos | obtenido=retornos=['continuar', 'continuar', 'continuar', 'continuar', 'menu'] último mensaje='¡Felicidades! Completaste todas las palabras del juego. Regresemos al menú principal.' (0 ms)
+[EVALUACION]: Usuario='mal' | Correcta='misi' | Similitud=0.29
+[OK] YURA-EXT-202 | juego | Responder 'salir' a mitad | entrada=turno1 'mal', turno2 'salir' | esperado=volver al menú | obtenido=retornos=['continuar', 'menu'] último='Saliendo al menú principal.' (0 ms)
+[FALLA] YURA-EXT-203 | juego | 50 respuestas vacías seguidas | entrada='' x50 | esperado=tras N intentos sin respuesta, avanzar o salir al menú / silencio | obtenido=retornos={'continuar'} indice=0 preguntas=50 (distintas=1); nunca sale (0 ms)
+[FALLA] YURA-EXT-204 | juego | Lista con palabras que la BD no tiene | entrada=palabras=['xyz','helicoptero'], BD sin ellas | esperado=saltar la palabra o avisar y volver al menú | obtenido=retornos={'continuar'} indice=0 mensajes=20 ej='No pude cargar la respuesta correcta de esta pregunta.' -> bucle infinito (0 ms)
+[EVALUACION]: Usuario='yaku' | Correcta='yaku' | Similitud=1.00
+[FALLA] YURA-EXT-205 | juego | Sin BD (conexión None): 'agua' usa mapeo de emergencia | entrada=respuesta 'yaku' | esperado=misma respuesta que la BD (Uma) o avisar que no hay BD | obtenido=habló=['¿Cómo se dice, agua, en quechua?', '¡Excelente! Lo dijiste de forma correcta. ¡Muy bien hecho!'] (0 ms)
+[EVALUACION]: Usuario='yaku' | Correcta='uma' | Similitud=0.29
+[OBSERVACION] YURA-EXT-206 | juego | Con BD: 'agua' respondiendo 'yaku' | entrada=respuesta 'yaku' | esperado=coherente con el caso sin BD | obtenido=habló=['¿Cómo se dice, agua, en quechua?', 'Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Uma.'] (con BD 'yaku' es incorrecto y sin BD es correcto) (0 ms)
+[EVALUACION]: Usuario='allin tuta' | Correcta='allin tuta' | Similitud=1.00
+[OK] YURA-EXT-210 | juego | Traducción de varias palabras (Buenas noches = Allin tuta) | entrada='allin tuta' | esperado=correcto solo con la frase completa (o variante fonética) | obtenido='¡Excelente! Lo dijiste de forma correcta. ¡Muy bien hecho!' (0 ms)
+[EVALUACION]: Usuario='allin' | Correcta='allin tuta' | Similitud=0.67
+[OK] YURA-EXT-211 | juego | Traducción de varias palabras (Buenas noches = Allin tuta) | entrada='allin' | esperado=correcto solo con la frase completa (o variante fonética) | obtenido='Sigue aprendiendo, tú puedes. Se dice de la siguiente manera' (0 ms)
+[EVALUACION]: Usuario='tuta' | Correcta='allin tuta' | Similitud=0.57
+[OK] YURA-EXT-212 | juego | Traducción de varias palabras (Buenas noches = Allin tuta) | entrada='tuta' | esperado=correcto solo con la frase completa (o variante fonética) | obtenido='Sigue aprendiendo, tú puedes. Se dice de la siguiente manera' (0 ms)
+[EVALUACION]: Usuario='alin tuta' | Correcta='allin tuta' | Similitud=0.95
+[OK] YURA-EXT-213 | juego | Traducción de varias palabras (Buenas noches = Allin tuta) | entrada='alin tuta' | esperado=correcto solo con la frase completa (o variante fonética) | obtenido='¡Excelente! Lo dijiste de forma correcta. ¡Muy bien hecho!' (0 ms)
+[FALLA] YURA-EXT-214 | juego | Lista de palabras vacía | entrada=palabras=[] | esperado=avisar que no hay palabras | obtenido=ret=menu habló=['¡Felicidades! Completaste todas las palabras del juego. Regresemos al menú principal.'] (0 ms)
+[FALLA] YURA-EXT-215 | juego | Evaluador: palabras distintas aceptadas como correctas | entrada=182 palabras quechuas de la BD, todos los pares | esperado=0 pares de palabras distintas aceptados | obtenido=141 pares aceptados, ej: [('Akcha', 'Aycha'), ('Akcha', "Mak'a"), ('Akcha', 'Qocha'), ('Akcha', "Sach'a"), ('Akcha', 'Sacha'), ('Akcha', 'Waka'), ('Allin', 'Mayqin'), ('Anqas', "K'anka"), ('Anqas', 'Manka'), ('Anqas', "P'anka"), ('Asnu', 'Vasu'), ('Aswa', 'Tawa')] (0 ms)
+
+########## GRUPO 3: PRÁCTICA ##########
+[FALLA] YURA-EXT-301 | conversacion | 'repite' sin sesión activa | entrada=repite | esperado=explicar que no hay práctica activa o empezar una | obtenido='Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo enseñarte vocabulario, traducciones y saludo' (0 ms)
+[FALLA] YURA-EXT-302 | conversacion | 'otra vez' sin sesión activa | entrada=otra vez | esperado=explicar que no hay práctica activa o empezar una | obtenido='Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo enseñarte vocabulario, traducciones y saludo' (0 ms)
+[FALLA] YURA-EXT-303 | conversacion | 'siguiente' sin sesión activa | entrada=siguiente | esperado=explicar que no hay práctica activa o empezar una | obtenido='Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo enseñarte vocabulario, traducciones y saludo' (0 ms)
+[OK] YURA-EXT-304 | conversacion | Iniciar práctica con BD vacía | entrada=enséñame quechua | esperado=mensaje claro sin excepción | obtenido='No pude cargar una palabra del vocabulario local. Probemos más tarde.' (3 ms)
+[FALLA] YURA-EXT-305 | conversacion | 'repite' en sesión activa (20 intentos) | entrada=repite | esperado=repetir la MISMA palabra | obtenido=en 19/20 intentos cambió a otra palabra (0 ms)
+[OK] YURA-EXT-310 | conversacion | Evaluar práctica de 'Allin punchay' | entrada='allin punchay' | esperado=Correcta | obtenido='Muy bien. Dijiste Allin punchay correctamente. Di otra vez o continuar para prac' (0 ms)
+[OK] YURA-EXT-311 | conversacion | Evaluar práctica de 'Allin punchay' | entrada='alin punchai' | esperado=Correcta | obtenido='Muy bien. Dijiste Allin punchay correctamente. Di otra vez o continuar para prac' (0 ms)
+[OK] YURA-EXT-312 | conversacion | Evaluar práctica de 'Allin punchay' | entrada='allin' | esperado=Incorrecta | obtenido='Todavía no. La forma correcta es Allin punchay. Repítela y luego di otra vez par' (0 ms)
+[OK] YURA-EXT-313 | conversacion | Evaluar práctica de 'Allin punchay' | entrada='wasi' | esperado=Incorrecta | obtenido='Todavía no. La forma correcta es Allin punchay. Repítela y luego di otra vez par' (0 ms)
+[FALLA] YURA-EXT-314 | conversacion | Evaluar práctica de 'Tawa' | entrada='wawa' | esperado=Incorrecta | obtenido='Muy bien. Dijiste Tawa correctamente. Di otra vez o continuar para practicar otr' (0 ms)
+[OK] YURA-EXT-315 | conversacion | Evaluar práctica de 'Misi' | entrada='mesa' | esperado=Incorrecta | obtenido='Todavía no. La forma correcta es Misi. Repítela y luego di otra vez para continu' (0 ms)
+[FALLA] YURA-EXT-316 | conversacion | Evaluar práctica de 'Allin tuta' | entrada='allin tuta' | esperado=Correcta | obtenido=NO evaluó la respuesta: 'Allin tuta significa Buenas noches.' (1 ms)
+[OK] YURA-EXT-317 | conversacion | Evaluar práctica de 'Imaynalla' | entrada='imaynalla' | esperado=Correcta | obtenido='Muy bien. Dijiste Imaynalla correctamente. Di otra vez o continuar para practica' (0 ms)
+[OK] YURA-EXT-318 | conversacion | Evaluar práctica de 'Uma' | entrada='uma' | esperado=Correcta | obtenido='Muy bien. Dijiste Uma correctamente. Di otra vez o continuar para practicar otra' (0 ms)
+[FALLA] YURA-EXT-320 | conversacion | Pregunta de traducción durante la práctica | entrada=¿cómo se dice perro? | esperado=responder la pregunta o aclarar que hay una práctica pendiente | obtenido='Todavía no. La forma correcta es Wasi. Repítela y luego di otra vez para continuar, o sali' (1 ms)
+[OK] YURA-EXT-321 | conversacion | 'salir' durante la práctica | entrada=salir | esperado=acción menú | obtenido={'accion': 'menu', 'respuesta': 'Terminamos por ahora. Tupananchiskama.'} (0 ms)
+
+RESUMEN: {'FALLA': 13, 'OK': 14, 'OBSERVACION': 1} total 28
+Matriz escrita en ../05_g02_03_matriz.md

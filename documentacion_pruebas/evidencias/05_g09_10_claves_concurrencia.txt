@@ -1,0 +1,29 @@
+[OK]: Claves cargadas desde '.env.local'.
+[FALLA] YURA-EXT-901 | claves | cargar_archivo_claves | entrada='YT_BOM' | esperado='valor_bom' | obtenido=None (quedó guardada como '\ufeffYT_BOM') (0 ms)
+[OK] YURA-EXT-902 | claves | cargar_archivo_claves | entrada='YT_SIN_IGUAL' | esperado=None | obtenido=None (0 ms)
+[OK] YURA-EXT-903 | claves | cargar_archivo_claves | entrada='YT_DOBLES' | esperado='con comillas' | obtenido='con comillas' (0 ms)
+[OK] YURA-EXT-904 | claves | cargar_archivo_claves | entrada='YT_SIMPLES' | esperado='simples' | obtenido='simples' (0 ms)
+[OBSERVACION] YURA-EXT-905 | claves | cargar_archivo_claves | entrada='YT_MIXTAS' | esperado=None | obtenido='abre doble cierra simple' (comillas desbalanceadas) (0 ms)
+[OK] YURA-EXT-906 | claves | cargar_archivo_claves | entrada='YT_ESPACIOS' | esperado='con espacios' | obtenido='con espacios' (0 ms)
+[OK] YURA-EXT-907 | claves | cargar_archivo_claves | entrada='YT_EXPORT' | esperado='exportada' | obtenido='exportada' (0 ms)
+[OK] YURA-EXT-908 | claves | cargar_archivo_claves | entrada='YT_EXPORT2' | esperado='doble espacio' | obtenido='doble espacio' (0 ms)
+[OBSERVACION] YURA-EXT-909 | claves | cargar_archivo_claves | entrada='YT_COMENTARIO' | esperado='valor' | obtenido='valor # comentario en línea' (0 ms)
+[OK] YURA-EXT-910 | claves | cargar_archivo_claves | entrada='YT_VACIA' | esperado=None | obtenido=None (0 ms)
+[OK] YURA-EXT-911 | claves | cargar_archivo_claves | entrada='YT_IGUAL' | esperado='a=b=c' | obtenido='a=b=c' (0 ms)
+[OBSERVACION] YURA-EXT-912 | claves | cargar_archivo_claves | entrada='YT_DUP' | esperado='segunda' | obtenido='primera' (convención dotenv: gana la última) (0 ms)
+[OK] YURA-EXT-913 | claves | cargar_archivo_claves | entrada='YT_CRLF' | esperado='windows' | obtenido='windows' (0 ms)
+[OK] YURA-EXT-914 | claves | cargar_archivo_claves | entrada='YT_SOLO_COMILLAS' | esperado=None | obtenido=None (0 ms)
+[OBSERVACION] YURA-EXT-915 | claves | cargar_archivo_claves | entrada='yt minus' | esperado=None | obtenido='con espacio en la clave' (0 ms)
+[OK] YURA-EXT-916 | claves | cargar_archivo_claves | entrada='YT_COMENTADA' | esperado=None | obtenido=None (0 ms)
+[ALERTA CLAVES]: No se pudo leer '.env.local': [Errno 13] Permission denied: '/tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/extremos/g09b/.env.local'
+[OK] YURA-EXT-930 | claves | cargar_archivo_claves con .env.local sin permisos | entrada=chmod 000 | esperado=aviso sin excepción | obtenido=sin excepción (ver [ALERTA CLAVES] en log) (0 ms)
+[OK] YURA-EXT-931 | claves | '.env.local' es una carpeta | entrada=directorio | esperado=ignorar sin excepción | obtenido=sin excepción (0 ms)
+[ALERTA CLAVES]: No se pudo leer '.env.local': embedded null byte
+[OK] YURA-EXT-932 | claves | '.env.local' binario | entrada=bytes 0-255 | esperado=sin excepción | obtenido=sin excepción (0 ms)
+[OK] YURA-EXT-950 | main_robot | _set_web_status/get_web_status desde 16 hilos | entrada=8 escritores x5000 + 8 lectores x5000 | esperado=sin errores, content y translation siempre del mismo evento | obtenido=errores=0 incoherentes=0 tiempo=0.25s (0 ms)
+[FALLA] YURA-EXT-951 | conversacion | Conexión SQLite de conversacion usada desde otro hilo | entrada=procesar_entrada('quiero practicar') en hilo 2 | esperado=funciona o error controlado | obtenido=ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 129989975695488 and this is thread id 129985541027520. (0 ms)
+[FALLA] YURA-EXT-952 | traductor | db_conn compartida (check_same_thread=False) por 8 hilos | entrada=8 x 200 búsquedas | esperado=sin errores | obtenido=errores=6 ["IndexError('tuple index out of range')", "IndexError('tuple index out of range')"] (0 ms)
+[OBSERVACION] YURA-EXT-953 | conversacion | Estado de práctica global (_sesion_educativa) compartido por módulo | entrada=otra parte del programa cancela la sesión | esperado=sesión por usuario/robot | obtenido=tras cancelar, la respuesta correcta 'K'uchillu' ya no se evalúa: 'Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo enseñarte voca' (1 ms)
+
+RESUMEN: {'FALLA': 3, 'OK': 15, 'OBSERVACION': 5} total 23
+Matriz escrita en ../05_g09_10_matriz.md

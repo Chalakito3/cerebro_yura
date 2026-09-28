@@ -1,0 +1,13 @@
+respuesta_backend | _texto_visible (backend) | #content-main | #content-translation | tarjeta
+En quechua se dice Tata, que significa papá. Puedes practicarla usándola para describir algo de tu día. | Tata, que significa papá | pap |  | rimaykullayki
+Tata significa papá. Se usa en la familia. | Tata significa papá | pap |  | rimaykullayki
+Ñaña significa hermana. | Ñaña significa hermana | hermana |  | rimaykullayki
+En quechua, rojo se dice Puka. Por ejemplo, si señalas algo de ese color puedes decir «Puka»; esa palabra significa rojo. | En quechua, rojo se dice Puka | Puka |  | rimaykullayki
+Para decir buenos días en quechua, usa «Allin punchay». Puedes saludar así cuando llegue ese momento del día. | Para decir buenos días en quechua, usa «Allin punchay» | Allin punchay |  | allinpunchay
+Practiquemos una palabra. En quechua se dice Allqu. Significa perro: animal doméstico. Repítela, por favor. | Practiquemos una palabra | Practiquemos una palabra |  | rimaykullayki
+En quechua se dice: Tata. Padre. | : Tata | : Tata |  | rimaykullayki
+En quechua se puede decir: Wasi. | : Wasi | : Wasi |  | rimaykullayki
+Tiene varios significados: papa, de alimentos, se dice Papa; papá, de familia, se dice Tata. | Tiene varios significados: papa, de alimentos, se dice Papa; papá, de familia, se dice Tata | Papa |  | rimaykullayki
+Ñuqaqa Yura kani. Robotmi kani, qhichwa simita rimanakuypaq yanapakuq. | Ñuqaqa Yura kani | Ñuqaqa Yura kani |  | rimaykullayki
+Hasta luego. Tupananchiskama. Dime despierta cuando quieras volver. | Hasta luego | Rimaykullayki |  | rimaykullayki
+Entendido. Me quedaré en silencio hasta que me pidas volver. | Entendido | Entendido |  | rimaykullayki

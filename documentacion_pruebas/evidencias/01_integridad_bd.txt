@@ -1,0 +1,93 @@
+== Duplicados quechua (normalizado exacto) ==
+uma [('nivel1_elementos_naturales', 2, 'Agua'), ('nivel1_partes_del_cuerpo', 1, 'Cabeza')]
+k'anchay [('nivel1_elementos_naturales', 3, 'Luz'), ('nivel2_adjetivos_calificativos', 11, 'Brillante')]
+tata [('nivel1_familia', 1, 'Padre'), ('nivel1_familia', 7, 'Papá')]
+huk [('nivel1_numeros', 1, 'Uno'), ('nivel2_adjetivos_determinativos', 3, 'Uno')]
+k'uchu [('nivel1_objetos_escolares', 7, 'Mesa'), ('nivel1_partes_del_cuerpo', 8, 'Espalda')]
+== Colisiones quechua si se quitan apostrofos (como hace _normalizar_texto/evaluacion) ==
+sacha [('nivel1_elementos_naturales', 4, "Sach'a", 'Árbol'), ('nivel2_animales', 14, 'Sacha', 'Venado')]
+kuchi [('nivel2_animales', 6, 'Kuchi', 'Cerdo'), ('nivel2_animales', 26, "K'uchi", 'Mono')]
+== Duplicados español ==
+papa [('nivel1_alimentos', 3, 'Papa'), ('nivel1_familia', 7, 'Tata')]
+uno [('nivel1_numeros', 1, 'Huk'), ('nivel2_adjetivos_determinativos', 3, 'Huk')]
+== Español = quechua (sin traducción real) ==
+nivel1_alimentos 3 Papa
+nivel1_alimentos 5 Api
+nivel1_alimentos 6 Ají
+nivel1_lugares 1 Plaza
+nivel1_lugares 3 Iglesia
+nivel1_lugares 5 Puente
+nivel1_lugares 6 Hospital
+nivel1_utensilios_cocina 5 Jarra
+nivel2_animales 10 Llama
+== Espacios sobrantes / NULL / vacíos ==
+== Caracteres no ASCII en quechua / pronunciacion ==
+nivel1_alimentos 6 quechua 'Ají' [('í', '0xed', 'LATIN SMALL LETTER I WITH ACUTE')]
+nivel1_elementos_naturales 13 quechua 'Ñan' [('Ñ', '0xd1', 'LATIN CAPITAL LETTER N WITH TILDE')]
+nivel1_elementos_naturales 14 quechua "Ch'aki ñan" [('ñ', '0xf1', 'LATIN SMALL LETTER N WITH TILDE')]
+nivel1_lugares 7 quechua "Ch'askañawi" [('ñ', '0xf1', 'LATIN SMALL LETTER N WITH TILDE')]
+nivel1_lugares 7 pronunciacion 'C:/audios/nivel1/objetos/chaskañawi.mp3' [('ñ', '0xf1', 'LATIN SMALL LETTER N WITH TILDE')]
+nivel1_partes_del_cuerpo 2 quechua 'Ñawi' [('Ñ', '0xd1', 'LATIN CAPITAL LETTER N WITH TILDE')]
+nivel1_partes_del_cuerpo 2 pronunciacion 'C:/audios/nivel1/cuerpo/ñawi.mp3' [('ñ', '0xf1', 'LATIN SMALL LETTER N WITH TILDE')]
+== Apóstrofos usados == Counter({"'": 40})
+== Letras e/o en quechua (fuera de norma 3 vocales) ==
+nivel1_colores 8 Q'ello | Amarillo
+nivel1_colores 10 Q'omer | Verde
+nivel1_colores 16 Q'ello-puka | Naranja
+nivel1_elementos_naturales 10 Qocha | Lago
+nivel1_lugares 3 Iglesia | Iglesia
+nivel1_lugares 5 Puente | Puente
+nivel1_lugares 6 Hospital | Hospital
+nivel1_numeros 6 Soqta | Seis
+nivel1_numeros 16 Chunka soqtayuq | Dieciséis
+nivel1_numeros 19 Chunka isqonniyuq | Diecinueve
+nivel1_numeros 60 Soqta chunka | Sesenta
+nivel1_numeros 600 Soqta pachak | Seiscientos
+nivel1_partes_del_cuerpo 9 Sonqo | Corazón
+nivel2_animales 1 Allqo | Perro
+== Letras ajenas al alfabeto quechua normalizado (b,d,f,g,v,x,z,j,c sin h) ==
+nivel1_alimentos 6 Ají
+nivel1_elementos_casa 3 Windu
+nivel1_lugares 1 Plaza
+nivel1_lugares 3 Iglesia
+nivel1_objetos_escolares 10 Lapiz qillqana
+nivel1_utensilios_cocina 2 Vasu
+nivel1_utensilios_cocina 5 Jarra
+== Mayúscula inicial ==
+== NFC == True
+== Huecos de ID ==
+nivel1_colores faltan [3, 5, 6, 7, 9, 11]
+nivel1_numeros faltan 963 ids (tabla usa id=valor numérico)
+== Rutas pronunciacion ==
+('nivel1_alimentos', 'nivel1/objetos') 10
+('nivel1_colores', 'colores') 11
+('nivel1_colores', 'nivel1/colores') 3
+('nivel1_elementos_casa', 'nivel1/objetos') 4
+('nivel1_elementos_naturales', 'nivel1/objetos') 15
+('nivel1_familia', 'nivel1/familia') 7
+('nivel1_herramientas', 'nivel1/objetos') 5
+('nivel1_lugares', 'nivel1/objetos') 8
+('nivel1_numeros', 'nivel1/numeros') 37
+('nivel1_objetos_escolares', 'nivel1/objetos') 10
+('nivel1_partes_del_cuerpo', 'nivel1/cuerpo') 20
+('nivel1_saludos', 'nivel1/saludos') 4
+('nivel1_utensilios_cocina', 'nivel1/objetos') 9
+('nivel2_adjetivos_calificativos', 'nivel2/adjetivos') 12
+('nivel2_adjetivos_determinativos', 'nivel2/adjetivos') 6
+('nivel2_animales', 'nivel2/animales') 26
+rutas duplicadas: [('C:/audios/nivel1/familia/tata.mp3', 2)]
+existen en disco: 0
+== archivo mp3 vs palabra (nombre esperado) ==
+nivel1_elementos_naturales 13 Ñan -> nan (esperado ñan)
+nivel1_elementos_naturales 14 Ch'aki ñan -> chaki_nan (esperado chaki_ñan)
+nivel2_animales 26 K'uchi -> kuchi_mono (esperado kuchi)
+== Traducción con ñ (inalcanzable en modo TRADUCIR por _normalizar_texto) ==
+nivel1_elementos_naturales 12 Montaña = Urqu
+nivel1_familia 3 Niño = Wawa
+nivel1_utensilios_cocina 8 Olla pequeña = Manka michi
+nivel2_adjetivos_calificativos 4 Pequeño = Huchuy
+== Palabras quechua con ñ (inalcanzables con 'qué significa' via conversacion._normalizar_texto ñ->n) ==
+nivel1_elementos_naturales 13 Ñan
+nivel1_elementos_naturales 14 Ch'aki ñan
+nivel1_lugares 7 Ch'askañawi
+nivel1_partes_del_cuerpo 2 Ñawi

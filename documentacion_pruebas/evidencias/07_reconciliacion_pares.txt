@@ -1,0 +1,35 @@
+# Comando: .venv/bin/python reconciliar_pares.py (BD en mode=ro)
+import sys, sqlite3, itertools, os
+P="/home/yura/Proyecto Yura /cerebro_yura"
+sys.path.insert(0,P); os.chdir(P)
+sys.dont_write_bytecode=True
+import traductor, juego
+from main_robot import BrainYura
+RO=sqlite3.connect(f"file:{P}/diccionario.db?mode=ro", uri=True)
+regs=traductor._leer_registros_vocabulario(RO)
+nb=BrainYura._normalizar_texto.__get__(object.__new__(BrainYura))
+j=juego.Juego([], lambda x: None, lambda: "", lambda t: None, lambda c: None, nb)
+ok=j._respuesta_es_correcta
+nc=traductor._normalizar_para_comparar
+# Metodo 03: permutaciones ordenadas de filas, dicho normalizado como main_robot, excluye misma traduccion
+m03=[(a["quechua"],c["quechua"]) for a,c in itertools.permutations(regs,2)
+     if nc(a["quechua"])!=nc(c["quechua"]) and nc(a["espanol"])!=nc(c["espanol"]) and ok(nb(a["quechua"]),c["quechua"])]
+print("metodo 03 (filas ordenadas, dicho normalizado):",len(m03))
+print("  pares ordenados de palabras distintas unicos:",len(set(m03)))
+print("  pares NO ordenados unicos:",len({frozenset(p) for p in m03}))
+qs=sorted({r["quechua"] for r in regs if r["quechua"]})
+print("palabras quechua distintas:",len(qs))
+m05=[(a,b) for a in qs for b in qs if a<b and nb(a)!=nb(b) and ok(a,b)]
+print("metodo 05 (a<b, una direccion, sin normalizar):",len(m05))
+m05b={frozenset((a,b)) for a in qs for b in qs if a!=b and (ok(a,b) or ok(b,a))}
+print("metodo 05 en ambas direcciones (no ordenados):",len(m05b))
+m05c=[(a,b) for a in qs for b in qs if a!=b and ok(nb(a),b)]
+print("todas las direcciones, dicho normalizado (ordenados, palabras unicas):",len(m05c), "no ordenados:",len({frozenset(p) for p in m05c}))
+# SALIDA
+metodo 03 (filas ordenadas, dicho normalizado): 298
+  pares ordenados de palabras distintas unicos: 278
+  pares NO ordenados unicos: 143
+palabras quechua distintas: 182
+metodo 05 (a<b, una direccion, sin normalizar): 141
+metodo 05 en ambas direcciones (no ordenados): 143
+todas las direcciones, dicho normalizado (ordenados, palabras unicas): 278 no ordenados: 143

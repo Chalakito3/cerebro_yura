@@ -1,0 +1,7 @@
+gato [('nivel2_animales', 'Misi', 'Gato'), ('nivel2_animales', "Ch'ita", 'Gato montés')]
+perro [('nivel2_animales', 'Allqo', 'Perro')]
+sol [('nivel1_elementos_naturales', 'Inti', 'Sol')]
+agua [('nivel1_elementos_naturales', 'Uma', 'Agua')]
+casa [('nivel1_elementos_casa', 'Wasi', 'Casa')]
+arbol []
+árbol []

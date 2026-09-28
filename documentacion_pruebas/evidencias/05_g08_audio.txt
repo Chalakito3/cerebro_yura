@@ -1,0 +1,161 @@
+[AUDIO] Buscando dispositivos...
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] No se encontró una salida de audio validada.
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] El micrófono no está disponible.
+[OK] YURA-EXT-801 | audio | Ningún dispositivo | entrada=query_devices()=[] | esperado=input_device=None y grabar devuelve None | obtenido=audio=None bloques=0 (0 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] No se pudieron listar dispositivos: PortAudio not initialized
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] No se encontró una salida de audio validada.
+[AUDIO] No se pudieron listar dispositivos: PortAudio not initialized
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] El micrófono no está disponible.
+[OK] YURA-EXT-802 | audio | query_devices lanza excepción | entrada=OSError | esperado=sin excepción | obtenido=audio=None (0 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo USB Audio Device: C-Media (hw:2,0) no disponible. Probando siguiente dispositivo...
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo USB Audio Device: C-Media (hw:2,0) no disponible. Probando siguiente dispositivo...
+[AUDIO] No se encontró una entrada de audio compatible.
+[AUDIO] El micrófono no está disponible.
+[OK] YURA-EXT-803 | audio | Dispositivo que falla al abrir | entrada=check_input_settings lanza | esperado=None sin excepción | obtenido=audio=None (0 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.0000; umbral=0.0060
+[AUDIO] No se detectó voz dentro del tiempo de espera (umbral=0.0060).
+[OK] YURA-EXT-804 | audio | Silencio absoluto | entrada=ceros | esperado=None tras espera_maxima (10 s = 125 bloques) | obtenido=audio=None bloques leídos=130 (5 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.2974; umbral=0.1040
+[AUDIO] Voz capturada: 15.0s; umbral=0.1040
+[OBSERVACION] YURA-EXT-805 | audio | Ruido constante alto (0,3 medio) desde el inicio | entrada=uniforme ±0,6 | esperado=terminar como máximo en duracion_maxima (15 s) | obtenido=devuelve 15.0 s de audio; bloques=191 (el ruido estable se calibra; umbral máx 0,104) (36 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.0000; umbral=0.0060
+[AUDIO] Voz capturada: 14.8s; umbral=0.0060
+[OBSERVACION] YURA-EXT-806 | audio | Ruido alto que empieza tras la calibración (TV/ventilador) | entrada=ceros y luego ±0,6 | esperado=terminar en duracion_maxima; no enviar 15 s de ruido al transcriptor | obtenido=devuelve 14.8 s de audio; bloques=191 -> Gemini/Whisper reciben 15 s de ruido (24 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.0000; umbral=0.0060
+[AUDIO] Voz capturada: 5.2s; umbral=0.0060
+[OBSERVACION] YURA-EXT-807 | audio | Voz que empieza a los 9,6 s y dura mucho | entrada=silencio 120 bloques + voz continua | esperado=grabar hasta 15 s DESDE que empieza la voz | obtenido=audio=5.2 s (duracion_maxima cuenta desde el inicio de la escucha, no desde la voz) (13 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.0000; umbral=0.0060
+[AUDIO] Voz capturada: 14.6s; umbral=0.0060
+[OK] YURA-EXT-808 | audio | Clipping (amplitud 1,8 > 1,0) | entrada=onda cuadrada ±1,8 | esperado=int16 válido, sin overflow | obtenido=234240 muestras, max=32768 (27 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=nan; umbral=0.0060
+[AUDIO] No se detectó voz dentro del tiempo de espera (umbral=0.0060).
+[OK] YURA-EXT-809 | audio | Bloques con NaN | entrada=NaN | esperado=None sin excepción | obtenido=audio=None bloques=130 (5 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Calibración: ruido=0.0000; umbral=0.0060
+[AUDIO] Falló la grabación por actividad de voz: float division by zero
+[OK] YURA-EXT-810 | audio | Parámetros extremos: bloque_ms=0 | entrada=bloque_ms=0 | esperado=error controlado | obtenido=audio=None (112 ms)
+[OK] YURA-EXT-820 | audio | _calcular_umbral_ruido | entrada=0 | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.006 (0 ms)
+[OK] YURA-EXT-821 | audio | _calcular_umbral_ruido | entrada=-1 | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.006 (0 ms)
+[OK] YURA-EXT-822 | audio | _calcular_umbral_ruido | entrada=nan | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.006 (0 ms)
+[OK] YURA-EXT-823 | audio | _calcular_umbral_ruido | entrada=1.0 | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.10400000000000001 (0 ms)
+[OK] YURA-EXT-824 | audio | _calcular_umbral_ruido | entrada=inf | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.10400000000000001 (0 ms)
+[OK] YURA-EXT-825 | audio | _calcular_umbral_ruido | entrada=None | esperado=valor en [0,006; 0,12] o error controlado | obtenido=umbral=0.006 (0 ms)
+
+=== YURA-EXT-826 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g08_audio.py", line 131, in <lambda>
+    lambda v=v: AudioManager._calcular_umbral_ruido(v),
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/audio_manager.py", line 21, in _calcular_umbral_ruido
+    nivel_ruido = float(nivel_ruido or 0.0)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: 'abc'
+
+[OBSERVACION] YURA-EXT-826 | audio | _calcular_umbral_ruido | entrada='abc' | esperado=valor en [0,006; 0,12] o error controlado | obtenido=ValueError: could not convert string to float: 'abc' (solo recibe floats en el flujo real) (0 ms)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: USB Audio Device: C-Media (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Entrada seleccionada: USB Audio Device: C-Media (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: C-Media (hw:2,0)
+[OK] YURA-EXT-830 | audio | YURA_INPUT_DEVICE apunta a índice inexistente | entrada=99 | esperado=usar otro dispositivo o avisar | obtenido=input_device=0 (se ignora el índice y usa el disponible) (0 ms)
+
+RESUMEN: {'OK': 14, 'OBSERVACION': 4} total 18
+Matriz escrita en ../05_g08_matriz.md

@@ -1,0 +1,348 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: bandit -q main_robot.py conversacion.py traductor.py juego.py audio_manager.py gemini_transcriber.py web/app.py
+
+Run started:2026-09-27 04:13:23.272402+00:00
+
+Test results:
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./audio_manager.py:5:0
+4	import re
+5	import subprocess
+6	from collections import deque
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./audio_manager.py:78:28
+77	            try:
+78	                resultado = subprocess.run(
+79	                    comando,
+80	                    capture_output=True,
+81	                    text=True,
+82	                    check=False,
+83	                    timeout=2
+84	                )
+85	            except (OSError, subprocess.SubprocessError):
+
+--------------------------------------------------
+>> Issue: [B112:try_except_continue] Try, Except, Continue detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b112_try_except_continue.html
+   Location: ./audio_manager.py:103:24
+102	                                return valor
+103	                        except Exception:
+104	                            continue
+105	            elif comando[0] == "pactl":
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: ./audio_manager.py:195:24
+194	        try:
+195	            resultado = subprocess.run(
+196	                ["wpctl", "inspect", "@DEFAULT_AUDIO_SOURCE@"],
+197	                capture_output=True,
+198	                text=True,
+199	                check=False,
+200	                timeout=2
+201	            )
+202	        except (OSError, subprocess.SubprocessError):
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./audio_manager.py:195:24
+194	        try:
+195	            resultado = subprocess.run(
+196	                ["wpctl", "inspect", "@DEFAULT_AUDIO_SOURCE@"],
+197	                capture_output=True,
+198	                text=True,
+199	                check=False,
+200	                timeout=2
+201	            )
+202	        except (OSError, subprocess.SubprocessError):
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
+   Location: ./conversacion.py:217:11
+216	
+217	    return random.choice(candidatos)
+218	
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
+   Location: ./juego.py:33:32
+32	        cantidad = min(4, len(self.lista_juego))
+33	        self.palabras_partida = random.sample(self.lista_juego, cantidad)
+34	        self.indice_juego = 0
+
+--------------------------------------------------
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./main_robot.py:12:0
+11	import traductor
+12	import subprocess
+13	import ctypes
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: ./main_robot.py:48:0
+47	
+48	except Exception:
+49	    pass
+50	
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: ./main_robot.py:152:8
+151	            self.on_status(phase, **data)
+152	        except Exception:
+153	            pass
+154	
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:160:24
+159	        try:
+160	            resultado = subprocess.run(
+161	                [wpctl, "inspect", "@DEFAULT_AUDIO_SINK@"],
+162	                capture_output=True,
+163	                text=True,
+164	                check=False,
+165	                timeout=2
+166	            )
+167	        except (OSError, subprocess.SubprocessError):
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:240:26
+239	                for intento in range(2):
+240	                    res = subprocess.run(
+241	                        cmd_tts,
+242	                        stdout=subprocess.DEVNULL,
+243	                        stderr=subprocess.DEVNULL
+244	                    )
+245	                    if (
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:270:33
+269	                if ffmpeg and pw_play:
+270	                    conversion = subprocess.run(
+271	                        [
+272	                            ffmpeg,
+273	                            "-hide_banner",
+274	                            "-loglevel",
+275	                            "error",
+276	                            "-y",
+277	                            "-i",
+278	                            self.audio_temp,
+279	                            "-acodec",
+280	                            "pcm_s16le",
+281	                            "-ar",
+282	                            "24000",
+283	                            "-ac",
+284	                            "1",
+285	                            wav_temp
+286	                        ],
+287	                        stdout=subprocess.DEVNULL,
+288	                        stderr=subprocess.DEVNULL
+289	                    )
+290	                    if conversion.returncode == 0 and os.path.exists(wav_temp):
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:327:39
+326	                    try:
+327	                        reproduccion = subprocess.run(
+328	                            reproductor,
+329	                            stdout=subprocess.DEVNULL,
+330	                            stderr=subprocess.DEVNULL
+331	                        )
+332	                    except OSError as exc:
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:355:28
+354	            if spd_say:
+355	                resultado = subprocess.run(
+356	                    [spd_say, "-l", "es", "-t", "female1", "-w", texto_voz],
+357	                    stdout=subprocess.DEVNULL,
+358	                    stderr=subprocess.DEVNULL
+359	                )
+360	                if resultado.returncode != 0:
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./main_robot.py:365:20
+364	                if espeak:
+365	                    subprocess.run(
+366	                        [espeak, "-v", "es-la", "-s", "140", texto_voz],
+367	                        stdout=subprocess.DEVNULL,
+368	                        stderr=subprocess.DEVNULL
+369	                    )
+370	                else:
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: ./main_robot.py:372:8
+371	                    print("[AUDIO] No hay un motor de voz local disponible.")
+372	        except Exception:
+373	            pass
+374	        finally:
+
+--------------------------------------------------
+>> Issue: [B112:try_except_continue] Try, Except, Continue detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b112_try_except_continue.html
+   Location: ./main_robot.py:641:12
+640	                                return valor
+641	            except Exception:
+642	                continue
+643	
+
+--------------------------------------------------
+>> Issue: [B602:subprocess_popen_with_shell_equals_true] subprocess call with shell=True identified, security issue.
+   Severity: High   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b602_subprocess_popen_with_shell_equals_true.html
+   Location: ./main_robot.py:652:28
+651	                    comando,
+652	                    shell=True,
+653	                    capture_output=True,
+654	                    text=True,
+655	                    timeout=10,
+656	                    check=False
+657	                )
+658	                valor = resultado.stdout.strip()
+659	                if valor:
+660	                    return valor
+
+--------------------------------------------------
+>> Issue: [B112:try_except_continue] Try, Except, Continue detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b112_try_except_continue.html
+   Location: ./main_robot.py:661:12
+660	                    return valor
+661	            except Exception:
+662	                continue
+663	
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: ./main_robot.py:861:12
+860	                    os.remove(audio_path)
+861	            except Exception:
+862	                pass
+863	
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: ./main_robot.py:1213:16
+1212	                    self.db_conn.close()
+1213	                except Exception:
+1214	                    pass
+1215	
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: ./traductor.py:109:18
+108	            cursor.execute(
+109	                f"SELECT {columnas} FROM {tabla_sql} ORDER BY id"
+110	            )
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: ./traductor.py:114:18
+113	            cursor.execute(
+114	                f"SELECT id, palabra_frase, traduccion, pronunciacion, "
+115	                f"NULL AS significado FROM {tabla_sql} ORDER BY id"
+116	            )
+
+--------------------------------------------------
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html
+   Location: ./web/app.py:177:17
+176	    start_robot()
+177	    app.run(host="0.0.0.0", port=5000, debug=False)
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 2832
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 21
+		Medium: 3
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 3
+		High: 22
+Files skipped (0):

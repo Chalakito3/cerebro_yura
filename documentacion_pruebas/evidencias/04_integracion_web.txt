@@ -1,0 +1,16 @@
+## Cerebro: clientes HTTP / URLs / sanctum / student_id
+(sin coincidencias)
+## Cerebro: ¿registra intentos/puntajes/estudiantes? (excluye documentacion_pruebas y tests)
+(sin coincidencias en el código del cerebro)
+## Laravel: tabla phonetic_evaluations en migraciones
+(no existe en database/ ni app/)
+## Laravel: rutas API robot
+31:    Route::post('/v1/robot/activity', [RobotActivityController::class, 'store']);
+## Laravel: tablas robot_* (columnas)
+23:                $table->id();
+24:                $table->string('name');
+25:                $table->timestamps();
+## Laravel: ¿llama al robot (puerto 5000 / api/status)?
+(sin coincidencias)
+## Laravel: .env.example DB
+DB_CONNECTION=sqlite

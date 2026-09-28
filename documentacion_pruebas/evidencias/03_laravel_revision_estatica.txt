@@ -1,0 +1,117 @@
+# Fecha: 2026-09-27T00:20:33-04:00  | Copia SOLO LECTURA de MENARWIL/yura-platform, commit d419bd0 Tue Sep 15 21:10:06 2026 -0400
+# Sin PHP/MySQL: nada se ejecutó. Todo lo de ejecución = NO VERIFICADO. Valores de contraseñas/tokens OMITIDOS.
+
+## routes/api.php
+     1	<?php
+     2	
+     3	use Illuminate\Http\Request;
+     4	use Illuminate\Support\Facades\Route;
+     5	use App\Http\Controllers\Api\StudentController;
+     6	use App\Http\Controllers\Api\AuthController;
+     7	use App\Http\Controllers\Api\DashboardController;
+     8	use App\Http\Controllers\Api\UserController;
+     9	use App\Http\Controllers\Api\RobotActivityController;
+    10	use App\Http\Controllers\TutorController;
+    11	
+    12	Route::post('/login', [AuthController::class, 'loginApi']);
+    13	
+    14	Route::get('/user', function (Request $request) {
+    15	    return $request->user();
+    16	})->middleware('auth:sanctum');
+    17	
+    18	Route::middleware('auth:sanctum')->group(function () {
+    19	    Route::post('/logout', [AuthController::class, 'logout']);
+    20	    Route::get('/tutor/my-children', [TutorController::class, 'myChildren']);
+    21	    Route::get('/dashboard', [DashboardController::class, 'index']);
+    22	    Route::get('/students', [StudentController::class, 'index']);
+    23	    Route::post('/students', [StudentController::class, 'store']);
+    24	    Route::get('/students/{id}', [StudentController::class, 'show']);
+    25	    Route::post('/students/{id}/update-score', [StudentController::class, 'updatePuntaje']);
+    26	
+    27	    // User Management (Admin)
+    28	    Route::get('/users', [UserController::class, 'index']);
+    29	    Route::post('/users', [UserController::class, 'store']);
+    30	    Route::patch('/users/{user}/status', [UserController::class, 'toggleStatus']);
+    31	    Route::post('/v1/robot/activity', [RobotActivityController::class, 'store']);
+    32	});
+
+## Controlador del robot: app/Http/Controllers/Api/RobotActivityController.php (validación)
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'activity_id' => 'required|string|max:100',
+            'student_id' => 'required|integer|exists:students,id',
+            'subject_id' => 'required|integer|exists:subjects,id',
+            'score' => 'required|numeric|min:0|max:100',
+            'activity_type' => 'required|string|max:50',
+            'observations' => 'nullable|string|max:1000',
+        ]);
+
+## Api/UserController: index/store/toggleStatus sin comprobación de rol (grep de isAdmin/abort/403):
+  (ninguna coincidencia)
+
+## Rutas web de exportación/restauración de estudiantes (fuera del middleware rol):
+42:    Route::get('/students/export-pdf-all', [StudentController::class, 'exportPdfAll'])->name('students.export.pdf.all');
+43:    Route::get('/students/export-excel-all', [StudentController::class, 'exportExcelAll'])->name('students.export.excel.all');
+44:    // Individual student exports
+45:    Route::get('/students/{student}/export-pdf', [StudentController::class, 'exportPdf'])->name('students.export.pdf');
+46:    Route::get('/students/{student}/export-excel', [StudentController::class, 'exportExcel'])->name('students.export.excel');
+47:    Route::patch('students/{student}/restore', [StudentController::class, 'restore'])->name('students.restore');
+48:    Route::delete('students/{student}/force', [StudentController::class, 'forceDestroy'])->name('students.forceDestroy');
+121:        Route::patch('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+122:        Route::delete('/users/{user}/force', [UserController::class, 'forceDestroy'])->name('users.forceDestroy');
+
+## StudentController (web) export*: comprobaciones de permiso dentro de los métodos (grep entre líneas 516-562):
+4:            // Build a simple HTML table so Excel can open it
+
+## Sanctum
+37:    'guard' => ['web'],
+50:    'expiration' => null,
+
+## .env.example (solo claves de configuración de depuración)
+2:APP_ENV=local
+4:APP_DEBUG=true
+
+## Ubicaciones con credenciales/contraseñas escritas en el código (valor omitido)
+  app/Http/Controllers/Api/AuthController.php:17
+  app/Models/User.php:347
+  config/auth.php:106
+  database/factories/UserFactory.php:31
+  database/migrations/2026_07_02_221407_consolidate_tutors_and_users.php:42
+  database/seeders/RobotUserSeeder.php:20
+  database/seeders/SchoolPilotSeeder.php:112
+  database/seeders/SchoolPilotSeeder.php:45
+  database/seeders/SchoolPilotSeeder.php:58
+  database/seeders/SchoolPilotSeeder.php:78
+  README_EQUIPO.md:58
+  README_EQUIPO.md:59
+  README_EQUIPO.md:60
+  resources/lang/es/messages.php:145
+  resources/lang/qu/messages.php:145
+  temp_demo_check.php:27
+  temp_demo_check.php:38
+  test_api.php:39
+  tests/Feature/AcademicSubjectsTest.php:53
+  tests/Feature/CrudAndMediaTest.php:44
+  tests/Feature/RobotIntegrationTest.php:24
+  tests/Feature/RobotIntegrationTest.php:31
+  tests/Feature/YuraTestPHP.php:15
+
+## RobotUserSeeder imprime el token del robot en consola
+28:        $this->command->info("Robot API token: {$token}");
+
+## Archivos sospechosos en la raíz / tinker
+-rw-rw-r-- 1 yura yura 1186 Sep 27 00:08 resultado_yura.txt
+-rw-rw-r-- 1 yura yura 1091 Sep 27 00:08 temp_demo_check.php
+-rw-rw-r-- 1 yura yura 1675 Sep 27 00:08 test_api.php
+
+tinker_scripts/:
+total 120
+drwxrwxr-x  2 yura yura   4096 Sep 27 00:08 .
+drwxrwxr-x 15 yura yura   4096 Sep 27 00:08 ..
+-rw-rw-r--  1 yura yura 106408 Sep 27 00:08 check_dashboards_output.txt
+-rw-rw-r--  1 yura yura    539 Sep 27 00:08 check_dashboards.php
+-rw-rw-r--  1 yura yura   2036 Sep 27 00:08 run_dashboards_and_exports.php
+
+## ¿Existe .env versionado?
+  No (solo .env.example)

@@ -1,0 +1,63 @@
+# Simulacion del bloque __main__ con dos llamadas a loop_principal (sin hardware, BD mode=ro)
+# Simula el bloque __main__ actual (dos llamadas a loop_principal) sin hardware ni red.
+import sys, os, sqlite3
+from unittest.mock import Mock
+P="/home/yura/Proyecto Yura /cerebro_yura"; sys.path.insert(0,P); sys.dont_write_bytecode=True
+import main_robot
+from main_robot import BrainYura, RobotStates
+import conversacion
+ro=sqlite3.connect(f"file:{P}/diccionario.db?mode=ro",uri=True, check_same_thread=False)
+conversacion._conexion_vocabulario=ro
+def fabricar(entradas):
+    b=object.__new__(BrainYura)
+    b.state=RobotStates.MENU; b.running=True; b.saludo_inicial_done=True
+    b.hw=Mock(); b._set_web_status=Mock(); b.groq_client=None; b.db_conn=sqlite3.connect(f"file:{P}/diccionario.db?mode=ro",uri=True)
+    it=iter(entradas)
+    def esc(*a,**k):
+        x=next(it)
+        if isinstance(x,BaseException): raise x
+        return x
+    b.escuchar_voz=esc
+    return b
+print("CASO A: apagado por voz ('apagar')")
+b=fabricar(["apagar"])
+b.loop_principal(); print("  tras 1.a llamada running=",b.running)
+b.loop_principal(); print("  2.a llamada vuelve de inmediato; running=",b.running)
+print("CASO B: Ctrl+C (KeyboardInterrupt) durante la escucha")
+b=fabricar([KeyboardInterrupt(), "traducir", "perro", KeyboardInterrupt()])
+b.loop_principal(); print("  tras 1.a llamada running=",b.running,"state=",b.state)
+try:
+    b.loop_principal(); print("  2.a llamada terminó; state=",b.state, "habló:",[c.args[0][:60] for c in b.hw.hablar.call_args_list][-3:])
+except Exception as e:
+    print("  2.a llamada EXCEPCION:",type(e).__name__,e)
+# SALIDA
+CASO A: apagado por voz ('apagar')
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+  tras 1.a llamada running= False
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+  2.a llamada vuelve de inmediato; running= False
+CASO B: Ctrl+C (KeyboardInterrupt) durante la escucha
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+
+[SISTEMA]: Apagando a Yura de forma segura...
+  tras 1.a llamada running= True state= MENU
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+[TRADUCTOR] Usuario: perro
+[TRADUCTOR] Buscando en BD local...
+  2.a llamada EXCEPCION: ProgrammingError Cannot operate on a closed database.
+
+# tail -5 main_robot.py
+
+    cerebro = BrainYura()
+    cerebro.loop_principal()
+
+    cerebro.loop_principal()
+# git show HEAD:main_robot.py | tail -4
+
+    cerebro = BrainYura()
+
+    cerebro.loop_principal()

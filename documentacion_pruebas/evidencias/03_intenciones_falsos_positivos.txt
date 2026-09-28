@@ -1,0 +1,108 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t2_intenciones.py
+
+## A) Menú principal (ejecutar_menu): frase -> estado resultante
+| "¿cómo se dice apagar en quechua?" | esperado: CONVERSAR (traducción) | obtenido: SALIR running=False | Hasta luego. Me voy a apagar. |
+| "no quiero jugar" | esperado: no JUEGO | obtenido: JUEGO running=True | (nada) |
+| "quiero conjugar verbos en quechua" | esperado: no JUEGO | obtenido: JUEGO running=True | (nada) |
+| "¿cómo se dice silencio en quechua?" | esperado: CONVERSAR (traducción) | obtenido: SILENCIO running=True | Entendido. Me quedaré en silencio hasta que me pidas volver. |
+| "¿cómo se dice adiós en quechua?" | esperado: CONVERSAR (traducción) | obtenido: SILENCIO running=True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras  |
+| "no quiero salir" | esperado: no SILENCIO | obtenido: SILENCIO running=True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras  |
+| "¿qué significa terminar?" | esperado: CONVERSAR | obtenido: SILENCIO running=True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras  |
+| "juguemos" | esperado: JUEGO | obtenido: CONVERSAR running=True | Soy Yura, un robot educativo que ayuda a practicar quechua.  |
+| "vamos a jugar" | esperado: JUEGO | obtenido: JUEGO running=True | (nada) |
+| "quiero platicar" | esperado: CONVERSAR | obtenido: CONVERSAR running=True | Practiquemos una palabra. En quechua se dice Runa. Significa |
+| "traduce perro" | esperado: TRADUCIR o traducción | obtenido: CONVERSAR running=True | En quechua se dice Allqo, que significa perro. Puedes practi |
+| "espera un momento yura" | esperado: SILENCIO (esperado por diseño) | obtenido: SILENCIO running=True | Entendido. Me quedaré en silencio hasta que me pidas volver. |
+| "yura apágate" | esperado: SALIR | obtenido: CONVERSAR running=True | Soy Yura, un robot educativo que ayuda a practicar quechua.  |
+| "apaga" | esperado: SALIR | obtenido: CONVERSAR running=True | Soy Yura, un robot educativo que ayuda a practicar quechua.  |
+
+## B) _detectar_intencion (conversacion): frase -> intención
+| "buenas noches" | conversar | conversar | OK |
+| "como se dice adios en quechua" | traducir | salir | FALLA |
+| "que significa tupananchiskama" | significado | salir | FALLA |
+| "me voy a portar bien" | conversar | salir | FALLA |
+| "el menudo de mi abuela" | conversar | salir | FALLA |
+| "siguiente pregunta" | conversar/repetir | repetir | OK |
+| "quiero conjugar verbos" | conversar | practicar | FALLA |
+| "tengo una pregunta" | conversar | practicar | FALLA |
+| "mi profesor ensena quechua" | conversar | aprender | FALLA |
+| "como se dice jugar en quechua" | traducir | practicar | FALLA |
+| "como se dice aprender en quechua" | traducir | aprender | FALLA |
+| "como se dice prueba en quechua" | traducir | practicar | FALLA |
+| "como se dice ensenar en quechua" | traducir | aprender | FALLA |
+| "como se dice practicar" | traducir | practicar | FALLA |
+| "que significa yachay" | significado | significado | OK |
+| "comprueba si esta bien" | conversar | practicar | FALLA |
+| "es practicamente igual" | conversar | practicar | FALLA |
+| "nos vemos manana" | salir (aceptable) | salir | OK |
+| "como se dice nos vemos" | traducir | salir | FALLA |
+| "repite la palabra" | repetir | repetir | OK |
+| "hablemos de mi familia" | conversar | conversar | OK |
+| "el ejercito" | conversar | practicar | FALLA |
+| "dejame aprender" | aprender | aprender | OK |
+
+## C) Modo TRADUCIR: frases que el niño quiere traducir
+| "adiós" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "volver" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "regresar" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "menú" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "salir" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "terminar" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+| "apagar la luz" | resultado=menu | Regresando al menú principal. | groq_llamado=False |
+[TRADUCTOR] Usuario: como se dice perro
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> como se dice perro
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] GROQ RESPUESTA: GROQ
+[TRADUCTOR] ONLINE: GROQ
+[TRADUCTOR] ONLINE: GROQ
+| "¿cómo se dice perro?" | resultado=sigue en TRADUCIR | En quechua se puede decir: GROQ. | groq_llamado=True |
+[TRADUCTOR] Usuario: perro
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Allqo
+| "perro" | resultado=sigue en TRADUCIR | En quechua se dice: Allqo. Animal doméstico común. | groq_llamado=False |
+[TRADUCTOR] Usuario: no
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: varias opciones -> Tiene varios significados: Horno de barro, de alimentos, se dice T'anta manka; Camino, de elementos naturales, se dice Ñan; Uno, de numeros, se dice Huk.
+| "no" | resultado=sigue en TRADUCIR | Tiene varios significados: Horno de barro, de alimentos, se dice T'anta manka; Camino, de elementos naturales, | groq_llamado=False |
+[TRADUCTOR] Usuario: si
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: varias opciones -> Tiene varios significados: Iglesia, de lugares, se dice Iglesia; Siete, de numeros, se dice Qanchis; Diecisiete, de numeros, se dice Chunka qanchisniyuq.
+| "sí" | resultado=sigue en TRADUCIR | Tiene varios significados: Iglesia, de lugares, se dice Iglesia; Siete, de numeros, se dice Qanchis; Diecisiet | groq_llamado=False |
+[TRADUCTOR] Usuario: sol
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Inti
+| "sol" | resultado=sigue en TRADUCIR | En quechua se dice: Inti. Astro que da luz. | groq_llamado=False |
+[TRADUCTOR] Usuario: hola
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> hola
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] GROQ RESPUESTA: GROQ
+[TRADUCTOR] ONLINE: GROQ
+[TRADUCTOR] ONLINE: GROQ
+| "hola" | resultado=sigue en TRADUCIR | En quechua se puede decir: GROQ. | groq_llamado=True |
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Wasi
+| "casa" | resultado=sigue en TRADUCIR | En quechua se dice: Wasi. Lugar de vivienda. | groq_llamado=False |
+[TRADUCTOR] Usuario: el perro
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> el perro
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] GROQ RESPUESTA: GROQ
+[TRADUCTOR] ONLINE: GROQ
+[TRADUCTOR] ONLINE: GROQ
+| "el perro" | resultado=sigue en TRADUCIR | En quechua se puede decir: GROQ. | groq_llamado=True |
+
+## D) Modo SILENCIO: frases de aula que despiertan a Yura
+| "niños, silencio por favor" | estado=MENU running=True |
+| "vamos a volver a clase" | estado=MENU running=True |
+| "vuelve a tu asiento" | estado=MENU running=True |
+| "despierta a tu compañero" | estado=MENU running=True |
+| "¿puedes hablar más fuerte?" | estado=MENU running=True |
+| "apagar" | estado=SILENCIO running=True |
+| "yura apagar" | estado=SILENCIO running=True |

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07141a">
+  <title>Resultados de Yura</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+</head>
+<body>
+  <main class="pagina">
+    <header class="cabecera">
+      <div>
+        <p class="marca">YURA · ROBOT EDUCATIVO</p>
+        <h1>Resultados</h1>
+        <p class="nota">Intentos del juego y de la práctica guardados en <code>resultados.db</code>. Se actualiza cada 15 segundos.</p>
+      </div>
+      <nav class="acciones">
+        <a class="boton" href="{{ url_for('exportar_resultados') }}">Descargar CSV</a>
+        <a class="boton secundario" href="{{ url_for('pagina_ensenar') }}">Modo docente</a>
+        <a class="boton secundario" href="{{ url_for('index') }}">Pantalla de Yura</a>
+      </nav>
+    </header>
+
+    <section class="panel participante" aria-label="Estudiante o grupo que juega ahora">
+      <form method="post" action="{{ url_for('cambiar_participante') }}" class="formulario">
+        <label for="participante">¿Quién juega ahora con Yura?</label>
+        <div class="fila-formulario">
+          <input id="participante" name="participante" maxlength="40"
+                 value="{{ datos.participante_actual }}"
+                 placeholder="Ej.: Grupo 2 o N.º de lista 14" autocomplete="off">
+          <button type="submit" class="boton">Guardar</button>
+        </div>
+        <p class="nota">
+          {% if datos.participante_actual %}
+          Los próximos intentos se guardan a nombre de <strong>{{ datos.participante_actual }}</strong>.
+          {% else %}
+          Los próximos intentos se guardan <strong>sin nombre</strong>. Por privacidad, use grupos o números de lista.
+          {% endif %}
+        </p>
+      </form>
+      {% if datos.participante_actual %}
+      <form method="post" action="{{ url_for('cambiar_participante') }}">
+        <input type="hidden" name="participante" value="">
+        <button type="submit" class="boton secundario">Quitar nombre</button>
+      </form>
+      {% endif %}
+    </section>
+
+    {% if datos.filtro_participante is not none %}
+    <p class="filtro">
+      Mostrando solo: <strong>{{ datos.filtro_participante or 'Sin nombre' }}</strong> ·
+      <a href="{{ url_for('pagina_resultados') }}">Ver todos</a>
+    </p>
+    {% endif %}
+
+    {% if datos.total == 0 %}
+    <section class="vacio">
+      <h2>Todavía no hay resultados</h2>
+      <p>Di a Yura <strong>«quiero jugar»</strong> o <strong>«enséñame quechua»</strong>. Cada respuesta aparecerá aquí.</p>
+    </section>
+    {% else %}
+
+    <section class="resumen" aria-label="Resumen">
+      <div class="dato">
+        <span class="etiqueta">Intentos</span>
+        <span class="valor">{{ datos.total }}</span>
+      </div>
+      <div class="dato">
+        <span class="etiqueta">Aciertos</span>
+        <span class="valor">{{ datos.aciertos }}</span>
+      </div>
+      <div class="dato destacado">
+        <span class="etiqueta">Porcentaje de acierto</span>
+        <span class="valor">{{ datos.porcentaje }} %</span>
+      </div>
+      {% for actividad in datos.por_actividad %}
+      <div class="dato">
+        <span class="etiqueta">{{ 'Partidas de juego' if actividad.actividad == 'juego' else 'Prácticas' }}</span>
+        <span class="valor">{{ actividad.sesiones }}</span>
+        <span class="detalle">{{ actividad.aciertos }} de {{ actividad.total }} · {{ actividad.porcentaje }} %</span>
+      </div>
+      {% endfor %}
+    </section>
+
+    {% if datos.por_participante and datos.filtro_participante is none %}
+    <section class="panel">
+      <h2>Por estudiante o grupo</h2>
+      <div class="tabla-contenedor">
+        <table>
+          <thead><tr><th>Estudiante o grupo</th><th class="num">Intentos</th><th class="num">Aciertos</th><th class="num">Acierto</th><th>Último intento</th></tr></thead>
+          <tbody>
+            {% for fila in datos.por_participante %}
+            <tr>
+              <td><a href="{{ url_for('pagina_resultados', participante=fila.participante) }}">{{ fila.participante or 'Sin nombre' }}</a></td>
+              <td class="num">{{ fila.total }}</td>
+              <td class="num">{{ fila.aciertos }}</td>
+              <td class="num">{{ fila.porcentaje }} %</td>
+              <td class="fecha">{{ fila.ultima_fecha.replace('T', ' ') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
+
+    <div class="columnas">
+      <section class="panel">
+        <h2>Palabras más difíciles</h2>
+        {% if datos.palabras_dificiles %}
+        <div class="tabla-contenedor">
+          <table>
+            <thead><tr><th>Español</th><th>Quechua</th><th class="num">Fallos</th><th class="num">Acierto</th></tr></thead>
+            <tbody>
+              {% for palabra in datos.palabras_dificiles %}
+              <tr>
+                <td>{{ palabra.espanol }}</td>
+                <td lang="qu" class="quechua">{{ palabra.quechua }}</td>
+                <td class="num">{{ palabra.fallos }} de {{ palabra.intentos }}</td>
+                <td class="num">{{ palabra.porcentaje }} %</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="nota">Sin fallos por ahora.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel">
+        <h2>Por día</h2>
+        <ul class="dias">
+          {% for dia in datos.por_dia %}
+          <li>
+            <span class="dia">{{ dia.dia }}</span>
+            <span class="barra" role="img" aria-label="{{ dia.porcentaje }} % de acierto"><span style="width: {{ dia.porcentaje }}%"></span></span>
+            <span class="num">{{ dia.aciertos }}/{{ dia.total }} · {{ dia.porcentaje }} %</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>Últimos intentos</h2>
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th>Estudiante o grupo</th><th>Actividad</th><th>Palabra</th><th>Quechua</th><th>Respuesta</th><th>Resultado</th></tr>
+          </thead>
+          <tbody>
+            {% for intento in datos.ultimos %}
+            <tr>
+              <td class="fecha">{{ intento.fecha.replace('T', ' ') }}</td>
+              <td>{{ intento.participante or '—' }}</td>
+              <td>{{ 'Juego' if intento.actividad == 'juego' else 'Práctica' }}</td>
+              <td>{{ intento.palabra_espanol }}</td>
+              <td lang="qu" class="quechua">{{ intento.palabra_quechua }}</td>
+              <td class="respuesta">{{ intento.respuesta or '—' }}</td>
+              <td>
+                {% if intento.correcto %}<span class="estado bien">✔ Correcto</span>
+                {% else %}<span class="estado mal">✘ Incorrecto</span>{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
+  </main>
+  <script>
+    // Se actualiza cada 15 s, salvo mientras el docente escribe en el formulario
+    // (antes la recarga borraba lo que estaba escribiendo).
+    setInterval(function () {
+      var activo = document.activeElement;
+      var escribiendo = activo && activo.tagName === 'INPUT' && activo.value !== activo.defaultValue;
+      if (!escribiendo && !(activo && activo.tagName === 'INPUT')) {
+        location.reload();
+      }
+    }, 15000);
+  </script>
+</body>
+</html>

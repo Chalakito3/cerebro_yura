@@ -1,0 +1,88 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: pyflakes / vulture --min-confidence 60 / radon cc -n C / radon mi / radon raw (venv aparte)
+
+### pyflakes
+main_robot.py:6:1: 'json' imported but unused
+### vulture (min-confidence 60)
+audio_manager.py:34: unused attribute 'output_device' (60% confidence)
+audio_manager.py:179: unused method '_es_jack_directo' (60% confidence)
+audio_manager.py:214: unused method '_es_entrada_logitech' (60% confidence)
+audio_manager.py:391: unused attribute 'output_device' (60% confidence)
+audio_manager.py:408: unused method 'grabar' (60% confidence)
+main_robot.py:6: unused import 'json' (90% confidence)
+main_robot.py:40: unused variable 'err' (100% confidence)
+main_robot.py:40: unused variable 'filename' (100% confidence)
+main_robot.py:40: unused variable 'fmt' (100% confidence)
+main_robot.py:40: unused variable 'function' (100% confidence)
+main_robot.py:40: unused variable 'line' (100% confidence)
+main_robot.py:446: unused attribute 'vosk_recognizer' (60% confidence)
+main_robot.py:450: unused attribute 'vosk_recognizer' (60% confidence)
+main_robot.py:456: unused attribute 'vosk_recognizer' (60% confidence)
+web/app.py:160: unused function 'index' (60% confidence)
+web/app.py:165: unused function 'status' (60% confidence)
+web/app.py:170: unused function 'card_examples' (60% confidence)
+### radon cc (C o peor)
+main_robot.py
+    M 199:4 HardwareInterface.hablar - E (35)
+    M 878:4 BrainYura.ejecutar_menu - D (24)
+    M 596:4 BrainYura._obtener_api_key_groq - C (20)
+    F 56:0 cargar_archivo_claves - C (11)
+    M 747:4 BrainYura.escuchar_voz - C (11)
+    M 1138:4 BrainYura.loop_principal - C (11)
+conversacion.py
+    F 644:0 procesar_entrada - D (22)
+    F 109:0 _detectar_intencion - C (18)
+traductor.py
+    F 360:0 ejecutar_traducir - C (13)
+    F 133:0 buscar_vocabulario - C (11)
+    F 214:0 vocabulario_relevante - C (11)
+juego.py
+    M 87:4 Juego.ejecutar_turno - C (14)
+audio_manager.py
+    M 69:4 AudioManager._obtener_dispositivo_entrada_activo - D (21)
+    M 471:4 AudioManager.grabar_hasta_silencio - C (18)
+    M 337:4 AudioManager.seleccionar_salida - C (12)
+### radon cc promedio
+100 blocks (classes, functions, methods) analyzed.
+Average complexity: B (5.93)
+### radon mi
+main_robot.py - B (13.44)
+conversacion.py - C (6.09)
+traductor.py - A (31.09)
+juego.py - A (43.41)
+audio_manager.py - C (6.02)
+gemini_transcriber.py - A (46.02)
+web/app.py - A (56.11)
+### radon raw
+main_robot.py
+    LOC: 1226
+    LLOC: 561
+    SLOC: 877
+conversacion.py
+    LOC: 776
+    LLOC: 341
+    SLOC: 634
+traductor.py
+    LOC: 461
+    LLOC: 212
+    SLOC: 356
+juego.py
+    LOC: 206
+    LLOC: 85
+    SLOC: 170
+audio_manager.py
+    LOC: 621
+    LLOC: 385
+    SLOC: 543
+gemini_transcriber.py
+    LOC: 92
+    LLOC: 48
+    SLOC: 81
+web/app.py
+    LOC: 177
+    LLOC: 53
+    SLOC: 151
+** Total **
+    LOC: 3559
+    LLOC: 1685
+    SLOC: 2812

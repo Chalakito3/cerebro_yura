@@ -1,0 +1,18 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: pip freeze de .venv del proyecto -> pip-audit -r freeze.txt --no-deps --disable-pip
+
+edge-tts==7.2.8
+Flask==3.1.3
+google-genai==2.25.0
+groq==1.7.0
+Jinja2==3.1.6
+numpy==2.5.3
+openai-whisper==20250625
+pytest==9.1.1
+sounddevice==0.5.6
+torch==2.14.0
+vosk==0.3.45
+Werkzeug==3.1.8
+WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies
+WARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes
+No known vulnerabilities found

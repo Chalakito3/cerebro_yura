@@ -1,0 +1,588 @@
+{
+ "whisper-base": {
+  "resumen": {
+   "aciertos": 67,
+   "total": 96,
+   "porcentaje": 70,
+   "mediana_s": 0.26
+  },
+  "filas": [
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Quiero jugar",
+    "oido": "Quiero jugar.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Traducir",
+    "oido": "Traducir.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "Enséñame quechua.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Apágate",
+    "oido": "Apadate.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Sí",
+    "oido": "Sí.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "¿Cómo se dice perro en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "¿Cómo se dice niño en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "¿Qué significañawi?",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Despierta",
+    "oido": "Despierta.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Volver al menú",
+    "oido": "Volver al menú.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Allqu",
+    "oido": "Ay, gu.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Misi",
+    "oido": "Misi.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Yaku",
+    "oido": "Yaku.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Wasi",
+    "oido": "Basic.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Inti",
+    "oido": "Impi.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Jamp'ara",
+    "oido": "Champara.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Q'illu",
+    "oido": "Cuidio.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Sinqa",
+    "oido": "Sina.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Yachay wasi",
+    "oido": "Chachay Basi.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "Imaynalla kachkanki.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "Adin p'unchay.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "Rimaykullayki.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Pillpintu",
+    "oido": "Pilpinto.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "Chunkapusakniyuk.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Quiero jugar",
+    "oido": "Quiero jugar.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Traducir",
+    "oido": "Traducir.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "Enséñame quechua.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Apágate",
+    "oido": "Apagate.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Sí",
+    "oido": "Sí.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "¿Cómo se dice perro en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "¿Cómo se dice niño en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "¿Qué significan,awi?",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Despierta",
+    "oido": "Despierta.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Volver al menú",
+    "oido": "Volver al menú.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Allqu",
+    "oido": "¡Hazgo!",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Misi",
+    "oido": "Misi.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Yaku",
+    "oido": "¡Jaco!",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Wasi",
+    "oido": "Basic.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Inti",
+    "oido": "Inti.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Jamp'ara",
+    "oido": "Fan para.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Q'illu",
+    "oido": "Cuidio.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Sinqa",
+    "oido": "Sina.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Yachay wasi",
+    "oido": "Jackay Basie.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "Imaynalla kachkanki.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "Ajin p'unchay.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "Rimaykullayki.",
+    "ok": true
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Pillpintu",
+    "oido": "Pinto.",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "Chumka pusat midiuk.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Quiero jugar",
+    "oido": "Quiero jugar.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Traducir",
+    "oido": "Traducir.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "Enséñame quechua.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Apágate",
+    "oido": "Apárate.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Sí",
+    "oido": "Sí.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "¿Cómo se dice perro en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "¿Cómo se dice niño en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "¿Qué significañawi?",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Despierta",
+    "oido": "Despierta.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Volver al menú",
+    "oido": "Volver al menú.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Allqu",
+    "oido": "Ay, gu.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Misi",
+    "oido": "Misi.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Yaku",
+    "oido": "Yaku.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Wasi",
+    "oido": "Basic.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Inti",
+    "oido": "Indi.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Jamp'ara",
+    "oido": "Sampara.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Q'illu",
+    "oido": "Cuidio.",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Sinqa",
+    "oido": "Sina.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Yachay wasi",
+    "oido": "Chachay Basi.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "Imaynalla kachkanki.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "Adin p'unchay.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "Rimaykullayki.",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Pillpintu",
+    "oido": "¡Pil pintu!",
+    "ok": true
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "Chunkapusakniyuk.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Quiero jugar",
+    "oido": "Quiero jugar.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Traducir",
+    "oido": "Traducir.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "Enséñame quechua.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Apágate",
+    "oido": "Apagate.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Sí",
+    "oido": "Sí.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "¿Cómo se dice perro en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "¿Cómo se dice niño en quechua?",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "¿Qué significa niawi?",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Despierta",
+    "oido": "Despierta.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Volver al menú",
+    "oido": "Volver al menú.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Allqu",
+    "oido": "¡Hazku!",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Misi",
+    "oido": "Misi.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Yaku",
+    "oido": "¡Jaku!",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Wasi",
+    "oido": "Basic.",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Inti",
+    "oido": "Inti.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Jamp'ara",
+    "oido": "Fampara.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Q'illu",
+    "oido": "Cuidio.",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Sinqa",
+    "oido": "Sina.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Yachay wasi",
+    "oido": "Jetay Basi.",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "Imaynalla kachkanki.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "Ajim p'unchay",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "Rimaykullayki.",
+    "ok": true
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Pillpintu",
+    "oido": "Tintu.",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "Chumka pusat midiuk.",
+    "ok": false
+   }
+  ]
+ }
+}

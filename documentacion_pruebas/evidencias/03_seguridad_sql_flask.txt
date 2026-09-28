@@ -1,0 +1,16 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t7_sec.py
+
+## SQL: nombres de tabla maliciosos en un esquema en memoria
+tablas aceptadas por _tablas_de_vocabulario: ['nivel1_ok']
+búsqueda con texto malicioso: False | tabla sigue existiendo: True
+_identificador_sql('a"b') = "a""b"
+
+## Flask: rutas, métodos, cabeceras
+  /static/<path:filename> ['GET']
+  / ['GET']
+  /api/status ['GET']
+  /api/card ['GET']
+GET /api/status sin credenciales: 200 | cabeceras de seguridad: {'X-Frame-Options': None, 'Content-Security-Policy': None, 'X-Content-Type-Options': None, 'Access-Control-Allow-Origin': None}
+POST /api/status: 405 | GET /no-existe: 404
+app.debug = False | SECRET_KEY configurada: False

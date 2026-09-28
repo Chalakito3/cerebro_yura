@@ -1,0 +1,50 @@
+[AUDIO] Buscando dispositivos...
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: - (hw:2,0)
+AudioManager init: 0.02 s
+input_device 7 USB Audio Device: - (hw:2,0) sr 48000 ch 1 output_device 7 output_alsa hw:2,0
+grabados 2.96 s; nivel medio |x| = 0.00034; bloque min=0.00030 max=0.00039; pico=0.0017; RMS dBFS=-67.3
+umbral calculado = 0.0060 (mínimo forzado 0.0060); bloques mínimos inicio voz (80 ms) = 3
+bloques de ruido que superarían el umbral: 0
+## fuente/sink por defecto pipewire
+Audio
+ ├─ Devices:
+ │      42. Built-in Audio                      [alsa]
+ │      55. HDA NVidia                          [alsa]
+ │      67. USB Audio Device                    [alsa]
+ │  
+ ├─ Sinks:
+ │  *   50. HDA NVidia Digital Stereo (HDMI)    [vol: 1.00]
+ │      54. Built-in Audio Digital Stereo (IEC958) [vol: 0.40]
+ │      71. USB Audio Device Analog Stereo      [vol: 0.70]
+ │  
+ ├─ Sink endpoints:
+ │  
+ ├─ Sources:
+ │      47. Built-in Audio Analog Stereo        [vol: 1.00]
+ │  *   72. USB Audio Device Mono               [vol: 1.00]
+ │  
+ ├─ Source endpoints:
+ │  
+ └─ Streams:
+        76. speech-dispatcher-dummy                                     
+             79. output_FR       > HDMI 0:playback_FR	[init]
+             80. output_FL       > HDMI 0:playback_FL	[init]
+
+Video
+         0. Audio/Sink    alsa_output.pci-0000_01_00.1.hdmi-stereo
+## AudioManager con las variables de scripts/yura.service (Logitech inexistente)
+[AUDIO] Buscando dispositivos...
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: - (hw:2,0)
+input 7 output 7 hw:2,0
+## YURA_INPUT_DEVICE=99 (índice inexistente)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Salida seleccionada: USB Audio Device: - (hw:2,0)
+input 7

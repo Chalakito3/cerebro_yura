@@ -1,0 +1,57 @@
+## lsusb
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 18f8:1485 [Maxxter] USB OPTICAL MOUSE 
+Bus 001 Device 003: ID c0f4:03f5 Usb KeyBoard Usb KeyBoard
+Bus 001 Device 004: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
+Bus 001 Device 005: ID 0d8c:0012 C-Media Electronics, Inc. USB Audio Device
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+## /dev/ttyUSB* /dev/ttyACM* /dev/serial
+ls: cannot access '/dev/ttyUSB*': No such file or directory
+ls: cannot access '/dev/ttyACM*': No such file or directory
+ls: cannot access '/dev/serial/by-id': No such file or directory
+## grupos del usuario (dialout?)
+uid=1000(yura) gid=1000(yura) groups=1000(yura),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),114(lpadmin)
+## pyserial instalado?
+WARNING: Package(s) not found: pyserial
+## búsqueda de código serial/ESP32/motores/sensores/pantalla táctil en el cerebro
+audio_manager.py:145:            if any(token in nombre for token in ("usb", "headset", "bluetooth", "microfono", "mic", "input")):
+audio_manager.py:184:            for palabra in ("usb", "headset", "bluetooth", "bluez", "alt analog")
+tests/test_monitor_display.py:30:                stdout='  * object.serial = "56"\n'
+main_robot.py:173:            r"^\s*\*?\s*object\.serial\s*=\s*\"?(\d+)",
+main_robot.py:371:                    print("[AUDIO] No hay un motor de voz local disponible.")
+main_robot.py:383:        print(f"[FISICO]: Motores ejecutando -> {comando}")
+main_robot.py:806:            motor_transcripcion = "ninguno"
+main_robot.py:815:                motor_transcripcion = "Gemini"
+main_robot.py:819:                motor_transcripcion = "Whisper"
+main_robot.py:870:        print(f"[TRANSCRIPCIÓN FINAL - {motor_transcripcion}]: {texto}")
+## pantallas conectadas
+/sys/class/drm/card1-DP-1/status: disconnected
+/sys/class/drm/card1-DVI-D-1/status: disconnected
+/sys/class/drm/card1-HDMI-A-1/status: connected
+## dispositivos de entrada táctiles
+(ningún dispositivo táctil)
+N: Name="Sleep Button"
+N: Name="Power Button"
+N: Name="Power Button"
+N: Name="USB OPTICAL MOUSE "
+N: Name="Usb KeyBoard Usb KeyBoard"
+N: Name="Eee PC WMI hotkeys"
+N: Name="HDA NVidia HDMI/DP,pcm=3"
+N: Name="HDA NVidia HDMI/DP,pcm=7"
+N: Name="HDA NVidia HDMI/DP,pcm=8"
+N: Name="HDA NVidia HDMI/DP,pcm=9"
+N: Name="HDA Intel PCH Rear Mic"
+N: Name="HDA Intel PCH Front Mic"
+N: Name="HDA Intel PCH Line"
+N: Name="HDA Intel PCH Line Out"
+N: Name="HDA Intel PCH Front Headphone"
+N: Name="C-Media Electronics Inc. USB Audio Device"
+## CPU/RAM/SO reales
+model name	: Intel(R) Core(TM) i3-10100 CPU @ 3.60GHz
+Mem:            15Gi       6.3Gi       1.7Gi        71Mi       7.7Gi       9.2Gi
+Ubuntu 24.04.5 LTS
+NVIDIA GeForce GTX 1650, 4096 MiB
+## faster-whisper / scipy / ctranslate2 instalados?
+WARNING: Package(s) not found: ctranslate2, faster-whisper, scipy
+## uso en código
+(sin coincidencias)

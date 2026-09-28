@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07141a">
   <title>Yura | Sistema educativo</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='voice-2') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-draft.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='docente-1') }}">
 </head>
-<body data-visual-state="MENU" class="{{ 'theme-soft' if request.args.get('theme') == 'soft' else '' }}">
+<body data-visual-state="MENU">
   <main class="stage" aria-live="polite">
     <header class="topbar">
       <div class="brand-mark" aria-label="Yura">
@@ -80,6 +79,7 @@
           <div class="content-heading"><span>YURA DICE</span><span class="content-rule"></span></div>
           <p class="content-main" id="content-main"></p>
           <p class="content-translation" id="content-translation"></p>
+          <p class="content-result" id="content-result" aria-live="polite"></p>
         </section>
       </div>
 
@@ -103,7 +103,7 @@
           </div>
           <div class="word-row">
             <span class="word-label">Ejemplo</span>
-            <strong id="word-example">Hola, ¿cómo estás?</strong>
+            <strong id="word-example">Rimaykullayki, imaynalla kachkanki?</strong>
           </div>
         </div>
       </aside>
@@ -112,8 +112,9 @@
     <footer class="footer">
       <span>YURA</span>
       <span id="updated">CONEXIÓN LOCAL · ESPERANDO ACTIVIDAD</span>
+      <a class="boton-docente" href="{{ url_for('pagina_ensenar') }}">🎙️ Modo docente</a>
     </footer>
   </main>
-  <script src="{{ url_for('static', filename='js/app.js', v='voice-2') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js', v='docente-1') }}"></script>
 </body>
 </html>

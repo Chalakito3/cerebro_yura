@@ -1,0 +1,5 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t8_sin_micro.py
+
+En 3 s sin micrófono (modo TRADUCIR): intentos de escucha = 10 | frases habladas = 10 | ejemplo: Necesito que repitas la palabra o frase.
+líneas de log generadas: 140

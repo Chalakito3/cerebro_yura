@@ -1,0 +1,20 @@
+/: codigo=200 tipo=text/html; charset=utf-8 bytes=4770 ms min=0.7 media=3.3 mediana=0.8 max=26.2
+/api/status: codigo=200 tipo=application/json bytes=406 ms min=0.5 media=0.6 mediana=0.6 max=0.6
+/api/card: codigo=200 tipo=application/json bytes=1069 ms min=0.5 media=0.6 mediana=0.6 max=0.8
+status claves: ['activity', 'content', 'message', 'phase', 'result', 'robot', 'running', 'state', 'translation', 'updated_at']
+status esquema OK: True
+status ejemplo: {"activity": "LISTA PARA ESCUCHAR", "content": "Ñuqaqa Yura kani. Robotmi kani, qhichwa simita rimanakuypaq yanapakuq. Qhichwa simita rimanakuyta, rimaykunata kallpachayta yanapani. Imapin yanapaykiman?", "message": "Yura está en el menú principal.", "phase": "ESCUCHANDO", "result": null, "robot": "YURA", "running": true, "state": "MENU", "translation": "", "updated_at": "2026-09-27T04:13:22.967755+00:00"}
+card n= 6 esquema OK: True
+card meaning==written en: 6 de 6
+/ contiene <title>: <title>Yura | Sistema educativo</title>
+  recurso /static/css/style.css?v=voice-2 200 21803
+  recurso /static/css/style-draft.css 200 3593
+  recurso /static/js/app.js?v=voice-2 200 8423
+GET /no-existe: 404 (0.7 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n'
+POST /api/status: 405 (0.9 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>405 Method Not Allowed'
+POST /api/card: 405 (0.8 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>405 Method Not Allowed'
+PUT /api/status: 405 (0.7 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>405 Method Not Allowed'
+GET /static/../../.env.local: 404 (0.7 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n'
+GET /static/..%2f..%2f.env.local: 404 (0.8 ms) cuerpo=b'<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n'
+cabeceras CORS/seguridad: se muestran abajo
+{'Server': 'Werkzeug/3.1.8 Python/3.12.3', 'Date': 'Sun, 27 Sep 2026 04:13:25 GMT', 'Content-Type': 'application/json', 'Content-Length': '406', 'Connection': 'close'}

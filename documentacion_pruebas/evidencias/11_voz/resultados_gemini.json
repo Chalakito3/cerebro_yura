@@ -1,0 +1,18 @@
+{
+ "gemini": {
+  "resumen": {
+   "aciertos": 0,
+   "total": 1,
+   "porcentaje": 0,
+   "mediana_s": 12.22
+  },
+  "filas": [
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Quiero jugar",
+    "oido": "",
+    "ok": false
+   }
+  ]
+ }
+}

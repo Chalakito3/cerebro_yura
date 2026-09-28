@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 
 try:
@@ -9,18 +10,30 @@ except ImportError:
     types = None
 
 
+# Tras un fallo (red lenta, servicio caído) Gemini se deja de usar un rato:
+# antes cada frase esperaba 12 s a que fallara antes de pasar a Whisper.
+PAUSA_TRAS_FALLO_S = 600
+
+
 class GeminiTranscriber:
-    """Transcribe audio con Gemini cuando hay una clave configurada."""
+    """Transcribe audio con Gemini cuando está activado y hay una clave.
+
+    Desactivado por defecto (27/09/2026): Whisper small local entendió
+    91-93 % de las frases de prueba con pistas de vocabulario, no envía la
+    voz de los niños a internet y no tiene el límite gratuito de 20 usos
+    diarios de Gemini. Para activarlo: YURA_GEMINI_ENABLED=1 en .env.local.
+    """
 
     def __init__(self):
         self.model = os.environ.get(
             "YURA_GEMINI_TRANSCRIBE_MODEL",
-            "gemini-2.5-flash"
+            "gemini-3.8-flash"
         ).strip()
         self.client = None
+        self.pausado_hasta = 0.0
 
-        if os.environ.get("YURA_GEMINI_ENABLED", "1").strip() == "0":
-            print("[GEMINI]: Desactivado por configuración; se usará Whisper.")
+        if os.environ.get("YURA_GEMINI_ENABLED", "0").strip() != "1":
+            print("[GEMINI]: Desactivado; se usa Whisper local (YURA_GEMINI_ENABLED=1 para activarlo).")
             return
 
         api_key = (
@@ -37,7 +50,7 @@ class GeminiTranscriber:
         try:
             self.client = genai.Client(
                 api_key=api_key,
-                http_options=types.HttpOptions(timeout=12000)
+                http_options=types.HttpOptions(timeout=6000)
             )
             print(f"[GEMINI]: Transcriptor listo ({self.model}).")
         except Exception as exc:
@@ -45,9 +58,9 @@ class GeminiTranscriber:
 
     @property
     def disponible(self):
-        return self.client is not None
+        return self.client is not None and time.monotonic() >= getattr(self, "pausado_hasta", 0.0)
 
-    def transcribir(self, audio_path):
+    def transcribir(self, audio_path, instruccion=None):
         if not self.disponible:
             return None
 
@@ -64,11 +77,9 @@ class GeminiTranscriber:
                     (
                         "Transcribe exactamente lo que dice el estudiante. "
                         "Puede hablar español o quechua boliviano. "
-                        "Conserva las palabras quechuas y sus apóstrofes. "
-                        "Ejemplos de vocabulario: rimaykullayki, "
-                        "imaynalla kachkanki, allin p'unchay, yusulpayki, "
-                        "anchata munakuyki, puka, yaku, wasi. "
-                        "No traduzcas, no expliques, no corrijas y no inventes. "
+                        "Conserva las palabras quechuas, sus apóstrofes y la letra ñ. "
+                        + (instruccion or "")
+                        + " No traduzcas, no expliques, no corrijas y no inventes. "
                         "Devuelve únicamente la transcripción, sin comillas."
                     )
                 ],
@@ -88,5 +99,6 @@ class GeminiTranscriber:
                     "reiniciar Yura."
                 )
             else:
-                print(f"[GEMINI]: Falló la transcripción: {exc}")
+                self.pausado_hasta = time.monotonic() + PAUSA_TRAS_FALLO_S
+                print(f"[GEMINI]: Falló ({type(exc).__name__}); se usa Whisper los próximos 10 minutos.")
             return None

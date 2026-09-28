@@ -117,7 +117,7 @@ def test_como_digo_color_amarillo_usa_el_diccionario_local():
         None
     )
 
-    assert "q'ello" in resultado["respuesta"].lower()
+    assert "q'illu" in resultado["respuesta"].lower()
     assert "amarillo" in resultado["respuesta"].lower()
     assert "por ejemplo" in resultado["respuesta"].lower()
 

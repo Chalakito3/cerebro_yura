@@ -1,20 +1,76 @@
 Buenas tardes.
 
-
-# 1. Recargar el sistema operativo para limpiar memorias previas
-sudo systemctl daemon-reload
-
-# 2. Despertar a YURA con su nuevo cerebro corregido y en línea
-sudo systemctl start yura.service
-
-sudo systemctl stop yura.service
-
-# 3. Abrir la consola en vivo para interactuar y hablarle
-sudo journalctl -u yura.service -f
+Yura se enciende sola al prender la computadora (servicio de usuario, SIN sudo).
+Todos los comandos se escriben tal cual, sin sudo.
 
 
+# 1. Ver en vivo lo que Yura escucha y responde
+journalctl --user -u yura -f
+
+# 2. Detener a Yura
+systemctl --user stop yura
+
+# 3. Encender a Yura (si estaba detenida)
+systemctl --user start yura
+
+# 4. Reiniciar a Yura (por ejemplo, después de cambiar el código)
+systemctl --user restart yura
+
+# 5. Ver si está encendida
+systemctl --user status yura
+
+# 6. Que NO se encienda sola al prender la computadora
+systemctl --user disable yura
+#    Volver a activar el encendido automático
+sh scripts/instalar_arranque.sh
+#    Quitar todo el encendido automático (servicio y pantalla)
+sh scripts/instalar_arranque.sh --quitar
+
+# 7. Encenderla a mano en una terminal (primero detener el servicio, punto 2)
+.venv/bin/python web/app.py
+#    Igual, pero "apágate" también apaga la computadora
+YURA_APAGAR_EQUIPO=1 .venv/bin/python web/app.py
+
+# 8. Pantalla: se abre sola en Firefox a pantalla completa.
+#    Salir de la pantalla completa: Alt+F4
+#    Abrirla de nuevo: sh scripts/yura-open-browser.sh
+
+# 10. Ver resultados de los estudiantes
+#    En esta computadora: http://localhost:5000/resultados
+#    Desde otro equipo o celular: http://<ip-de-esta-computadora>:5000/resultados
+#    (pide contraseña: agregar en .env.local la línea YURA_RESULTADOS_CLAVE=tu_clave
+#     y reiniciar Yura; sin esa línea, desde otros equipos está bloqueado)
+
+# 11. Diagnosticar un problema (ver lo que Yura escucha y los mensajes técnicos)
+#    Por privacidad, el registro normal NO guarda lo que dicen los estudiantes.
+#    Para verlo todo temporalmente, detener el servicio (punto 2) y ejecutar:
+YURA_DEBUG=1 .venv/bin/python web/app.py
+
+# 12. Diccionario (base de datos del vocabulario)
+#    diccionario.db no se guarda en Git; su contenido está en basedatos/diccionario_semilla.sql
+#    Después de cambiar palabras, guardar la semilla:
+.venv/bin/python basedatos/crear_diccionario.py --exportar
+#    Si se pierde diccionario.db, reconstruirlo:
+.venv/bin/python basedatos/crear_diccionario.py
+
+# 9. Apagar por voz: decir "apágate" y responder "sí".
+#    Yura se despide y se cierra la aplicación (la computadora sigue encendida).
+#    Para volver a encenderla: systemctl --user start yura
+#    Para que "apágate" apague también la computadora, en scripts/yura.service
+#    quitar el # de la línea Environment=YURA_APAGAR_EQUIPO=1 y ejecutar:
+#    sh scripts/instalar_arranque.sh && systemctl --user restart yura
+
+# 10. Modo docente (enseñar pronunciaciones a Yura):
+#    En la pantalla de Yura, botón "Modo docente" (abajo a la derecha),
+#    o en el navegador: http://localhost:5000/ensenar
+#    Activar modo docente -> Elegir palabra -> Grabar -> decirla -> Guardar como correcta.
+#    Las grabaciones quedan en diccionario.db (tabla pronunciaciones_docente)
+#    y los audios en basedatos/pronunciaciones/ (no se suben a git).
+#    Desde otro equipo de la red pide la misma contraseña que los resultados.
+#    Después de grabar palabras nuevas, para que Yura aprenda de los audios
+#    (tarda unos 20 s por grabación nueva; se puede dejar con Yura encendida):
+.venv/bin/python basedatos/aprender_de_audios.py
 
 
 Las claves API deben guardarse únicamente en .env.local, con permisos 600.
 No pegarlas en este archivo ni en conversaciones.
-

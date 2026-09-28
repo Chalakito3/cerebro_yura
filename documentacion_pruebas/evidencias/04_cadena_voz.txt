@@ -1,0 +1,36 @@
+# Salida de la prueba de cadena de voz (script: evidencias/04_scripts/cadena.py)
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+[OK]: Claves cargadas desde '.env.local'.
+claves presentes: True True
+[TTS entrada] 'jugar': rc=0 gen=1.59s dur=2.09s fmt=(16000, 1, 2)
+[TTS entrada] 'traducir': rc=0 gen=1.51s dur=2.09s fmt=(16000, 1, 2)
+[TTS entrada] 'perro': rc=0 gen=1.54s dur=2.09s fmt=(16000, 1, 2)
+[TTS entrada] 'buenas noches': rc=0 gen=1.49s dur=2.09s fmt=(16000, 1, 2)
+[TTS entrada] '¿cómo se dice gato en quechua?': rc=0 gen=1.61s dur=2.62s fmt=(16000, 1, 2)
+[TTS entrada] 'enséñame quechua': rc=0 gen=1.66s dur=2.18s fmt=(16000, 1, 2)
+[TTS entrada] 'Rimaykullayki': rc=0 gen=1.54s dur=2.09s fmt=(16000, 1, 2)
+[TTS entrada] 'Imaynalla kachkanki': rc=0 gen=1.82s dur=2.38s fmt=(16000, 1, 2)
+Whisper base cargado en 1.30s dispositivo=cuda:0
+[GEMINI]: Transcriptor listo (gemini-3.8-flash).
+[OK GROQ]: Cliente Groq inicializado desde la configuración disponible del entorno.
+[GEMINI]: Cuota agotada; se usará Whisper hasta reiniciar Yura.
+{"frase": "jugar", "dur_audio": 2.09, "gemini": "", "t_gemini": 0.89, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Jugar", "t_whisper": 0.24, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "jugar", "motor": "Whisper", "estado_tras_menu": "JUEGO", "respuesta_menu": "", "t_decision": 0.0, "groq": false, "t_groq": 0}
+{"frase": "traducir", "dur_audio": 2.09, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Traducir.", "t_whisper": 0.27, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "traducir", "motor": "Whisper", "estado_tras_menu": "TRADUCIR", "respuesta_menu": "Modo traductor. Dime una palabra o frase en español y te diré cómo se dice en quechua.", "t_decision": 0.0, "groq": false, "t_groq": 0}
+{"frase": "perro", "dur_audio": 2.09, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Perro.", "t_whisper": 0.26, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "perro", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo enseñarte vocabulario, traducciones y saludos; no vendo autos ni converso en inglés.", "t_decision": 0.001, "groq": false, "t_groq": 0}
+{"frase": "buenas noches", "dur_audio": 2.09, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Buenas noches.", "t_whisper": 0.29, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "buenas noches", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "Para decir buenas noches en quechua, usa «Allin tuta». Puedes saludar así cuando llegue ese momento del día; por ejemplo: «Allin tuta» al encontrarte con alguien.", "t_decision": 0.003, "groq": false, "t_groq": 0}
+{"frase": "¿cómo se dice gato en quechua?", "dur_audio": 2.62, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "¿Cómo se dice gato en quechua?.", "t_whisper": 0.38, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "como se dice gato en quechua", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "En quechua se dice Misi, que significa gato. Puedes practicarla usándola para describir algo de tu día.", "t_decision": 0.003, "groq": false, "t_groq": 0}
+{"frase": "enséñame quechua", "dur_audio": 2.18, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Enséñame quechua.", "t_whisper": 0.32, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "ense ame quechua", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "Practiquemos una palabra. En quechua se dice Chunka pusqayuq. Significa Dieciocho: Diez con ocho. Repítela, por favor.", "t_decision": 0.009, "groq": false, "t_groq": 0}
+{"frase": "Rimaykullayki", "dur_audio": 2.09, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Rimaykullayki.", "t_whisper": 0.32, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "rimaykullayki", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "Rimaykullayki significa hola. Es un saludo en quechua.", "t_decision": 0.0, "groq": false, "t_groq": 0}
+{"frase": "Imaynalla kachkanki", "dur_audio": 2.38, "gemini": "", "t_gemini": 0.0, "exacto_gemini": false, "wer_gemini": 1.0, "whisper": "Imaynalla kachkanki.", "t_whisper": 0.34, "exacto_whisper": true, "wer_whisper": 0.0, "texto_normalizado": "imaynalla kachkanki", "motor": "Whisper", "estado_tras_menu": "CONVERSAR", "respuesta_menu": "Todavía no. La forma correcta es Chunka pusqayuq. Repítela y luego di otra vez para continuar, o salir para terminar.", "t_decision": 0.001, "groq": false, "t_groq": 0}
+[TRADUCTOR] Usuario: perro
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Allqo
+[TRADUCTOR] Usuario: buenas noches
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: encontrada -> Allin tuta
+[EVALUACION]: Usuario='perro' | Correcta='allqo' | Similitud=0.20
+[EXTRA] TRADUCIR:perro => ('En quechua se dice: Allqo. Animal doméstico común.', 0.003)
+[EXTRA] TRADUCIR:buenas noches => ('En quechua se dice: Allin tuta.', 0.003)
+[EXTRA] CONVERSAR:perro => ('Todavía no. La forma correcta es Chunka pusqayuq. Repítela y luego di otra vez para continuar, o salir para terminar.', 0.0)
+[EXTRA] JUEGO:respuesta 'perro' a '¿cómo se dice perro?' => ('¿Cómo se dice, perro, en quechua? | [ACTUADOR TRISTE] | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. -> continuar', 0.001)
+LLAMADAS EN LÍNEA: {'edge_tts': 8, 'gemini': 8, 'groq': 0}

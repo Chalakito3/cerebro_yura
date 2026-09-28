@@ -1,0 +1,65 @@
+/* Modo docente: complementa resultados.css (misma paleta). */
+[hidden] { display: none !important; }
+.panel { margin-bottom: 16px; }
+
+.etiqueta { margin: 0; color: var(--muted); font-size: .85rem; }
+
+.modo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.estado-modo { margin: 2px 0 0; font-size: 1.2rem; font-weight: 700; }
+.estado-modo.activo { color: var(--aqua); }
+
+.boton.grande { padding: 14px 22px; font-size: 1.05rem; min-height: 48px; }
+.boton.correcto { background: var(--yellow); }
+.boton.peligro { background: transparent; color: var(--red-soft); border: 1px solid var(--red-soft); }
+.boton.chico { padding: 6px 12px; font-size: .9rem; }
+button.boton:disabled { opacity: .45; cursor: not-allowed; }
+
+.grabacion { border-color: var(--aqua); }
+.palabra { margin: 4px 0 8px; font-size: 2rem; color: var(--aqua); }
+.palabra small { font-size: 1.1rem; color: var(--muted); font-weight: 400; }
+
+.aviso { margin: 0 0 12px; font-size: 1.1rem; font-weight: 700; color: var(--yellow); min-height: 1.5em; }
+.aviso.escuchando { animation: latido 1s ease-in-out infinite; }
+@keyframes latido { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .aviso.escuchando { animation: none; } }
+
+.escuchado { margin-bottom: 12px; }
+.escuchado p { margin: 0 0 6px; }
+.escuchado audio, .guardada audio { width: min(100%, 320px); height: 36px; }
+
+#guardadas { margin-top: 16px; display: grid; gap: 8px; }
+.guardada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.guardada .nota { flex: 1 1 200px; }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 8px; }
+.filtros label { display: grid; gap: 4px; font-weight: 700; font-size: .9rem; }
+.filtros .casilla { display: flex; align-items: center; gap: 6px; }
+.filtros input:not([type=checkbox]), .filtros select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--deep);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 400;
+  min-width: 0;
+}
+.filtros input:focus-visible, .filtros select:focus-visible { outline: 3px solid var(--yellow); outline-offset: 1px; }
+
+tr.elegida td { background: rgba(117, 226, 192, .1); }
+td.grabaciones { color: var(--muted); }
+td.grabaciones.si { color: var(--aqua); font-weight: 700; }

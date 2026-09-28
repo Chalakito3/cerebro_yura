@@ -1,0 +1,38 @@
+### Escenario A: sin red (unshare -rn, solo loopback caído) — no sale ninguna petición
+[OK]: Claves cargadas desde '.env.local'.
+[GEMINI]: Transcriptor listo (gemini-3.8-flash).
+[GEMINI]: Falló la transcripción: [Errno -3] Temporary failure in name resolution
+[sin_red] Gemini transcribir: None (0.04s)
+[sin_red] Gemini disponible después del fallo: True
+[CONVERSACION] Usuario: Imaynalla kachkanki
+[CONVERSACION] Consultando Groq...
+[CONVERSACION] Error Groq: Connection error.
+[sin_red] Groq conversación ('imaynalla kachkanki'): {'accion': 'responder', 'respuesta': 'No alcancé a entender esa frase. Intenta decirla un poco más despacio o prueba: «¿cómo digo amarillo en quechua?»'} (1.19s)
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ERROR GROQ]: Fallback online falló: Connection error.
+[sin_red] Groq traductor online ('computadora'): None (1.24s)
+[sin_red] Traductor local ('perro'): ('Allqo', 'Animal doméstico común') (0.00s)
+[sin_red] Whisper local: ' Perro' (2.10s)
+
+[YURA HABLA]: Prueba sin internet.
+[AUDIO] Edge TTS falló; reintentando una vez...
+[AUDIO] Edge TTS no generó voz (código 1).
+[AUDIO] Error al generar o reproducir la voz: Falló la generación de voz con Edge TTS
+[sin_red] hablar() sin internet: None (2.21s)
+     ('edge-tts', 1, 0.31)
+     ('edge-tts', 1, 0.33)
+     ('spd-say', 0, 1.56)
+
+### Escenario B: red 'colgada' (unshare -rn + loopback + proxy local que acepta y nunca responde; ninguna petición sale a Internet)
+[OK]: Claves cargadas desde '.env.local'.
+[GEMINI]: Transcriptor listo (gemini-3.8-flash).
+[GEMINI]: Falló la transcripción: timed out
+[colgado] Gemini transcribir: None (12.06s)
+[colgado] Gemini disponible después del fallo: True
+[CONVERSACION] Usuario: Imaynalla kachkanki
+[CONVERSACION] Consultando Groq...
+[colgado] Groq conversación ('imaynalla kachkanki'): SIGUE BLOQUEADO tras 100 s
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[CONVERSACION] Error Groq: Request timed out.
+[colgado] Groq traductor online ('computadora'): SIGUE BLOQUEADO tras 100 s
+[colgado] Traductor local ('perro'): ('Allqo', 'Animal doméstico común') (0.01s)

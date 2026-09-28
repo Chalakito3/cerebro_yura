@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import os
+import queue
 import re
-import json
 import sqlite3
 import shutil
 import threading
+import traceback
 from datetime import datetime, timezone
+import texto as texto_util
+import depuracion
 import traductor
 import subprocess
 import ctypes
@@ -15,9 +18,9 @@ import wave
 import time
 import tempfile
 import whisper
-import vosk
 from groq import Groq
 import conversacion
+import pronunciaciones
 from audio_manager import AudioManager
 from juego import Juego
 from gemini_transcriber import GeminiTranscriber
@@ -50,6 +53,45 @@ except Exception:
 
 
 # ============================================================
+# CARGAR CLAVES DESDE .env.local
+# ============================================================
+
+def cargar_archivo_claves():
+    """Carga las variables de .env.local sin pisar las ya definidas."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    for nombre in (".env.local", ".env"):
+        ruta = os.path.join(base_dir, nombre)
+        if not os.path.isfile(ruta):
+            continue
+        try:
+            with open(ruta, "r", encoding="utf-8-sig", errors="ignore") as fh:
+                for linea in fh:
+                    texto = linea.strip()
+                    if not texto or texto.startswith("#") or "=" not in texto:
+                        continue
+                    if texto.startswith("export "):
+                        texto = texto[len("export "):]
+                    clave, valor = texto.split("=", 1)
+                    clave = clave.strip()
+                    valor = valor.strip().strip("\"'")
+                    if clave and valor:
+                        os.environ.setdefault(clave, valor)
+            print(f"[OK]: Claves cargadas desde '{nombre}'.")
+        except Exception as exc:
+            print(f"[ALERTA CLAVES]: No se pudo leer '{nombre}': {exc}")
+
+
+class ApagadoConfirmado(Exception):
+    """Se confirmó por voz la orden de apagar: termina el ciclo principal."""
+
+
+class ModoDocentePedido(Exception):
+    """La docente presionó "Activar modo docente": se corta lo que se estaba
+    haciendo para no hacerla esperar."""
+
+
+# ============================================================
 # ESTADOS DEL ROBOT
 # ============================================================
 
@@ -59,6 +101,7 @@ class RobotStates:
     JUEGO = "JUEGO"
     TRADUCIR = "TRADUCIR"
     SILENCIO = "SILENCIO"
+    ENSENAR = "ENSENAR"
     SALIR = "SALIR"
 
 
@@ -74,7 +117,9 @@ class HardwareInterface:
             suffix=".mp3"
         )
         os.close(descriptor)
-        self.voz_mujer = "es-MX-DaliaNeural"
+        # Voz boliviana elegida por el equipo (27/09/2026); antes era mexicana
+        # (es-MX-DaliaNeural). Se puede cambiar con YURA_VOZ en .env.local.
+        self.voz_mujer = os.environ.get("YURA_VOZ", "es-BO-SofiaNeural").strip() or "es-BO-SofiaNeural"
         self.audio_manager = audio_manager
         self.on_status = on_status
 
@@ -156,7 +201,7 @@ class HardwareInterface:
             return ""
 
         coincidencia = re.match(
-            r"^En quechua (?:se dice|se puede decir)\s*:??\s*(.+)$",
+            r"^En quechua (?:se dice|se puede decir)\s*:?\s*(.+)$",
             texto_limpio,
             flags=re.IGNORECASE
         )
@@ -205,13 +250,22 @@ class HardwareInterface:
                     self.audio_temp
                 ]
 
+                # Sin tiempo máximo, una red colgada bloquearía a Yura.
+                espera_reproduccion = 30 + len(texto_voz) / 10
+
                 res = None
                 for intento in range(2):
-                    res = subprocess.run(
-                        cmd_tts,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
-                    )
+                    try:
+                        res = subprocess.run(
+                            cmd_tts,
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            timeout=20
+                        )
+                    except subprocess.TimeoutExpired:
+                        print("[AUDIO] Edge TTS no respondió a tiempo.")
+                        res = None
+                        continue
                     if (
                         res.returncode == 0
                         and os.path.exists(self.audio_temp)
@@ -255,7 +309,8 @@ class HardwareInterface:
                             wav_temp
                         ],
                         stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
+                        stderr=subprocess.DEVNULL,
+                        timeout=15
                     )
                     if conversion.returncode == 0 and os.path.exists(wav_temp):
                         destino = self._destino_pipewire_predeterminado()
@@ -297,8 +352,15 @@ class HardwareInterface:
                         reproduccion = subprocess.run(
                             reproductor,
                             stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL
+                            stderr=subprocess.DEVNULL,
+                            timeout=espera_reproduccion
                         )
+                    except subprocess.TimeoutExpired:
+                        print(
+                            f"[AUDIO] {os.path.basename(reproductor[0])} "
+                            "no terminó a tiempo; probando otra salida."
+                        )
+                        continue
                     except OSError as exc:
                         print(f"[AUDIO] No se pudo iniciar el reproductor: {exc}")
                         continue
@@ -325,7 +387,8 @@ class HardwareInterface:
                 resultado = subprocess.run(
                     [spd_say, "-l", "es", "-t", "female1", "-w", texto_voz],
                     stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL
+                    stderr=subprocess.DEVNULL,
+                    timeout=60
                 )
                 if resultado.returncode != 0:
                     print("[AUDIO] Speech Dispatcher no pudo reproducir la voz.")
@@ -335,7 +398,8 @@ class HardwareInterface:
                     subprocess.run(
                         [espeak, "-v", "es-la", "-s", "140", texto_voz],
                         stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
+                        stderr=subprocess.DEVNULL,
+                        timeout=60
                     )
                 else:
                     print("[AUDIO] No hay un motor de voz local disponible.")
@@ -349,6 +413,35 @@ class HardwareInterface:
                     pass
             self._notify_status("ESPERANDO")
 
+    def reproducir_grabacion(self, ruta):
+        """Reproduce un archivo WAV (la voz de la docente) por la salida
+        de audio actual."""
+        if not ruta or not os.path.exists(ruta):
+            return False
+        self._notify_status("HABLANDO")
+        comandos = []
+        pw_play = shutil.which("pw-play")
+        if pw_play:
+            destino = self._destino_pipewire_predeterminado()
+            comandos.append([pw_play] + (["--target", destino] if destino else []) + [ruta])
+        ffplay = shutil.which("ffplay")
+        if ffplay:
+            comandos.append([ffplay, "-nodisp", "-autoexit", "-loglevel", "error", ruta])
+        try:
+            for comando in comandos:
+                try:
+                    resultado = subprocess.run(
+                        comando, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20
+                    )
+                except (subprocess.TimeoutExpired, OSError):
+                    continue
+                if resultado.returncode == 0:
+                    return True
+            print("[AUDIO] No se pudo reproducir la grabación de la docente.")
+            return False
+        finally:
+            self._notify_status("ESPERANDO")
+
     def mover_actuador(self, comando):
         print(f"[FISICO]: Motores ejecutando -> {comando}")
 
@@ -360,6 +453,8 @@ class HardwareInterface:
 class BrainYura:
 
     def __init__(self):
+
+        cargar_archivo_claves()
 
         # ----------------------------------------------------
         # ESTADO GENERAL
@@ -377,12 +472,19 @@ class BrainYura:
         }
         self.web_status_lock = threading.Lock()
 
+        # Modo docente: la página /ensenar lo activa y pide grabaciones.
+        self.pedido_docente = threading.Event()
+        self.ordenes_docente = queue.Queue()
+        self.ensenanza = {"estado": "inactivo"}
+        self.ultima_actividad_docente = 0.0
+
         self.audio_manager = AudioManager()
         self.hw = HardwareInterface(
             self.audio_manager,
             on_status=self._set_web_status
         )
-        whisper_name = os.environ.get("YURA_WHISPER_MODEL", "base").strip() or "base"
+        # "small" entendió 77-93 % de las frases de prueba; "base", 70 % (27/09/2026).
+        whisper_name = os.environ.get("YURA_WHISPER_MODEL", "small").strip() or "small"
         print(f"[WHISPER]: Cargando modelo {whisper_name}...")
         self.whisper_model = whisper.load_model(whisper_name)
         print(f"[WHISPER]: Modelo cargado {whisper_name}.")
@@ -407,21 +509,8 @@ class BrainYura:
         self.saludo_inicial_done = False
 
         # ----------------------------------------------------
-        # RECONOCEDOR DE VOZ
+        # MICRÓFONO
         # ----------------------------------------------------
-
-        self.vosk_model = self._cargar_modelo_vosk()
-        self.vosk_recognizer = None
-
-        if self.vosk_model is not None:
-            try:
-                self.vosk_recognizer = vosk.KaldiRecognizer(
-                    self.vosk_model,
-                    16000
-                )
-            except Exception as exc:
-                print(f"[ERROR VOSK]: No se pudo crear el recognizer: {exc}")
-                self.vosk_recognizer = None
 
         self._buscar_headset_usb()
 
@@ -431,16 +520,17 @@ class BrainYura:
 
         self.inicializar_sistemas_locales()
         self.juego = Juego(
-            ["gato", "perro", "sol", "agua", "casa", "arbol"],
+            lambda: traductor.palabras_para_juego(self.db_conn),
             lambda palabra: traductor.consultar_diccionario_local(
                 palabra,
                 self.db_conn
             ),
-            self.escuchar_voz,
+            self._escuchar_con_ordenes,
             self.hw.hablar,
             self._mover_actuador,
             self._normalizar_texto,
-            self._set_game_event
+            self._set_game_event,
+            reproducir_pronunciacion=self._reproducir_pronunciacion,
         )
 
     def _set_web_status(
@@ -448,13 +538,25 @@ class BrainYura:
         phase,
         content=None,
         translation=None,
-        result=None
+        result=None,
+        fijar=False
     ):
+        """Actualiza lo que muestra la pantalla.
+
+        Con fijar=True el contenido (palabra quechua y su significado) queda
+        en pantalla mientras Yura habla, en lugar de la primera frase de lo
+        que dice; se libera cuando vuelve a escuchar.
+        """
         with self.web_status_lock:
             self.web_status["phase"] = phase
-            if content is not None:
+            if phase == "ESCUCHANDO":
+                self.web_status["fijo"] = False
+            actualizar = fijar or not self.web_status.get("fijo")
+            if fijar:
+                self.web_status["fijo"] = True
+            if content is not None and actualizar:
                 self.web_status["content"] = str(content).strip()
-            if translation is not None:
+            if translation is not None and actualizar:
                 self.web_status["translation"] = str(translation).strip()
             if result is not None:
                 self.web_status["result"] = result
@@ -462,7 +564,9 @@ class BrainYura:
 
     def get_web_status(self):
         with self.web_status_lock:
-            return dict(self.web_status)
+            estado = dict(self.web_status)
+        estado.pop("fijo", None)
+        return estado
 
     def _mover_actuador(self, comando):
         if comando == "CELEBRAR_ALEGRE":
@@ -480,41 +584,19 @@ class BrainYura:
                 result=None
             )
         elif event == "result":
+            # Se muestra la palabra correcta y su significado, no la pregunta.
             self._set_web_status(
                 "CELEBRANDO" if data.get("correct") else "TRISTE",
-                content=data.get("question", ""),
-                translation=data.get("answer", ""),
-                result="CORRECTO" if data.get("correct") else "INCORRECTO"
+                content=data.get("answer", ""),
+                translation=data.get("word", ""),
+                result="CORRECTO" if data.get("correct") else "INCORRECTO",
+                fijar=True
             )
 
     # ========================================================
     # CARGAR MODELO VOSK
     # ========================================================
 
-    def _cargar_modelo_vosk(self):
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        rutas = [
-            os.path.join(base_dir, "model"),
-            os.path.join(base_dir, "vosk-model-es")
-        ]
-
-        for ruta in rutas:
-            if not os.path.isdir(ruta):
-                continue
-
-            try:
-                modelo = vosk.Model(ruta)
-                print(f"[VOSK]: Modelo cargado desde '{ruta}'")
-                return modelo
-            except Exception as exc:
-                print(f"[ERROR VOSK]: Falló al cargar '{ruta}': {exc}")
-
-        print("[ALERTA VOSK]: No se encontró un modelo Vosk válido.")
-        return None
-
-    # ========================================================
-    # BUSCAR HEADSET USB
-    # ========================================================
 
     def _buscar_headset_usb(self):
         self.dispositivo_index = self.audio_manager.input_device
@@ -530,6 +612,15 @@ class BrainYura:
     # ========================================================
 
     def inicializar_sistemas_locales(self):
+
+        if not os.path.isfile(self.db_path):
+            self.db_conn = None
+            print(
+                f"[ALERTA BD]: No existe '{self.db_path}'. "
+                "Copia diccionario.db en la carpeta del proyecto; "
+                "sin él no hay vocabulario ni traductor local."
+            )
+            return
 
         try:
 
@@ -553,74 +644,10 @@ class BrainYura:
             )
 
     def _obtener_api_key_groq(self):
-
-        api_key = os.environ.get("GROQ_API_KEY", "").strip()
-        if api_key:
-            return api_key
-
-        candidatos = []
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        home_dir = os.path.expanduser("~")
-
-        candidatos.extend([
-            os.path.join(base_dir, ".env"),
-            os.path.join(home_dir, ".env"),
-            os.path.join(base_dir, ".env.local"),
-            os.path.join(home_dir, ".bashrc"),
-            os.path.join(home_dir, ".profile"),
-            os.path.join(home_dir, ".zshrc")
-        ])
-
-        for ruta in candidatos:
-            if not os.path.exists(ruta):
-                continue
-            try:
-                with open(ruta, "r", encoding="utf-8", errors="ignore") as fh:
-                    for linea in fh:
-                        texto = linea.strip()
-                        if not texto or texto.startswith("#"):
-                            continue
-                        if "GROQ_API_KEY" not in texto:
-                            continue
-                        for pref in ("export ", ""):
-                            if texto.startswith(pref):
-                                parte = texto[len(pref):].strip()
-                                if "=" in parte:
-                                    clave, valor = parte.split("=", 1)
-                                    clave = clave.strip()
-                                    valor = valor.strip().strip("\"'")
-                                    if clave == "GROQ_API_KEY" and valor:
-                                        return valor
-                        if "=" in texto:
-                            clave, valor = texto.split("=", 1)
-                            clave = clave.strip()
-                            valor = valor.strip().strip("\"'")
-                            if clave == "GROQ_API_KEY" and valor:
-                                return valor
-            except Exception:
-                continue
-
-        for comando in (
-            "bash -lc 'source ~/.bashrc >/dev/null 2>&1 || true; source ~/.profile >/dev/null 2>&1 || true; printf %s \"${GROQ_API_KEY:-}\"'",
-            "bash -lc 'printf %s \"${GROQ_API_KEY:-}\"'",
-            "zsh -lc 'source ~/.zshrc >/dev/null 2>&1 || true; printf %s \"${GROQ_API_KEY:-}\"'"
-        ):
-            try:
-                resultado = subprocess.run(
-                    comando,
-                    shell=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=10,
-                    check=False
-                )
-                valor = resultado.stdout.strip()
-                if valor:
-                    return valor
-            except Exception:
-                continue
-
-        return ""
+        # La clave viene del entorno o de .env.local (cargar_archivo_claves).
+        # Antes también se ejecutaban bash/zsh con shell=True para leer
+        # .bashrc, .profile y .zshrc: innecesario y riesgoso.
+        return os.environ.get("GROQ_API_KEY", "").strip()
 
     def _crear_cliente_groq(self):
 
@@ -629,14 +656,16 @@ class BrainYura:
         if not api_key:
             print(
                 "[ALERTA GROQ]: "
-                "GROQ_API_KEY no está disponible en el entorno del proceso ni en los perfiles/.env del proyecto. "
+                "GROQ_API_KEY no está en el entorno ni en .env.local. "
                 "El fallback online queda deshabilitado."
             )
             return None
 
         try:
             os.environ["GROQ_API_KEY"] = api_key
-            cliente = Groq(api_key=api_key)
+            # Tiempo máximo corto: con la red colgada, el SDK esperaba hasta
+            # 60 s y reintentaba dos veces, y Yura quedaba muda minutos.
+            cliente = Groq(api_key=api_key, timeout=10.0, max_retries=1)
             print("[OK GROQ]: Cliente Groq inicializado desde la configuración disponible del entorno.")
             return cliente
         except Exception as exc:
@@ -651,43 +680,8 @@ class BrainYura:
     # ========================================================
 
     def _normalizar_texto(self, texto):
-
-        if texto is None:
-            return ""
-
-        try:
-            texto = str(texto).strip()
-        except Exception:
-            return ""
-
-        if texto == "":
-            return ""
-
-        texto = texto.lower()
-
-        texto = (
-            texto
-            .replace("á", "a")
-            .replace("é", "e")
-            .replace("í", "i")
-            .replace("ó", "o")
-            .replace("ú", "u")
-            .replace("ü", "u")
-        )
-
-        texto = re.sub(
-            r"[^a-z0-9\s]",
-            " ",
-            texto
-        )
-
-        texto = re.sub(
-            r"\s+",
-            " ",
-            texto
-        )
-
-        return texto.strip()
+        # Conserva ñ y apóstrofo: "ñuqa" y "p'unchay" no deben deformarse.
+        return texto_util.normalizar(texto)
 
     # ========================================================
     # ESCUCHAR VOZ
@@ -703,10 +697,11 @@ class BrainYura:
     # Nunca consulta el diccionario para simular una respuesta.
     # ========================================================
 
-    def escuchar_voz(self):
+    def escuchar_voz(self, solo_local=False, pistas=None, guardar_audio_en=None):
+        self._revisar_pedido_docente()
 
         self._set_web_status("ESCUCHANDO")
-        print(
+        depuracion.depurar(
             f"[DEBUG AUDIO] iniciando escucha state={self.state} "
             f"device={self.audio_manager.input_device} "
             f"device_index={self.dispositivo_index}"
@@ -715,41 +710,39 @@ class BrainYura:
         if self.dispositivo_index is None:
             print("[AUDIO] Índice inicial no disponible; AudioManager reenumerará el JACK.")
 
-        print("\n==============================")
-        print("[YURA ESCUCHA]")
-        print(f"[MICRÓFONO]: índice {self.dispositivo_index}")
-        print("[WHISPER]: reconocimiento principal")
-        print("==============================")
+        depuracion.depurar(f"[YURA ESCUCHA] micrófono índice {self.dispositivo_index}")
 
         try:
             time.sleep(0.3)
-            print(
+            depuracion.depurar(
                 "[DEBUG AUDIO] captura iniciada "
                 f"device={self.audio_manager.input_device}"
             )
-            print("[DEBUG AUDIO] antes de esperar audio")
+            depuracion.depurar("[DEBUG AUDIO] antes de esperar audio")
             audio_bytes = self.audio_manager.grabar_hasta_silencio(
                 espera_maxima=10.0,
                 duracion_maxima=15.0,
                 silencio_final=1.0,
                 bloque_ms=80
             )
-            print("[DEBUG AUDIO] después de recibir audio")
-            print("[DEBUG AUDIO] captura finalizada")
-            print(
+            depuracion.depurar("[DEBUG AUDIO] después de recibir audio")
+            depuracion.depurar("[DEBUG AUDIO] captura finalizada")
+            depuracion.depurar(
                 "[DEBUG AUDIO] audio recibido: "
                 f"{0 if audio_bytes is None else len(audio_bytes)} bytes"
             )
 
         except Exception as exc:
             print(f"[ERROR MICROFONO]: {exc}")
-            print(f"[DEBUG AUDIO] excepción durante captura: {type(exc).__name__}")
+            depuracion.depurar(f"[DEBUG AUDIO] excepción durante captura: {type(exc).__name__}")
             self._set_web_status("ESPERANDO")
             return ""
 
+        self._revisar_pedido_docente()
+
         if not audio_bytes:
             self.dispositivo_index = self.audio_manager.input_device
-            print("[YURA]: No se capturó audio.")
+            depuracion.depurar("[YURA]: No se capturó audio.")
             self._set_web_status("ESPERANDO")
             return ""
 
@@ -768,29 +761,25 @@ class BrainYura:
                 wf.setsampwidth(2)
                 wf.setframerate(16000)
                 wf.writeframes(audio_bytes + b"\x00" * int(16000 * 2 * 0.25))
+            if guardar_audio_en:
+                pronunciaciones.guardar_wav(guardar_audio_en, audio_bytes)
 
-            texto_gemini = self.gemini_transcriber.transcribir(audio_path)
+            # En silencio no se envía la voz a la nube: solo Whisper local.
+            instruccion = texto_util.instruccion_reconocedor(pistas)
+            texto_gemini = None if solo_local else self.gemini_transcriber.transcribir(audio_path, instruccion)
             if texto_gemini:
                 motor_transcripcion = "Gemini"
                 texto = self._normalizar_texto(texto_gemini)
-                print(f"[GEMINI ESCUCHÓ]: {texto}")
+                depuracion.voz("[GEMINI ESCUCHÓ]", texto)
             elif self.whisper_model is not None:
                 motor_transcripcion = "Whisper"
-                print("[WHISPER]: Fallback de precisión activado.")
-                print("[DEBUG AUDIO] enviando audio a Whisper")
+                depuracion.depurar("[WHISPER]: Fallback de precisión activado.")
+                depuracion.depurar("[DEBUG AUDIO] enviando audio a Whisper")
                 inicio_whisper = time.perf_counter()
                 resultado = self.whisper_model.transcribe(
                     audio_path,
                     language="es",
-                    initial_prompt=(
-                        "Español boliviano con algunas palabras en quechua. "
-                        "Conversación entre un estudiante y un robot educativo. "
-                        "Comandos posibles: preséntate, conversar, jugar, traducir, "
-                        "enséñame quechua, practicar, silencio y salir. "
-                        "Vocabulario quechua: rimaykullayki, imaynalla kachkanki, "
-                        "allin p'unchay, yusulpayki, anchata munakuyki, ari, mana, "
-                        "yaku, wasi y puka. Transcribe solo lo que escuchas."
-                    ),
+                    initial_prompt=instruccion,
                     fp16=False,
                     temperature=0,
                     beam_size=5,
@@ -798,7 +787,7 @@ class BrainYura:
                     without_timestamps=True,
                     condition_on_previous_text=False
                 )
-                print("[DEBUG AUDIO] Whisper respondió")
+                depuracion.depurar("[DEBUG AUDIO] Whisper respondió")
                 print(
                     f"[WHISPER]: procesamiento en "
                     f"{time.perf_counter() - inicio_whisper:.1f}s"
@@ -811,7 +800,7 @@ class BrainYura:
 
         except Exception as exc:
             print(f"[ERROR WHISPER]: {exc}")
-            print(f"[DEBUG AUDIO] excepción durante Whisper: {type(exc).__name__}")
+            depuracion.depurar(f"[DEBUG AUDIO] excepción durante Whisper: {type(exc).__name__}")
             texto = ""
         finally:
             try:
@@ -820,14 +809,18 @@ class BrainYura:
             except Exception:
                 pass
 
+        if texto_util.es_alucinacion_whisper(texto):
+            depuracion.voz("[YURA]: Se descarta una frase inventada por el reconocedor", texto)
+            texto = ""
+
         if texto == "":
             print("[YURA]: No logré escuchar ninguna palabra.")
-            print("[DEBUG AUDIO] Whisper no produjo texto")
+            depuracion.depurar("[DEBUG AUDIO] Whisper no produjo texto")
             self._set_web_status("ESPERANDO")
             return ""
 
-        print(f"[TRANSCRIPCIÓN FINAL - {motor_transcripcion}]: {texto}")
-        print("[DEBUG AUDIO] texto listo; devolviendo al estado actual")
+        depuracion.voz(f"[TRANSCRIPCIÓN FINAL - {motor_transcripcion}]", texto)
+        depuracion.depurar("[DEBUG AUDIO] texto listo; devolviendo al estado actual")
         return texto
 
     # ========================================================
@@ -850,7 +843,7 @@ class BrainYura:
         # ESCUCHAR
         # ----------------------------------------------------
 
-        opcion = self.escuchar_voz()
+        opcion = self._escuchar_con_ordenes()
 
         # ====================================================
         # REGLA CRÍTICA:
@@ -881,10 +874,16 @@ class BrainYura:
 
         comando = re.sub(r"^yura\s+", "", opcion).strip()
 
-        if (
-            "presentate" in comando
-            or "presentarte" in comando
-            or "quien eres" in comando
+        # Las preguntas de idioma van primero: en "¿cómo se dice adiós?" o
+        # "¿cómo se dice apagar?" la palabra se consulta, no se ejecuta.
+        if texto_util.es_pregunta_de_idioma(comando):
+            self._responder_conversacion(
+                conversacion.procesar_entrada(opcion, self.groq_client)
+            )
+            return
+
+        if texto_util.pide_orden(
+            comando, ("presentate", "presentarte", "quien eres")
         ):
             self.hw.hablar(
                 conversacion.PRESENTACION_YURA
@@ -893,42 +892,37 @@ class BrainYura:
             return
 
         if (
-            "silencio" in comando
-            or "guarda silencio" in comando
-            or "guardar silencio" in comando
-            or "quedate en silencio" in comando
-            or "silenciate" in comando
-            or "callate" in comando
-            or "cállate" in comando
+            texto_util.pide_orden(
+                comando,
+                ("silencio", "silenciate", "callate", "quedate callada")
+            )
             or comando == "espera"
             or comando.startswith("espera ")
         ):
             self.hw.hablar(
-                "Entendido. Me quedaré en silencio hasta que me pidas volver."
+                "Entendido. Me quedaré en silencio hasta que me digas despierta."
             )
             self.state = RobotStates.SILENCIO
             self._set_web_status("SILENCIOSA")
             return
 
         # ====================================================
-        # SALIR LIMPIO DESDE EL MENÚ
+        # APAGAR: solo con la orden completa y confirmación
         # ====================================================
 
-        if any(
-            frase in opcion for frase in (
-                "salir",
-                "apagar",
-                "terminar",
-                "adios"
-            )
+        # Despedirse no apaga a Yura: queda en silencio hasta que la llamen.
+
+        if texto_util.pide_orden(
+            comando, ("salir", "terminar", "adios", "hasta luego", "chau")
         ):
 
             self.hw.hablar(
-                "Hasta luego."
+                "Hasta luego. Tupananchiskama. "
+                "Dime despierta cuando quieras volver."
             )
 
-            self.state = RobotStates.SALIR
-            self.running = False
+            self.state = RobotStates.SILENCIO
+            self._set_web_status("SILENCIOSA")
 
             return
 
@@ -936,9 +930,8 @@ class BrainYura:
         # TRADUCIR
         # ====================================================
 
-        if (
-            "traducir" in opcion
-            or "traductor" in opcion
+        if texto_util.pide_orden(
+            comando, ("traducir", "traductor", "traduccion")
         ):
 
             conversacion.cancelar_sesion_educativa()
@@ -956,7 +949,9 @@ class BrainYura:
         # CONVERSAR
         # ====================================================
 
-        if "conversar" in opcion:
+        if texto_util.pide_orden(
+            comando, ("conversar", "conversemos", "hablemos")
+        ):
 
             conversacion.cancelar_sesion_educativa()
             self.state = RobotStates.CONVERSAR
@@ -972,7 +967,7 @@ class BrainYura:
         # JUGAR
         # ====================================================
 
-        if "jugar" in opcion:
+        if texto_util.pide_orden(comando, ("jugar", "juguemos", "juego")):
 
             self.state = RobotStates.JUEGO
             self.juego.reiniciar()
@@ -994,23 +989,189 @@ class BrainYura:
             return
 
         self.state = RobotStates.CONVERSAR
+        self._responder_conversacion(resultado)
+
+    def _responder_conversacion(self, resultado):
+        """Dice la respuesta y, si enseña una palabra, la fija en pantalla."""
+        pantalla = resultado.get("pantalla")
+        if pantalla:
+            self._set_web_status(
+                "PENSANDO",
+                content=pantalla.get("content", ""),
+                translation=pantalla.get("translation", ""),
+                fijar=True
+            )
         self.hw.hablar(resultado["respuesta"])
+        self._reproducir_pronunciacion(resultado.get("pronunciar"))
+
+    def _reproducir_pronunciacion(self, quechua):
+        """Si la docente grabó esta palabra, se escucha su voz después de
+        la de Yura (la voz sintética no pronuncia bien el quechua)."""
+        ruta = pronunciaciones.audio_de(quechua) if quechua else None
+        if ruta:
+            self.hw.reproducir_grabacion(ruta)
+
+    # ========================================================
+    # MODO DOCENTE
+    # ========================================================
+
+    def _docente_pedido(self):
+        pedido = getattr(self, "pedido_docente", None)
+        return pedido is not None and pedido.is_set()
+
+    def _revisar_pedido_docente(self):
+        if self._docente_pedido() and self.state != RobotStates.ENSENAR:
+            raise ModoDocentePedido()
+
+    def activar_modo_docente(self):
+        """Lo llama la página web (otro hilo)."""
+        self.ultima_actividad_docente = time.monotonic()
+        self.pedido_docente.set()
+        if self.state != RobotStates.ENSENAR:
+            self.audio_manager.cancelar.set()
+
+    def terminar_modo_docente(self):
+        self.pedido_docente.clear()
+        self.ordenes_docente.put(("salir", None))
+
+    def pedir_grabacion_docente(self, palabra):
+        if self.state != RobotStates.ENSENAR:
+            return False
+        self.ultima_actividad_docente = time.monotonic()
+        self.ensenanza = {"estado": "esperando", "palabra": palabra}
+        self.ordenes_docente.put(("grabar", palabra))
+        return True
+
+    def _entrar_modo_docente(self):
+        self.audio_manager.cancelar.clear()
+        conversacion.cancelar_sesion_educativa()
+        self.state = RobotStates.ENSENAR
+        self.ultima_actividad_docente = time.monotonic()
+        self.ensenanza = {"estado": "listo_para_grabar"}
+        while not self.ordenes_docente.empty():
+            self.ordenes_docente.get_nowait()
+        self._set_web_status("ESPERANDO", content="Modo docente", translation="Elige una palabra y presiona Grabar.")
+        self.hw.hablar("Modo docente. Elige una palabra y presiona grabar.")
+
+    def _salir_modo_docente(self, motivo="Modo docente terminado."):
+        self.pedido_docente.clear()
+        pronunciaciones.descartar_pendiente()
+        self.ensenanza = {"estado": "inactivo"}
+        self.state = RobotStates.MENU
+        self._set_web_status("ESPERANDO", content=conversacion.PRESENTACION_YURA, translation="")
+        self.hw.hablar(motivo + " Volvemos al menú principal.")
+
+    def ejecutar_ensenar(self):
+        try:
+            orden, palabra = self.ordenes_docente.get(timeout=0.5)
+        except queue.Empty:
+            if time.monotonic() - self.ultima_actividad_docente > 15 * 60:
+                # Si la docente se olvida de terminar, Yura no queda muda.
+                self._salir_modo_docente("Pasaron 15 minutos sin grabar; cierro el modo docente.")
+            return
+
+        if orden == "salir":
+            self._salir_modo_docente()
+        elif orden == "grabar":
+            self._grabar_para_docente(palabra)
+
+    def _grabar_para_docente(self, palabra):
+        pronunciaciones.descartar_pendiente()
+        self.ensenanza = {"estado": "grabando", "palabra": palabra}
+        self._set_web_status("ESCUCHANDO", content=palabra["quechua"], translation=palabra["espanol"])
+        # Mismas pistas que en una actividad, para anotar cómo escribe el
+        # reconocedor la palabra bien dicha.
+        pistas = [palabra["quechua"]] + list(texto_util.PISTAS_GENERALES)
+        escuchado = self.escuchar_voz(
+            solo_local=True, pistas=pistas, guardar_audio_en=pronunciaciones.ruta_pendiente()
+        )
+        self.ultima_actividad_docente = time.monotonic()
+
+        if not os.path.exists(pronunciaciones.ruta_pendiente()):
+            self.ensenanza = {"estado": "sin_voz", "palabra": palabra}
+            self._set_web_status("ESPERANDO", content=palabra["quechua"], translation="No escuché nada. Graba otra vez.")
+            return
+
+        self.ensenanza = {
+            "estado": "grabado",
+            "palabra": palabra,
+            "transcripcion": escuchado,
+            "reconocida": texto_util.respuesta_quechua_correcta(escuchado, palabra["quechua"]),
+            "confunde_con": pronunciaciones.otra_palabra_igual(escuchado, palabra["quechua"]) if escuchado else None,
+        }
+        self._set_web_status(
+            "ESPERANDO",
+            content=palabra["quechua"],
+            translation=f"Escuché: {escuchado}" if escuchado else "Grabé la voz, pero no entendí palabras.",
+            fijar=True,
+        )
+
+    def _escuchar_con_ordenes(self, solo_local=False, pistas=None):
+        """Escucha y atiende "apágate" en cualquier modo (antes solo en el
+        menú: en conversación la orden se enviaba a Groq)."""
+        texto = self.escuchar_voz(solo_local=solo_local, pistas=pistas)
+        if texto_util.es_orden_apagar(self._normalizar_texto(texto)):
+            self._confirmar_apagado()
+            return ""
+        return texto
+
+    def _confirmar_apagado(self):
+        self.hw.hablar(
+            "¿Seguro que quieres que me apague? Di sí para confirmar."
+        )
+        respuesta = self._normalizar_texto(self.escuchar_voz())
+
+        # Si no se entendió ni sí ni no (silencio o ruido), se pregunta una
+        # vez más en lugar de quedarse encendida sin avisar.
+        if not texto_util.es_afirmacion(respuesta) and not texto_util.es_negacion(respuesta):
+            self.hw.hablar("No te entendí. ¿Me apago? Di sí o no.")
+            respuesta = self._normalizar_texto(self.escuchar_voz())
+
+        if texto_util.es_afirmacion(respuesta):
+            self.hw.hablar(
+                "Hasta luego. Tupananchiskama. Me voy a apagar."
+            )
+            self.state = RobotStates.SALIR
+            self.running = False
+            # Por ahora solo se cierra la aplicación; con YURA_APAGAR_EQUIPO=1
+            # también se apaga la computadora.
+            self.apagar_equipo = (
+                os.environ.get("YURA_APAGAR_EQUIPO", "0").strip() == "1"
+            )
+            raise ApagadoConfirmado()
+
+        self.hw.hablar("De acuerdo, sigo encendida.")
+
+    def apagar_equipo_si_corresponde(self):
+        """Apaga la computadora cuando se confirmó "apágate" por voz.
+
+        Solo si está activado con YURA_APAGAR_EQUIPO=1 (por defecto no).
+        """
+        if not getattr(self, "apagar_equipo", False):
+            return
+        print("[SISTEMA]: Apagando la computadora...")
+        try:
+            subprocess.run(["systemctl", "poweroff"], timeout=15, check=False)
+        except Exception as exc:
+            print(f"[SISTEMA]: No se pudo apagar la computadora: {exc}")
 
     def ejecutar_silencio(self):
-        entrada = self.escuchar_voz()
+        # Privacidad: en silencio Yura solo espera "despierta"; lo que se
+        # habla en el aula se transcribe en esta computadora y no sale a internet.
+        entrada = self._escuchar_con_ordenes(solo_local=True)
         entrada = self._normalizar_texto(entrada)
         entrada = re.sub(r"^yura\s+", "", entrada).strip()
 
-        if any(
-            frase in entrada for frase in (
+        # "silencio" ya no despierta a Yura: "guarda silencio" la despertaba.
+        if texto_util.pide_orden(
+            entrada,
+            (
                 "puedes hablar",
                 "puede hablar",
                 "despierta",
+                "despiertate",
                 "vuelve",
                 "volver",
-                "silencio",
-                "guarda silencio",
-                "guardar silencio"
             )
         ):
             self.state = RobotStates.MENU
@@ -1038,7 +1199,7 @@ class BrainYura:
 
     def ejecutar_traducir(self):
         resultado = traductor.ejecutar_traducir(
-            self.escuchar_voz,
+            self._escuchar_con_ordenes,
             self.hw.hablar,
             self.db_conn,
             self.groq_client,
@@ -1058,7 +1219,8 @@ class BrainYura:
         if not self.saludo_inicial_done:
             self.saludo_inicial_done = True
 
-        entrada = self.escuchar_voz()
+        # En una práctica, el reconocedor recibe la palabra a repetir como pista.
+        entrada = self._escuchar_con_ordenes(pistas=conversacion.pistas_practica())
         if not entrada:
             self._set_web_status("ESPERANDO", content="Es hora de practicar quechua.", translation="")
             return
@@ -1071,10 +1233,11 @@ class BrainYura:
         )
 
         if resultado["accion"] == "menu":
-            self.state = RobotStates.SALIR
-            self.running = False
+            # Volver al menú; apagar solo con la orden "apagar" del menú.
+            conversacion.cancelar_sesion_educativa()
+            self.state = RobotStates.MENU
 
-        self.hw.hablar(resultado["respuesta"])
+        self._responder_conversacion(resultado)
 
     # ========================================================
     # LOOP PRINCIPAL
@@ -1087,60 +1250,43 @@ class BrainYura:
             "Yura operativo de forma local e independiente..."
         )
 
+        self.fallo_fatal = False
+        errores_seguidos = 0
+
         try:
 
             while self.running:
-                print(
+                depuracion.depurar(
                     f"[DEBUG AUDIO] reiniciando escucha state={self.state}"
                 )
 
-                # --------------------------------------------
-                # MENÚ
-                # --------------------------------------------
-
-                if self.state == RobotStates.MENU:
-
-                    self.ejecutar_menu()
-
-                # --------------------------------------------
-                # JUEGO
-                # --------------------------------------------
-
-                elif self.state == RobotStates.JUEGO:
-
-                    self.ejecutar_juego()
-
-                # --------------------------------------------
-                # CONVERSACIÓN
-                # --------------------------------------------
-
-                elif self.state == RobotStates.CONVERSAR:
-
-                    self.ejecutar_conversar()
-
-                # --------------------------------------------
-                # TRADUCTOR
-                # --------------------------------------------
-
-                elif self.state == RobotStates.TRADUCIR:
-
-                    self.ejecutar_traducir()
-
-                # --------------------------------------------
-                # SILENCIO CONTROLADO
-                # --------------------------------------------
-
-                elif self.state == RobotStates.SILENCIO:
-
-                    self.ejecutar_silencio()
-
-                # --------------------------------------------
-                # SALIR
-                # --------------------------------------------
-
-                elif self.state == RobotStates.SALIR:
-
-                    self.running = False
+                # Un error en un modo (p. ej. "database is locked") ya no
+                # mata el hilo en silencio: se avisa y se vuelve al menú.
+                try:
+                    self._ejecutar_estado_actual()
+                    errores_seguidos = 0
+                except ApagadoConfirmado:
+                    break
+                except ModoDocentePedido:
+                    self._entrar_modo_docente()
+                    errores_seguidos = 0
+                except Exception as exc:
+                    errores_seguidos += 1
+                    print(f"[ERROR SISTEMA]: {type(exc).__name__}: {exc}")
+                    traceback.print_exc()
+                    if errores_seguidos >= 5:
+                        print("[ERROR SISTEMA]: Demasiados errores seguidos; Yura se detiene.")
+                        self.fallo_fatal = True
+                        self.running = False
+                        self._set_web_status("SIN_CONEXION", content="", translation="")
+                        break
+                    self.state = RobotStates.MENU
+                    self._set_web_status(
+                        "ESPERANDO",
+                        content="Tuve un problema. Volvamos al menú.",
+                        translation=""
+                    )
+                    time.sleep(1)
 
         except KeyboardInterrupt:
 
@@ -1158,6 +1304,72 @@ class BrainYura:
                 except Exception:
                     pass
 
+    def _ejecutar_estado_actual(self):
+
+        if self.state == RobotStates.ENSENAR and not self._docente_pedido():
+            # Se presionó "Terminar" mientras grababa.
+            self._salir_modo_docente()
+            return
+        if self._docente_pedido() and self.state != RobotStates.ENSENAR:
+            self._entrar_modo_docente()
+            return
+
+        # --------------------------------------------
+        # MENÚ
+        # --------------------------------------------
+
+        if self.state == RobotStates.MENU:
+
+            self.ejecutar_menu()
+
+        # --------------------------------------------
+        # JUEGO
+        # --------------------------------------------
+
+        elif self.state == RobotStates.JUEGO:
+
+            self.ejecutar_juego()
+
+        # --------------------------------------------
+        # CONVERSACIÓN
+        # --------------------------------------------
+
+        elif self.state == RobotStates.CONVERSAR:
+
+            self.ejecutar_conversar()
+
+        # --------------------------------------------
+        # TRADUCTOR
+        # --------------------------------------------
+
+        elif self.state == RobotStates.TRADUCIR:
+
+            self.ejecutar_traducir()
+
+        # --------------------------------------------
+        # SILENCIO CONTROLADO
+        # --------------------------------------------
+
+        elif self.state == RobotStates.SILENCIO:
+
+            self.ejecutar_silencio()
+
+        # --------------------------------------------
+        # MODO DOCENTE (enseñar pronunciaciones)
+        # --------------------------------------------
+
+        elif self.state == RobotStates.ENSENAR:
+
+            self.ejecutar_ensenar()
+
+        # --------------------------------------------
+        # SALIR
+        # --------------------------------------------
+
+        elif self.state == RobotStates.SALIR:
+
+            self.running = False
+
 
 # ============================================================
 # ARRANQUE
@@ -1166,5 +1378,5 @@ class BrainYura:
 if __name__ == "__main__":
 
     cerebro = BrainYura()
-
     cerebro.loop_principal()
+    cerebro.apagar_equipo_si_corresponde()

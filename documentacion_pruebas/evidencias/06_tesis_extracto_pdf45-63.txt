@@ -1,0 +1,347 @@
+# Extracto de texto de la tesis (pdftotext -layout), páginas PDF 45-63. Página impresa = PDF-10
+=== PDF 45
+ 35
+4. BENEFICIARIOS PRIMARIOS Y SECUNDARIOS
+4.1. Beneficiarios primarios
+ Estudiantes: Recibirán una herramienta innovadora para practicar el idioma
+ quechua de manera dinámica y participativa, fortaleciendo su pronunciación y
+ motivación mediante actividades lúdicas y retroalimentación inmediata.
+ Docentes: Contarán con apoyo tecnológico para complementar la enseñanza
+ tradicional, facilitando el seguimiento individual del progreso académico y mejorando
+ la calidad de las clases.
+4.2. Beneficiarios secundarios
+ Padres de familia y tutores: Podrán realizar un seguimiento del aprendizaje de sus
+hijos a través de la aplicación móvil, recibiendo reportes y alertas sobre su desempeño
+académico.
+ Comunidad educativa en general: Se beneficiará de la incorporación de un sistema
+innovador que promueve la preservación del idioma quechua y fomenta la identidad
+cultural.
+ Otras instituciones educativas: La implementación exitosa del robot YURA
+permitirá su replicabilidad en diferentes unidades educativas del país, ampliando su
+impacto positivo.
+ Sociedad boliviana: Al contribuir a la preservación y fortalecimiento del idioma
+quechua, se promueve la interculturalidad y se protege el patrimonio lingüístico nacional.
+5. OBJETIVOS: GENERAL Y ESPECÍFICOS
+5.1. General
+ Desarrollo del robot educativo interactivo para la práctica del idioma quechua en
+estudiantes de sexto de primaria de la unidad educativa boliviano holandés.
+=== PDF 46
+ 36
+5.2. Específicos
+• Desarrollar el módulo de interacción del robot educativo YURA para apoyar la
+ práctica del idioma quechua mediante actividades y dinámicas educativas.
+• Desarrollar el módulo de inteligencia artificial para ejercicios de pronunciación y
+ retroalimentación automática de los estudiantes.
+• Desarrollar el módulo de gestión académica para la administración de los docentes,
+ estudiantes y registros de desempeño en las actividades realizadas.
+• Desarrollar el módulo de seguimiento académico para la generación de reportes y
+ consulta del progreso estudiantil.
+• Desarrollar el módulo móvil de consulta para padres de familia.
+• Desarrollar el módulo de actividades grupales para la organización de equipos,
+ asignación de retos y visualización de resultados.
+• Desarrollar el proceso de construcción e integración del hardware del robot educativo
+ YURA para darle forma y ver el funcionamiento del robot.
+• Desarrollar el procedimiento de implementación y uso del sistema YURA dentro del
+ entorno educativo para probar su efectividad.
+5.3. Alcances
+5.3.1. Módulo del robot educativo YURA
+ El sistema contará con un robot educativo equipado con pantalla táctil, micrófono,
+parlantes y una mini PC como unidad de procesamiento. Este módulo permitirá la
+interacción de los estudiantes mediante actividades educativas relacionadas con la
+práctica del idioma quechua.
+5.3.2. Módulo de inteligencia artificial
+ Se implementará un módulo de inteligencia artificial orientado al reconocimiento
+básico de voz para ejercicios de pronunciación previamente definidos. El sistema
+proporcionará retroalimentación inmediata al estudiante respecto a su desempeño en las
+actividades programadas.
+=== PDF 47
+ 37
+5.3.3. Módulo de gestión académica.
+ Se desarrollará una plataforma web que permitirá la administración de docentes,
+estudiantes, cursos y actividades educativas. Asimismo, facilitará el registro y consulta
+de información académica generada por el sistema.
+5.3.4. Módulo de seguimiento y reportes
+ El sistema permitirá registrar el desempeño de los estudiantes en las actividades
+realizadas con YURA y generar reportes de avance que podrán ser consultados por
+docentes y padres de familia.
+5.3.5. Módulo móvil para padres de familia
+ Se desarrollará una aplicación móvil que permitirá a los padres de familia consultar el
+progreso académico de sus hijos, visualizar reportes de desempeño y realizar
+seguimiento de las actividades desarrolladas dentro del sistema.
+5.3.6. Módulo de actividades Grupales
+ El robot permitirá la organización de dinámicas grupales dentro del aula, incluyendo
+la asignación de equipos, visualización de puntajes y ejecución de actividades
+educativas relacionadas con la práctica del idioma quechua.
+5.3.7. Proceso de construcción e integración del hardware
+ Se realizará el diseño e integración de la estructura física del robot, incorporando los
+componentes electrónicos y de hardware necesarios para su funcionamiento dentro del
+entorno educativo.
+=== PDF 48
+ 38
+5.3.8. Procedimiento de Implementación y Uso
+ Se definirá el procedimiento de configuración, utilización y puesta en marcha del
+sistema YURA dentro de un entorno educativo piloto, incluyendo pruebas funcionales y
+validación básica con usuarios.
+5.4. Límites del Sistema
+ A continuación, se detallan los aspectos que no serán parte del alcance del sistema:
+ • El sistema no reemplazará al docente durante el proceso de enseñanza. YURA
+ actuará únicamente como una herramienta de apoyo para la práctica del idioma
+ quechua.
+ • El sistema no impartirá el contenido completo de la currícula educativa. Las
+ actividades estarán limitadas a ejercicios previamente definidos relacionados
+ con vocabulario, pronunciación y comprensión básica del idioma quechua.
+ • El sistema no implementará conversaciones libres mediante inteligencia
+ artificial. La interacción se realizará únicamente mediante actividades y
+ ejercicios educativos previamente configurados.
+ • El sistema no realizará evaluaciones académicas oficiales ni asignará
+ calificaciones finales. Los resultados obtenidos servirán únicamente como
+ referencia para el seguimiento del progreso de los estudiantes.
+ • El sistema no incluirá la enseñanza de otros idiomas. El proyecto estará
+ enfocado exclusivamente en la práctica del idioma quechua.
+ • El sistema no permitirá que los padres modifiquen información académica. La
+ aplicación móvil estará destinada únicamente a la consulta y seguimiento del
+ progreso de sus hijos.
+ • El sistema no gestionará procesos administrativos institucionales, financieros
+ o de recursos humanos de la unidad educativa.
+ • El sistema no se integrará con plataformas educativas externas ni con
+ asistentes virtuales comerciales como Alexa, Google Assistant o Siri.
+ • El sistema no implementará reconocimiento facial, biométrico o mecanismos
+ avanzados de identificación de estudiantes.
+=== PDF 49
+ 39
+ • El sistema no contemplará la fabricación industrial o comercialización masiva
+ del robot durante la presente etapa del proyecto, limitándose al desarrollo de
+ un prototipo funcional para validación académica.
+ • El sistema no garantizará conectividad permanente a Internet, pudiendo operar
+ las funcionalidades principales dentro del entorno tecnológico definido para la
+ implementación piloto.
+ • El sistema no reemplazará la interacción social y pedagógica entre docentes y
+ estudiantes, sino que complementará las actividades desarrolladas dentro del
+ aula.
+6. PLAN DE ACCIÓN
+6.1. Cronograma de actividades
+ Fase / Actividad del Proyecto M1 M2 M3 M4 M5 M6
+ 1. Diagnóstico, encuestas y análisis situacional X
+ 2. Modelado de arquitectura, UML y diseño de BD X
+ 3. Ensamble de hardware, chasis, ESP32 y Cerebro X
+ PC
+ 4. Programación Backend Laravel, API REST y App X X
+ Android
+ 5. Entrenamiento y calibración ASR Faster- X X
+ Whisper
+ 6. Integración de componentes y pruebas de X
+ laboratorio
+ 7. Pruebas piloto en aula con estudiantes y X
+ docentes
+ 8. Generación de reportes finales y defensa de X
+ grado
+=== PDF 50
+ 40
+6.2. Responsables
+ El Proyecto está siendo desarrollado por:
+ • Est. Crespo Cordero Freddy Ademar: Desarrollo de Backend en Laravel,
+ Base de Datos MySQL y diseño de API REST.
+ • Est. Jorge Guarachi Franklin Ronaldo: Integración de Hardware embebido
+ (Linux Debian/ESP32), motor ASR Faster-Whisper y firmware.
+ • Est. Mendieta Arnez Wilson: Desarrollo Frontend Web, Aplicación Móvil
+ Android (Kotlin) y pruebas de interfaz con usuarios.
+6.3. Recursos físicos y requerimientos
+ Los Recursos fueron estudiados minuciosamente estudiados de acuerdo a la
+necesidad del proyecto.
+ • Unidad Central del Robot: Procesador Embebido Intel i3 / SSD 128GB /
+ 8GB RAM ejecutando Linux Debian 13 para ASR.
+ • Microcontrolador Secundario: DevKit v1 para control de motores DC,
+ servomotores y lectura de sensores de proximidad.
+ • Periféricos Audio/Visuales: Micrófono de alta sensibilidad con supresión
+ de ruido, altavoces amplificados y pantalla LCD 7" Touch.
+ • Entorno de Software: Servidor Web local con Apache, PHP 8.2, MySQL
+ 8.0, Android Studio y VS Code.
+=== PDF 51
+ 41
+6.4. Presupuesto
+ Categoría / Elemento Cant. Unidad Costo Total (BS)
+ Unit. (BS)
+ Mini PC Embebida i3 3ra Gen + 8GB 1 Pieza 650.00 650.00
+ RAM + SSD 128GB
+ Módulo Microcontrolador ESP32 1 Pieza 55.00 55.00
+ DevKit v1
+ Pantalla LCD Touchscreen 7" 1 Pieza 420.00 420.00
+ HDMI/USB
+ Micrófono USB Condensador + 1 Set 180.00 180.00
+ Altavoces Amplificados
+ Batería LiFePO4 + Reguladores de 1 Set 220.00 220.00
+ Voltaje 12V-5V
+ Impresión de Manuales, Guías e 1 Global 150.00 150.00
+ Instrumentos
+ PRESUPUESTO TOTAL INVERSIÓN - - - 1675.00
+ PROYECTO YURA BS
+Fuente:
+7. EJECUCIÓN, SEGUIMIENTO Y MONITOREO
+7.1. Actividades ejecutadas
+ Se completó la construcción e integración física del prototipo YURA, la puesta en
+marcha de la API Laravel con persistencia relacional en MySQL, la optimización del
+motor ASR Faster-Whisper en Python para arquitectura Linux Debian y la prueba
+funcional de la APK móvil Android.
+=== PDF 52
+ 42
+7.2. Participación comunitaria
+ Las pruebas se realizaron previa coordinación con las autoridades de la U.E. Boliviano
+Holandés y la Junta Escolar. Los apoderados otorgaron su consentimiento informado
+para la recolección anónima de métricas fonéticas de los estudiantes.
+7.3. Desarrollo técnico del producto (si aplica)
+7.3.1. Análisis de requerimientos Funcionales
+ • RF-01: El robot debe capturar comandos de voz en quechua mediante
+ botón/pantalla e iniciar evaluación.
+ • RF-02: El motor ASR debe procesar el audio y devolver la transcripción con
+ porcentaje de precisión fonética.
+ • RF-03: La plataforma web debe permitir al docente crear unidades
+ temáticas, palabras clave y retos.
+ • RF-04: La App móvil debe mostrar gráficos de avance y notificar a los
+ apoderados en tiempo real.
+ • RF-05: El sistema debe registrar cada intento en la tabla
+ `phonetic_evaluations` con marca de tiempo.
+7.3.2. Análisis de requerimientos No Funcionales
+ • RNF-01: La latencia de procesamiento ASR y respuesta del robot no debe
+exceder 2.5 segundos.
+ • RNF-02: La base de datos MySQL debe mantener integridad referencial y
+aislamiento ACID.
+ • RNF-03: La App móvil debe ejecutarse fluidamente en dispositivos Android 8.0
+en adelante.
+=== PDF 53
+ 43
+7.4. Modelado UML y Arquitectura del Sistema
+7.4.1. Planteamiento de Clases y Base de Datos (UML)
+ a) Planteamiento de Clases
+ Fuente: Elaboración Propia
+=== PDF 54
+ 44
+ b) Planteamiento de Base de Datos
+Fuente: Elaboración Propia
+=== PDF 55
+ 45
+7.4.2. Planteamiento de Casos de Uso por Actor (Diagrama)
+ a) Caso de Uso – Administrador
+ Fuente: Elaboración Propia
+=== PDF 56
+ 46
+ b) Caso de Uso – Docente
+Fuente: Elaboración Propia
+=== PDF 57
+ 47
+ c) Caso de Uso – Padre de Familia / Tutor
+Fuente: Elaboración Propia
+=== PDF 58
+ 48
+7.4.3. Diagrama de Despliegue y Arquitectura Multicapa
+ Fuente: Elaboración Propia
+7.4.4. Esquema Completo De Base de Datos
+7.5. Herramientas de seguimiento
+ El monitoreo de ejecución se realizó mediante tableros Trello para control de hitos,
+Git/GitHub para versionado de código y pruebas sintéticas de audio para validar la
+precisión ASR antes del despliegue.
+=== PDF 59
+ 49
+7.6. Dificultades y soluciones aplicadas
+ • Dificultad 1: El ruido ambiente del aula interfería con las capturas de audio.
+Solución: Se aplicó un filtro digital de paso banda en Python (SciPy) y se ajustó el umbral
+VAD de Faster-Whisper.
+ • Dificultad 2: Latencia alta en respuesta ASR. Solución: Se utilizó el modelo
+`Faster-Whisper int8` cuantizado, reduciendo el tiempo de inferencia a 1.2 segundos por
+palabra.
+8. RESULTADOS OBTENIDOS
+8.1. Resultados cualitativos
+ Se evidenció una notable transformación en el comportamiento de los estudiantes:
+perdieron la timidez al hablar quechua, expresaron entusiasmo por alcanzar altos
+puntajes en el robot y fortalecieron el trabajo en equipo en las dinámicas grupales.
+8.2. Resultados cuantitativos
+ • Precisión del Reconocimiento de Voz: El motor ASR calibrado para niños
+alcanzó un 87.4% de reconocimiento correcto de fonemas en quechua.
+ • Incremento de Participación: El número de intentos de pronunciación oral por
+estudiante aumentó de 2 a 9 interacciones efectivas por sesión.
+ • Adopción en Padres de Familia: El 78.5% (77 apoderados) instaló la APK
+Android y revisó periódicamente los reportes de avance.
+8.3. Impacto en la comunidad
+ El proyecto YURA revitalizó el interés de las familias por el idioma quechua en el
+Distrito 9, demostrando que la tecnología de vanguardia puede ser una aliada eficaz en
+la preservación de la identidad cultural.
+=== PDF 60
+ 50
+9. CONCLUSIONES
+ Se puede destacar el plan de desarrollo con las siguientes Conclusiones:
+ • Se cumplió exitosamente el desarrollo del robot interactivo YURA, integrando
+ ASR con IA, desarrollo web en Laravel y app móvil Android.
+ • El motor Faster-Whisper ASR demostró ser una solución precisa y eficiente
+ para la evaluación de pronunciación oral en quechua en tiempo real.
+ • El esquema relacional en MySQL corregido resolvió el vacío técnico existente,
+ permitiendo almacenar métricas fonéticas y sincronizarlas con apoderados.
+ • La validación en la U.E. Boliviano Holandés confirmó un impacto altamente
+ positivo en la motivación de los estudiantes y el acompañamiento familiar.
+10. RECOMENDACIONES
+ • Incorporar micrófonos direccionales de cancelación de ruido de mayor gama para
+ambientes con ruidos extremos.
+ • Ampliar el diccionario y corpus fonético para incorporar frases complejas y
+expresiones de la región andina.
+11. FUENTES DE INFORMACIÓN Y BIBLIOGRAFÍA
+ Libros
+Bates, A. W. (2019). Teaching in a digital age: Guidelines for designing teaching and
+learning. Tony Bates Associates Ltd. (Pedagogía)
+Deci, E. L., & Ryan, R. M. (2020). Self-determination theory: Basic psychological needs
+in motivation, development, and wellness. The Guilford Press. (Psicología)
+Eguchi, A. (2021). Educational robotics for learning and teaching. En Robotics in
+Education (pp. 13-28). Springer. (Robótica Educativa)
+Holmes, W., Bialik, M., & Fadel, C. (2022). Artificial intelligence in education:
+Promises and implications for teaching and learning. Center for Curriculum Redesign.
+(Inteligencia Artificial)
+=== PDF 61
+ 51
+Jurafsky, D., & Martin, J. H. (2023). Speech and language processing (3.ª ed. borrador).
+Stanford University Press. (IA y Procesamiento de Lenguaje)
+Kapp, K. M. (2012). The gamification of learning and instruction: Game-based methods
+and strategies for training and education. Pfeiffer. (Gamificación/Educación)
+ Artículos Científicos y Leyes
+Belpaeme, T., Kennedy, J., Ramachandran, A., Scassellati, B., & Vogt, P. (2020). Social
+robots for education: A review. Science Robotics, 3(21), 1-12.
+https://doi.org/10.1126/scirobotics.at5954 (Robótica Educativa)
+Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2019). From game design elements
+to gamefulness: Defining gamification. ACM Digital Library, 11(15), 9-15.
+(Gamificación)
+Flores, R., Quispe, M., & Condori, J. (2021). Sistemas interactivos y aprendizaje de
+vocabulario en lenguas originarias. Revista de Educación Intercultural, 15(2), 45-58.
+(Sistemas Interactivos)
+Johnson, D. W., & Johnson, R. T. (2019). Cooperative learning: Improving university
+instruction by basing practice on validated theory. Journal on Excellence in College
+Teaching, 25(3), 85-118. (Pedagogía)
+Ley N.º 070. (2010, 20 de diciembre). Ley de la Educación «Avelino Siñani - Elizardo
+Pérez». Gaceta Oficial del Estado Plurinacional de Bolivia. (Normativa/Ley)
+Li, X., Zhang, Y., & Wang, L. (2021). Speech recognition technology in language
+learning: A meta-analysis. Computer Assisted Language Learning, 34(4), 512-530.
+https://doi.org/10.1080/09588221.2019.1658607 (Reconocimiento de Voz / IA)
+López, P., & García, C. (2022). Desafíos e integración tecnológica en la enseñanza de
+lenguas indígenas. Revista Boliviana de Innovación Educativa, 8(1), 12-27. (Educación /
+Tecnología)
+Silva, A., & Andrade, R. (2021). Modular system architecture for educational robotics
+and smart learning environments. IEEE Transactions on Learning Technologies, 14(3),
+310-322. (Arquitectura de Sistemas / Electrónica)
+=== PDF 62
+ 52
+ Páginas Web, Informes Oficiales y Documentación Técnica
+Espressif Systems. (2024). ESP32 Series Datasheet (v4.2). Espressif Systems
+Documentation. https://www.espressif.com/en/support/documents/technical-documents
+(Electrónica/Hardware)
+Ministerio de Educación del Estado Plurinacional de Bolivia. (2023). Currículo base del
+Sistema Educativo Plurinacional. Ministerio de Educación. (Normativa/Educación)
+Moodle. (2024). Moodle documentation: Learning management system features and
+analytics. https://docs.moodle.org (Sistemas Web)
+UNESCO. (2023). Tecnología en la educación: ¿Un elemento en los términos de quién?
+Informe de seguimiento de la educación en el mundo 2023. Organización de las
+Naciones Unidas para la Educación, la Ciencia y la Cultura.
+https://unesdoc.unesco.org/ark:/48223/pf0000385723 (Informe Internacional)
+=== PDF 63
+ 53
+12. ANEXOS
+Anexo A. Cronograma
+Anexo B. Fotografías
+Anexo C. Actas de reuniones
+Anexo D. Instrumentos de recolección de datos
+Anexo E. Capturas del sistema o prototipo (si aplica)
+Anexo F. Otros documentos de respaldo

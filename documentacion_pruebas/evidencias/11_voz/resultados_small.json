@@ -1,0 +1,588 @@
+{
+ "small": {
+  "resumen": {
+   "aciertos": 0,
+   "total": 96,
+   "porcentaje": 0,
+   "mediana_s": 0.0
+  },
+  "filas": [
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Quiero jugar",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Traducir",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Apágate",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Sí",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Despierta",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Volver al menú",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Allqu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Misi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Yaku",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Inti",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Jamp'ara",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Q'illu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Sinqa",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Yachay wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Pillpintu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-SofiaNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Quiero jugar",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Traducir",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Apágate",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Sí",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Despierta",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Volver al menú",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Allqu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Misi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Yaku",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Inti",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Jamp'ara",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Q'illu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Sinqa",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Yachay wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Pillpintu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-BO-MarceloNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Quiero jugar",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Traducir",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Apágate",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Sí",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Despierta",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Volver al menú",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Allqu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Misi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Yaku",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Inti",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Jamp'ara",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Q'illu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Sinqa",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Yachay wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Pillpintu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-PE-CamilaNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Quiero jugar",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Traducir",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Enséñame quechua",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Apágate",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Sí",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Cómo se dice perro en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Cómo se dice niño en quechua?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "¿Qué significa ñawi?",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Despierta",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Volver al menú",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Allqu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Misi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Yaku",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Inti",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Jamp'ara",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Q'illu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Sinqa",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Yachay wasi",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Imaynalla kachkanki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Allin p'unchay",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Rimaykullayki",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Pillpintu",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   },
+   {
+    "voz": "es-EC-LuisNeural",
+    "dicho": "Chunka pusaqniyuq",
+    "oido": "<ERROR TypeError: 'NoneType' object is not callable>",
+    "ok": false
+   }
+  ]
+ }
+}

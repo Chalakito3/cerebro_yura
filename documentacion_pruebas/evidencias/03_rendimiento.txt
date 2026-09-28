@@ -1,0 +1,18 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t5_rendimiento.py
+
+Importar main_robot+conversacion+traductor+juego (incluye whisper, vosk, torch): 2.67 s
+| Operación | repeticiones | mediana ms | máx ms |
+|---|---|---|---|
+| _leer_registros_vocabulario (15 tablas, 187 filas) | 30 | 0.74 | 1.58 |
+| buscar_vocabulario('perro') | 30 | 1.22 | 1.88 |
+| vocabulario_relevante('como se dice amarillo') | 30 | 1.92 | 2.40 |
+| _obtener_vocabulario_para_practica (5 lecturas completas) | 30 | 8.61 | 10.47 |
+| procesar_entrada('como se dice perro en quechua') | 30 | 3.14 | 3.82 |
+Lecturas completas de las 15 tablas para 'como se dice perro en quechua': 1
+Lecturas completas de las 15 tablas para 'ensename quechua': 5
+Lecturas completas de las 15 tablas para 'hablemos en quechua de mi familia': 1
+detectar_dispositivos()+seleccionar_entrada() (sin grabar): mediana 13 ms, máx 19 ms; entrada elegida=6
+CUDA disponible: True
+whisper.load_model('base'): 1.27 s, dispositivo=cuda:0
+memoria GPU reservada por torch: 447 MB

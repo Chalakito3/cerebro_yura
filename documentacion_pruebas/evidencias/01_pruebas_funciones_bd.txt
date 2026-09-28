@@ -1,0 +1,99 @@
+registros leidos: 187
+tablas: ['nivel1_alimentos', 'nivel1_colores', 'nivel1_elementos_casa', 'nivel1_elementos_naturales', 'nivel1_familia', 'nivel1_herramientas', 'nivel1_lugares', 'nivel1_numeros', 'nivel1_objetos_escolares', 'nivel1_partes_del_cuerpo', 'nivel1_saludos', 'nivel1_utensilios_cocina', 'nivel2_adjetivos_calificativos', 'nivel2_adjetivos_determinativos', 'nivel2_animales']
+registros con significado None: 45 Counter({'nivel1_partes_del_cuerpo': 20, 'nivel1_colores': 14, 'nivel1_familia': 7, 'nivel1_saludos': 4})
+ES 'agua' (True, False, [('nivel1_elementos_naturales', 2, 'Uma', 'Agua')])
+ES 'papá' (True, True, [('nivel1_alimentos', 3, 'Papa', 'Papa'), ('nivel1_familia', 7, 'Tata', 'Papá')])
+ES 'papa' (True, True, [('nivel1_alimentos', 3, 'Papa', 'Papa'), ('nivel1_familia', 7, 'Tata', 'Papá')])
+ES 'padre' (True, False, [('nivel1_familia', 1, 'Tata', 'Padre')])
+ES 'uno' (True, True, [('nivel1_numeros', 1, 'Huk', 'Uno'), ('nivel2_adjetivos_determinativos', 3, 'Huk', 'Uno')])
+ES 'espalda' (True, False, [('nivel1_partes_del_cuerpo', 8, "K'uchu", 'Espalda')])
+ES 'sol' (True, False, [('nivel1_elementos_naturales', 6, 'Inti', 'Sol')])
+ES 'gato' (True, False, [('nivel2_animales', 2, 'Misi', 'Gato')])
+ES 'perro' (True, False, [('nivel2_animales', 1, 'Allqo', 'Perro')])
+ES 'árbol' (True, False, [('nivel1_elementos_naturales', 4, "Sach'a", 'Árbol')])
+ES 'arbol' (True, False, [('nivel1_elementos_naturales', 4, "Sach'a", 'Árbol')])
+ES 'casa' (True, False, [('nivel1_elementos_casa', 1, 'Wasi', 'Casa')])
+ES 'rosa' (True, False, [('nivel1_colores', 17, 'Qamya puka', 'Rosado')])
+ES 'mono' (True, False, [('nivel2_animales', 26, "K'uchi", 'Mono')])
+ES 'cerdo' (True, False, [('nivel2_animales', 6, 'Kuchi', 'Cerdo')])
+ES 'naranja' (True, False, [('nivel1_colores', 16, "Q'ello-puka", 'Naranja')])
+ES 'amarillo' (True, False, [('nivel1_colores', 8, "Q'ello", 'Amarillo')])
+ES 'verde' (True, False, [('nivel1_colores', 10, "Q'omer", 'Verde')])
+ES 'olla' (True, False, [('nivel1_elementos_casa', 4, 'Manka', 'Olla')])
+ES 'mesa' (True, False, [('nivel1_objetos_escolares', 7, "K'uchu", 'Mesa')])
+ES 'luz' (True, False, [('nivel1_elementos_naturales', 3, "K'anchay", 'Luz')])
+ES 'hola' (False, False, [])
+ES 'buenos días' (True, False, [('nivel1_saludos', 1, 'Allin punchay', 'Buenos días')])
+ES 'buenas tardes' (True, False, [('nivel1_saludos', 3, 'Allin sukay', 'Buenas tardes')])
+ES 'gracias' (False, False, [])
+ES 'ojo' (True, False, [('nivel1_partes_del_cuerpo', 2, 'Ñawi', 'Ojo')])
+ES 'llama' (True, False, [('nivel2_animales', 10, 'Llama', 'Llama')])
+ES 'escuela' (True, False, [('nivel1_objetos_escolares', 2, "T'anta wasi", 'Escuela')])
+QU 'uma' (True, True, [('nivel1_elementos_naturales', 2, 'Uma', 'Agua'), ('nivel1_partes_del_cuerpo', 1, 'Uma', 'Cabeza')])
+QU 'tata' (True, True, [('nivel1_familia', 1, 'Tata', 'Padre'), ('nivel1_familia', 7, 'Tata', 'Papá')])
+QU 'huk' (True, True, [('nivel1_numeros', 1, 'Huk', 'Uno'), ('nivel2_adjetivos_determinativos', 3, 'Huk', 'Uno')])
+QU "k'anchay" (True, True, [('nivel1_elementos_naturales', 3, "K'anchay", 'Luz'), ('nivel2_adjetivos_calificativos', 11, "K'anchay", 'Brillante')])
+QU 'k’anchay' (True, True, [('nivel1_elementos_naturales', 3, "K'anchay", 'Luz'), ('nivel2_adjetivos_calificativos', 11, "K'anchay", 'Brillante')])
+QU 'kanchay' (False, False, [])
+QU "k'uchu" (True, True, [('nivel1_objetos_escolares', 7, "K'uchu", 'Mesa'), ('nivel1_partes_del_cuerpo', 8, "K'uchu", 'Espalda')])
+QU 'kuchi' (True, False, [('nivel2_animales', 6, 'Kuchi', 'Cerdo')])
+QU "k'uchi" (True, False, [('nivel2_animales', 26, "K'uchi", 'Mono')])
+QU 'sacha' (True, False, [('nivel2_animales', 14, 'Sacha', 'Venado')])
+QU "sach'a" (True, False, [('nivel1_elementos_naturales', 4, "Sach'a", 'Árbol')])
+QU 'manka' (True, False, [('nivel1_elementos_casa', 4, 'Manka', 'Olla')])
+QU 'ñawi' (True, False, [('nivel1_partes_del_cuerpo', 2, 'Ñawi', 'Ojo')])
+QU 'nawi' (False, False, [])
+QU 'allin punchay' (True, False, [('nivel1_saludos', 1, 'Allin punchay', 'Buenos días')])
+QU "allin p'unchay" (False, False, [])
+QU 'imaynalla' (True, False, [('nivel1_saludos', 2, 'Imaynalla', '¿Cómo estás?')])
+QU 'allin sukay' (True, False, [('nivel1_saludos', 3, 'Allin sukay', 'Buenas tardes')])
+QU "q'illu" (False, False, [])
+QU 'qillu' (False, False, [])
+QU "q'ello" (True, False, [('nivel1_colores', 8, "Q'ello", 'Amarillo')])
+QU 'yaku' (False, False, [])
+QU 'allqu' (False, False, [])
+QU 'allqo' (True, False, [('nivel2_animales', 1, 'Allqo', 'Perro')])
+--- normalizacion (traductor._normalizar_texto usado en ejecutar_traducir) ---
+'Ñawi' -> 'awi' | conversacion: 'nawi'
+"p'unchay" -> 'p unchay' | conversacion: 'p unchay'
+"K'uchi" -> 'k uchi' | conversacion: 'k uchi'
+'papá' -> 'papa' | conversacion: 'papa'
+--- practica: universo de palabras ---
+practica candidatos: 187
+no alcanzables en practica: []
+--- vocabulario_relevante ---
+'como se dice agua' 5 - Agua = Uma | - Buenos días = Allin punchay | - ¿Cómo estás? = Imaynalla | - Buenas tardes = Allin sukay | - Buenas noches = Allin tuta
+'hablemos de la familia' 11 - Padre = Tata | - Madre = Mama | - Niño = Wawa | - Hombre = Qhari | - Mujer = Warmi | - Persona = Runa | - Papá = Tata | - Buenos días = Allin punchay | - ¿Cómo estás? = Imaynalla | - Buenas tardes = Allin sukay | - Buenas noches = Allin tuta
+'colores' 18 - Rojo = Puka | - Azul = Anqas | - Blanco = Yuraq | - Amarillo = Q'ello | - Verde = Q'omer | - Negro = Yana | - Gris = Uqi | - Marrón / Café = Ch'umpi | - Morado / Violeta = Kulli | - Naranja = Q'ello-puka | - Rosado = Qamya puka | - Celeste = Yuraq anqas | - Dorado = Quri | - Plateado = Qullqi | - Buenos días = Allin punchay | - ¿Cómo estás? = Imaynalla | - Buenas tardes = Allin sukay | - Buenas noches = Allin tuta
+'que animales conoces' 30 - Buenos días = Allin punchay | - ¿Cómo estás? = Imaynalla | - Buenas tardes = Allin sukay | - Buenas noches = Allin tuta | - Perro = Allqo | - Gato = Misi | - Caballo = Kawallu | - Burro = Asnu | - Vaca = Waka | - Cerdo = Kuchi | - Gallina = Wallpa | - Pato = Wallata | - Cuy = Kuy | - Llama = Llama | - Alpaca = Alpaka | - Cóndor = Kuntur | - Zorro = Atuq | - Venado = Sacha | - Oso andino = Ukuku | - Gato montés = Ch'ita | - Sapo = Hamp'atu | - Mariposa = Pillpintu | - Luciérnaga = K'anchisapa | - Abeja = Wanak'u | - Avispa = Ch'iwchi | - Pez = Challwa | - Serpiente = Amaru | - Lagarto = K'ach
+'hola yura' 4 - Buenos días = Allin punchay | - ¿Cómo estás? = Imaynalla | - Buenas tardes = Allin sukay | - Buenas noches = Allin tuta
+'numeros' 40 - Uno = Huk | - Dos = Iskay | - Tres = Kimsa | - Cuatro = Tawa | - Cinco = Pisqa | - Seis = Soqta | - Siete = Qanchis | - Ocho = Pusaq | - Nueve = Isqun | - Diez = Chunka | - Once = Chunka hukniyuq | - Doce = Chunka iskayniyuq | - Trece = Chunka kimsayuq | - Catorce = Chunka tawayuq | - Quince = Chunka pisqayuq | - Dieciséis = Chunka soqtayuq | - Diecisiete = Chunka qanchisniyuq | - Dieciocho = Chunka pusqayuq | - Diecinueve = Chunka isqonniyuq | - Veinte = Iskay chunka | - Treinta = Kimsa chunka | - Cuarenta = Tawa chunka | - Cincuenta = Pisqa chunka | - Sesenta = Soqta chunka | - Setenta = Q
+--- consulta local conversacion ---
+'como se dice agua' -> En quechua se dice Uma, que significa agua. Puedes practicarla usándola para describir algo de tu día.
+'como se dice papa' -> Tiene varios significados: Papa, de alimentos, se dice Papa; Papá, de familia, se dice Tata.
+'como se dice amarillo' -> En quechua, amarillo se dice Q'ello. Por ejemplo, si señalas algo de ese color puedes decir «Q'ello»; esa palabra significa amarillo.
+'que significa uma' -> Tiene varios significados: Agua, de elementos naturales, se dice Uma; Cabeza, de partes del cuerpo, se dice Uma.
+'que significa kay' -> Kay significa Aquí / Ahora. Indica lugar cercano o tiempo presente.
+'como se dice buenas tardes' -> Para decir buenas tardes en quechua, usa «Allin sukay». Puedes saludar así cuando llegue ese momento del día; por ejemplo: «Allin sukay» al encontrarte con alguien.
+'como se dice naranja' -> En quechua, naranja se dice Q'ello-puka. Por ejemplo, si señalas algo de ese color puedes decir «Q'ello-puka»; esa palabra significa naranja.
+--- procesar_entrada sin groq ---
+'buenas tardes' -> {'accion': 'responder', 'respuesta': 'Para decir buenas tardes en quechua, usa «Allin sukay». Puedes saludar así cuando llegue ese momento del día; por ejemplo: «Allin sukay» al encontrarte con alguien.'}
+'allin sukay' -> {'accion': 'responder', 'respuesta': 'Allin sukay significa Buenas tardes.'}
+'hola' -> {'accion': 'responder', 'respuesta': 'Rimaykullayki significa hola.'}
+'gracias' -> {'accion': 'responder', 'respuesta': 'Yusulpayki significa gracias.'}
+'como se dice naranja' -> {'accion': 'responder', 'respuesta': "En quechua, naranja se dice Q'ello-puka. Por ejemplo, si señalas algo de ese color puedes decir «Q'ello-puka»; esa palabra significa naranja."}
+'como se dice agua' -> {'accion': 'responder', 'respuesta': 'En quechua se dice Uma, que significa agua. Puedes practicarla usándola para describir algo de tu día.'}
+--- juego (consultar_diccionario_local) ---
+gato -> Misi
+perro -> Allqo
+sol -> Inti
+agua -> Uma
+casa -> Wasi
+arbol -> Sach'a
+--- qué significa (conversacion) con ñ y apóstrofo ---
+'que significa ñawi' -> None
+"que significa k'anchay" -> None
+"que significa sach'a" -> None
+'que significa wasi' -> Wasi significa Casa. Lugar de vivienda.
+'que significa allin tuta' -> Allin tuta significa Buenas noches.
+"que significa q'ello" -> None

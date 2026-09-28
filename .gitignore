@@ -7,3 +7,8 @@ __pycache__/
 *.zip
 vosk-model-es/
 old/
+!.env.example
+yura_temp.wav
+clave api.txt
+# Voz de la docente (modo docente): datos personales, no se suben.
+basedatos/pronunciaciones/

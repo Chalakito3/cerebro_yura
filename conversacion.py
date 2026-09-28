@@ -4,6 +4,10 @@ import re
 import sqlite3
 from difflib import SequenceMatcher
 
+import resultados
+import depuracion
+import pronunciaciones
+import texto as texto_util
 import traductor
 
 
@@ -41,7 +45,7 @@ FRASES_QUECHUA_CONOCIDAS = {
     "kayqa": "Kayqa",
     "quechua": "Quechua",
     "hablar en quechua": "Hablar en quechua",
-    "ensename quechua": "Enséñame quechua",
+    "enséñame quechua": "Enséñame quechua",
     "quiero aprender quechua": "Quiero aprender quechua"
 }
 
@@ -57,32 +61,9 @@ def cancelar_sesion_educativa():
 
 
 def _normalizar_texto(texto):
-    if texto is None:
-        return ""
-
-    try:
-        texto = str(texto).strip()
-    except Exception:
-        return ""
-
-    if texto == "":
-        return ""
-
-    texto = texto.lower()
-    texto = (
-        texto
-        .replace("á", "a")
-        .replace("é", "e")
-        .replace("í", "i")
-        .replace("ó", "o")
-        .replace("ú", "u")
-        .replace("ü", "u")
-        .replace("ñ", "n")
-    )
-    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
-    texto = re.sub(r"\s+", " ", texto)
-
-    return texto.strip()
+    # Conserva ñ y apóstrofo: antes "ñawi" pasaba a "nawi" y "k'anchay" a
+    # "k anchay", y "¿qué significa...?" no encontraba esas palabras.
+    return texto_util.normalizar(texto)
 
 
 def _coincide_clave_intencion(texto, claves, similitud_minima=0.82):
@@ -109,21 +90,33 @@ def _coincide_clave_intencion(texto, claves, similitud_minima=0.82):
 def _detectar_intencion(texto):
     texto_normalizado = _normalizar_texto(texto)
 
-    if any(palabra in texto_normalizado for palabra in (
+    # Una pregunta de idioma nunca es una orden: "¿cómo se dice adiós?"
+    # antes se tomaba como despedida y "¿qué significa menú?" como salir.
+    if texto_util.es_pregunta_de_idioma(texto_normalizado):
+        if any(
+            texto_util.contiene_frase(texto_normalizado, marcador)
+            for marcador in ("que significa", "que quiere decir", "significado de")
+        ):
+            return "significado"
+        return "traducir"
+
+    if texto_util.pide_orden(texto_normalizado, (
         "salir", "terminar", "adios", "hasta luego", "tupananchiskama",
-        "nos vemos", "me voy", "menu"
+        "nos vemos", "me voy", "menu", "volver al menu"
     )):
         return "salir"
 
-    if any(frase in texto_normalizado for frase in (
-        "otra vez", "repite", "repetir", "siguiente"
+    if texto_util.pide_orden(texto_normalizado, (
+        "otra vez", "repite", "repetir", "siguiente", "continuar", "otra palabra"
     )):
         return "repetir"
 
-    if (
+    negado = bool({"no", "nunca"} & set(texto_normalizado.split()))
+
+    if not negado and (
         _coincide_clave_intencion(
             texto_normalizado,
-            ("ensename", "ensenar")
+            ("enseñame", "enseñar")
         )
         or _coincide_clave_intencion(texto_normalizado, ("aprender",))
         or (
@@ -133,7 +126,7 @@ def _detectar_intencion(texto):
     ):
         return "aprender"
 
-    if (
+    if not negado and (
         _coincide_clave_intencion(texto_normalizado, ("practicar", "practica"))
         or _coincide_clave_intencion(texto_normalizado, ("preguntame",))
         or _coincide_clave_intencion(
@@ -143,15 +136,10 @@ def _detectar_intencion(texto):
     ):
         return "practicar"
 
-    if any(frase in texto_normalizado for frase in (
-        "como se dice", "como digo", "como puedo decir", "traduce",
-        "traducir", "traduccion"
-    )):
+    if texto_util.pide_orden(texto_normalizado, ("traducir", "traduccion")):
         return "traducir"
 
-    if any(frase in texto_normalizado for frase in (
-        "que significa", "significado", "explicame"
-    )):
+    if texto_util.pide_orden(texto_normalizado, ("significado", "explicame")):
         return "significado"
 
     if any(frase in texto_normalizado for frase in (
@@ -174,6 +162,10 @@ def _obtener_conexion_vocabulario():
         "diccionario.db"
     )
 
+    if not os.path.isfile(ruta_db):
+        print(f"[CONVERSACION] No existe el vocabulario: {ruta_db}")
+        return None
+
     try:
         _conexion_vocabulario = sqlite3.connect(ruta_db)
     except sqlite3.Error as exc:
@@ -184,21 +176,15 @@ def _obtener_conexion_vocabulario():
 
 
 def _obtener_vocabulario_para_practica(conexion_db):
-    """Obtiene registros locales sin duplicar vocabulario en este módulo."""
-    candidatos = {}
-
-    for letra in ("a", "e", "i", "o", "u"):
-        resultado = traductor.buscar_vocabulario(
-            letra,
-            "espanol",
-            conexion_db
-        )
-
-        for registro in resultado["resultados"]:
-            clave = (registro["tabla_origen"], registro["id"])
-            candidatos[clave] = registro
-
-    return list(candidatos.values())
+    """Todas las palabras del diccionario con quechua y español."""
+    # Antes se buscaban las vocales como texto dentro de cada palabra; desde
+    # que la búsqueda es por palabras completas eso ya no encuentra nada.
+    try:
+        registros = traductor._leer_registros_vocabulario(conexion_db)
+    except Exception as exc:
+        print(f"[CONVERSACION] No se pudo leer el vocabulario: {exc}")
+        return []
+    return [r for r in registros if r["quechua"] and r["espanol"]]
 
 
 def _seleccionar_leccion():
@@ -226,6 +212,7 @@ def _comenzar_practica():
     _sesion_educativa = {
         "registro": registro,
         "estado": "esperando_repeticion",
+        "id": resultados.nueva_sesion(),
     }
 
     significado = registro["significado"] or "una palabra de uso cotidiano"
@@ -237,50 +224,11 @@ def _comenzar_practica():
 
 
 def _evaluar_respuesta(respuesta_usuario, respuesta_correcta):
-    usuario = _normalizar_texto(respuesta_usuario)
-    correcta = _normalizar_texto(respuesta_correcta)
-
-    if not usuario or not correcta:
-        return False
-
-    if usuario == correcta:
-        return True
-
-    usuario_compacto = (
-        re.sub(r"\s+", "", usuario)
-        .replace("q", "k")
-        .replace("v", "b")
-        .replace("h", "")
-        .replace("ll", "y")
-    )
-    correcta_compacta = (
-        re.sub(r"\s+", "", correcta)
-        .replace("q", "k")
-        .replace("v", "b")
-        .replace("h", "")
-        .replace("ll", "y")
-    )
-
-    if usuario_compacto == correcta_compacta:
-        return True
-
-    similitud_compacta = SequenceMatcher(
-        None,
-        usuario_compacto,
-        correcta_compacta
-    ).ratio()
-    similitud_cruda = SequenceMatcher(
-        None,
-        usuario,
-        correcta
-    ).ratio()
-
-    return (
-        similitud_compacta >= 0.75
-        or (
-            similitud_cruda >= 0.75
-            and (usuario in correcta or correcta in usuario)
-        )
+    # Antes se aceptaban palabras distintas por parecido (wawa por Tawa).
+    return texto_util.respuesta_quechua_correcta(
+        respuesta_usuario,
+        respuesta_correcta,
+        pronunciaciones.variantes(respuesta_correcta)
     )
 
 
@@ -292,9 +240,12 @@ def _continuar_practica():
         _sesion_educativa = None
         return "No pude cargar otra palabra del vocabulario local."
 
+    # La misma práctica continúa con otra palabra: se conserva su identificador.
+    id_sesion = (_sesion_educativa or {}).get("id") or resultados.nueva_sesion()
     _sesion_educativa = {
         "registro": registro,
         "estado": "esperando_repeticion",
+        "id": id_sesion,
     }
     significado = registro["significado"] or "una palabra de uso cotidiano"
     return (
@@ -303,10 +254,46 @@ def _continuar_practica():
     )
 
 
+def pistas_practica():
+    """Durante una práctica, la palabra a repetir y otras 5 del diccionario
+    como pistas para el reconocedor de voz; fuera de la práctica, None."""
+    if _sesion_educativa is None:
+        return None
+    pistas = [_sesion_educativa["registro"]["quechua"]]
+    conexion_db = _obtener_conexion_vocabulario()
+    if conexion_db is not None:
+        otras = [r["quechua"] for r in _obtener_vocabulario_para_practica(conexion_db)
+                 if r["quechua"] not in pistas and len(str(r["quechua"]).split()) <= 2]
+        pistas += random.sample(otras, min(5, len(otras)))
+    random.shuffle(pistas)
+    return pistas
+
+
+def _pantalla_sesion():
+    """Palabra en práctica para mostrarla en pantalla (quechua y español)."""
+    if _sesion_educativa is None:
+        return None
+    registro = _sesion_educativa["registro"]
+    return {"content": registro["quechua"], "translation": registro["espanol"]}
+
+
+def _palabra_sesion():
+    """Palabra quechua en práctica, para hacer escuchar la voz de la docente."""
+    if _sesion_educativa is None:
+        return None
+    return _sesion_educativa["registro"]["quechua"]
+
+
 def _procesar_sesion_educativa(entrada):
     global _sesion_educativa
 
     if _sesion_educativa is None:
+        return None
+
+    entrada_normalizada = _normalizar_texto(entrada)
+
+    # Una pregunta ("¿cómo se dice sol?") no es un intento de respuesta.
+    if texto_util.es_pregunta_de_idioma(entrada_normalizada):
         return None
 
     intencion = _detectar_intencion(entrada)
@@ -314,64 +301,80 @@ def _procesar_sesion_educativa(entrada):
         _sesion_educativa = None
         return {
             "accion": "menu",
-                "respuesta": "Terminamos por ahora. Tupananchiskama."
+            "respuesta": "Terminamos por ahora. Tupananchiskama."
+        }
+
+    registro = _sesion_educativa["registro"]
+
+    # "Repite" vuelve a decir la misma palabra; "otra vez" o "siguiente"
+    # pasan a una nueva (antes "repite" cambiaba de palabra casi siempre).
+    if texto_util.pide_orden(entrada_normalizada, ("repite", "repitelo", "repitela", "repetir")):
+        return {
+            "accion": "responder",
+            "respuesta": (
+                f"Escucha otra vez: {registro['quechua']}, que significa "
+                f"{registro['espanol']}. Repítela, por favor."
+            ),
+            "pantalla": _pantalla_sesion(),
+            "pronunciar": registro["quechua"],
         }
 
     if intencion == "repetir":
         return {
             "accion": "responder",
-            "respuesta": _continuar_practica()
+            "respuesta": _continuar_practica(),
+            "pantalla": _pantalla_sesion(),
+            "pronunciar": _palabra_sesion(),
         }
 
-    registro = _sesion_educativa["registro"]
     es_correcta = _evaluar_respuesta(
         entrada,
         registro["quechua"]
     )
     _sesion_educativa["estado"] = "resultado"
+    resultados.registrar_intento(
+        "practica",
+        registro["espanol"],
+        registro["quechua"],
+        entrada,
+        es_correcta,
+        _sesion_educativa.get("id"),
+    )
 
     if es_correcta:
         respuesta = (
             f"Muy bien. Dijiste {registro['quechua']} correctamente. "
-            "Di otra vez o continuar para practicar otra palabra, "
+            "Di siguiente para practicar otra palabra, "
             "o salir para terminar."
         )
     else:
         respuesta = (
             f"Todavía no. La forma correcta es {registro['quechua']}. "
-            "Repítela y luego di otra vez para continuar, o salir para terminar."
+            "Inténtalo otra vez, di siguiente para cambiar de palabra, "
+            "o salir para terminar."
         )
 
     return {
         "accion": "responder",
-        "respuesta": respuesta
+        "respuesta": respuesta,
+        "pantalla": _pantalla_sesion(),
+        # Si se equivocó, escucha cómo lo dice la docente (modo docente).
+        "pronunciar": None if es_correcta else registro["quechua"],
     }
 
 
 def _extraer_termino(entrada):
-    texto = _normalizar_texto(entrada)
-    for marcador in (
-        "como puedo decir",
-        "como se dice",
-        "como digo",
-        "traduce",
-        "que significa",
-        "significado de",
-        "explicame"
-    ):
-        if marcador in texto:
-            termino = texto.split(marcador, 1)[1].strip()
-            termino = re.sub(r"\s+(?:en|de)\s+quechua$", "", termino)
-            termino = re.sub(r"^(?:el|la|un|una)\s+", "", termino)
-            termino = re.sub(r"^(?:color|colores)\s+", "", termino)
-            return termino.strip()
-    texto = re.sub(r"\s+(?:en|de)\s+quechua$", "", texto)
-    texto = re.sub(r"^(?:el|la|un|una)\s+", "", texto)
-    texto = re.sub(r"^(?:color|colores)\s+", "", texto)
-    return texto.strip()
+    return traductor.extraer_termino(entrada)
 
 
 def _responder_consulta_local(entrada, idioma_entrada):
+    consulta = _consulta_local(entrada, idioma_entrada)
+    return consulta["respuesta"] if consulta else None
+
+
+def _consulta_local(entrada, idioma_entrada):
+    """Busca en el diccionario y devuelve la respuesta hablada y lo que debe
+    verse en pantalla (palabra quechua y significado), o None."""
     conexion_db = _obtener_conexion_vocabulario()
     if conexion_db is None:
         return None
@@ -387,13 +390,28 @@ def _responder_consulta_local(entrada, idioma_entrada):
         return None
 
     if resultado["ambiguo"]:
-        opciones = "; ".join(
-            f"{registro['espanol']} ({registro['categoria']})"
-            for registro in resultado["resultados"]
-        )
-        return f"Encontré varios significados: {opciones}."
+        opciones = resultado["resultados"][:3]
+        return {
+            "respuesta": traductor.describir_opciones(opciones),
+            "pantalla": {
+                "content": " / ".join(r["quechua"] for r in opciones),
+                "translation": " / ".join(r["espanol"] for r in opciones),
+            },
+        }
 
     registro = resultado["resultados"][0]
+    pantalla = {
+        "content": registro["quechua"],
+        "translation": registro["espanol"],
+    }
+    return {
+        "respuesta": _texto_consulta(registro, idioma_entrada),
+        "pantalla": pantalla,
+        "pronunciar": registro["quechua"],
+    }
+
+
+def _texto_consulta(registro, idioma_entrada):
     if idioma_entrada == "espanol":
         termino = registro["espanol"].lower()
         quechua = registro["quechua"]
@@ -479,6 +497,12 @@ def interpretar_entrada_quechua(texto):
     return texto
 
 
+def _pide_otro_idioma(texto):
+    """Yura solo enseña quechua (límite 5.4 de la tesis)."""
+    tokens = set(_normalizar_texto(texto).split())
+    return bool(tokens & {"ingles", "english", "frances", "portugues", "aleman"})
+
+
 def _es_tema_quechua(texto):
     """Limita la conversación al aprendizaje y uso del quechua."""
     texto_normalizado = _normalizar_texto(texto)
@@ -530,7 +554,7 @@ def _responder_frase_local(texto):
 
     if texto_normalizado in {"buenas tardes", "buenas noches"}:
         return _responder_consulta_local(texto_normalizado, "espanol")
-    if texto_normalizado in {"allin sukay", "allin tuta"}:
+    if texto_normalizado in {"allin sukha", "allin sukay", "allin tuta"}:
         return _responder_consulta_local(texto_normalizado, "quechua")
 
     for frase, respuesta in respuestas.items():
@@ -583,37 +607,43 @@ def _consultar_groq(entrada, groq_client, historial=None):
         "alta. No uses Markdown, listas ni explicaciones largas. "
         "Ayuda a practicar quechua sin convertir cada respuesta en una clase. "
         "No inventes traducciones ni afirmes datos dudosos; pide aclaracion "
-        "cuando no entiendas."
+        "cuando no entiendas. Si el estudiante habla de otro tema, responde "
+        "con amabilidad en una frase y propón practicar una palabra en "
+        "quechua. Nunca hables de temas inadecuados para niños."
     )
+
+    vocabulario = traductor.vocabulario_relevante(
+        entrada,
+        _obtener_conexion_vocabulario()
+    )
+    if vocabulario:
+        prompt_sistema += (
+            "\n\nVocabulario quechua verificado del diccionario de Yura "
+            "(español = quechua):\n"
+            f"{traductor.formatear_vocabulario(vocabulario)}\n"
+            "Cuando digas una palabra en quechua, usa SOLO las de esta lista. "
+            "Si te piden una palabra que no está en la lista, di con cariño "
+            "que todavía no está en tu diccionario y ofrece practicar otra "
+            "de la lista. Nunca inventes palabras en quechua."
+        )
 
     mensajes = [{"role": "system", "content": prompt_sistema}]
     if historial:
         mensajes.extend(historial[-8:])
-    mensajes.append({"role": "user", "content": entrada})
+    # Una transcripción enorme solo agrega costo y espera (Groq rechaza >8000 tokens).
+    mensajes.append({"role": "user", "content": entrada[:500]})
 
     try:
         print("[CONVERSACION] Consultando Groq...")
-        respuesta = groq_client.chat.completions.create(
-            model=os.environ.get(
-                "YURA_GROQ_MODEL",
-                "openai/gpt-oss-20b"
-            ),
-            messages=mensajes,
-            temperature=0.7,
+        respuesta = traductor.consultar_modelo_groq(
+            groq_client,
+            mensajes,
+            temperatura=0.7,
             max_tokens=300
         )
 
-        print("[DEBUG GROQ] respuesta:", respuesta)
-        print("[DEBUG GROQ] choices:", respuesta.choices)
-
-        if respuesta.choices:
-            msg = respuesta.choices[0].message
-            print("[DEBUG GROQ] message:", msg)
-            print("[DEBUG GROQ] content:", repr(getattr(msg, "content", None)))
-            print(
-                "[DEBUG GROQ] reasoning_content:",
-                repr(getattr(msg, "reasoning_content", None))
-            )
+        if respuesta.choices and respuesta.choices[0].finish_reason == "length":
+            print("[CONVERSACION] Aviso Groq: la respuesta llegó cortada.")
 
         contenido = str(
             respuesta.choices[0].message.content or ""
@@ -671,7 +701,9 @@ def procesar_entrada(entrada, groq_client, historial=None):
     if intencion in {"aprender", "practicar"}:
         return {
             "accion": "responder",
-            "respuesta": _comenzar_practica()
+            "respuesta": _comenzar_practica(),
+            "pantalla": _pantalla_sesion(),
+            "pronunciar": _palabra_sesion(),
         }
 
     entrada_comando = re.sub(
@@ -693,15 +725,9 @@ def procesar_entrada(entrada, groq_client, historial=None):
         }
 
     if intencion == "traducir":
-        respuesta_local = _responder_consulta_local(
-            entrada_original,
-            "espanol"
-        )
-        if respuesta_local:
-            return {
-                "accion": "responder",
-                "respuesta": respuesta_local
-            }
+        consulta = _consulta_local(entrada_original, "espanol")
+        if consulta:
+            return {"accion": "responder", **consulta}
 
         respuesta_local = _responder_traduccion_desconocida(entrada_original)
         if respuesta_local:
@@ -720,23 +746,30 @@ def procesar_entrada(entrada, groq_client, historial=None):
             }
 
     if intencion == "significado":
-        respuesta_local = _responder_consulta_local(
-            entrada_original,
-            "quechua"
-        )
-        if respuesta_local:
-            return {
-                "accion": "responder",
-                "respuesta": respuesta_local
-            }
+        consulta = _consulta_local(entrada_original, "quechua")
+        if consulta:
+            return {"accion": "responder", **consulta}
 
-    if not _es_tema_quechua(entrada_original):
+    # Una palabra suelta ("perro", "ñawi") se busca en el diccionario antes
+    # de descartarla como tema ajeno ("no vendo autos...").
+    if len(entrada.split()) <= 3:
+        for idioma in ("espanol", "quechua"):
+            consulta = _consulta_local(entrada_original, idioma)
+            if consulta:
+                return {"accion": "responder", **consulta}
+
+    # Con Groq disponible, las frases de otros temas ("¿cómo estás?",
+    # "¿qué sabes hacer?") las contesta Groq y vuelve al quechua; antes se
+    # rechazaban casi todas con "no vendo autos ni converso en inglés".
+    if _pide_otro_idioma(entrada_original) or (
+        not groq_client and not _es_tema_quechua(entrada_original)
+    ):
         return {
             "accion": "responder",
             "respuesta": (
                 "Soy Yura, un robot educativo que ayuda a practicar quechua. "
-                "Puedo enseñarte vocabulario, traducciones y saludos; no vendo "
-                "autos ni converso en inglés."
+                "Puedo enseñarte palabras, jugar contigo o decirte cómo se "
+                "dice algo en quechua."
             )
         }
 
@@ -754,7 +787,7 @@ def procesar_entrada(entrada, groq_client, historial=None):
         )
 
     entrada_para_groq = interpretar_entrada_quechua(entrada_para_groq)
-    print(f"[CONVERSACION] Usuario: {entrada_para_groq}")
+    depuracion.voz("[CONVERSACION] Usuario", entrada_para_groq)
     respuesta = _consultar_groq(
         entrada_para_groq,
         groq_client,

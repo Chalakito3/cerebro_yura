@@ -1,0 +1,217 @@
+[CONVERSACION] No existe el vocabulario: /tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/extremos/g05/ausente/diccionario.db
+[OK] YURA-EXT-501 | conversacion | BD ausente: iniciar práctica | entrada=enséñame quechua | esperado=aviso claro sin excepción | obtenido='No pude cargar una palabra del vocabulario local. Probemos más tarde.' (0 ms)
+[ALERTA BD]: No existe '/tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/extremos/g05/ausente/diccionario.db'. Copia diccionario.db en la carpeta del proyecto; sin él no hay vocabulario ni traductor local.
+[OK] YURA-EXT-502 | main_robot | BD ausente: inicializar_sistemas_locales | entrada=/tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/extremos/g05/ausente/diccionario.db | esperado=db_conn=None y alerta | obtenido=db_conn=None (0 ms)
+[OK] YURA-EXT-503 | traductor | BD ausente: ejecutar_traducir | entrada=casa | esperado=aviso y volver al menú | obtenido=('menu', ['No puedo acceder al diccionario local ahora.']) (0 ms)
+[OK] YURA-EXT-504 | main_robot | BD ausente: arranque de BrainYura crea la BD? | entrada=/tmp/claude-1000/-home-yura-Proyecto-Yura--cerebro-yura/e3f2d4b6-69bd-45d2-b317-15177a7e8d72/scratchpad/extremos/g05/ausente/diccionario.db | esperado=no crear archivo vacío | obtenido=archivo creado=False (0 ms)
+[OK]: Base de datos 'diccionario.db' enlazada.
+[FALLA] YURA-EXT-505 | main_robot | BD de 0 bytes: inicializar | entrada=archivo 0 bytes | esperado=alerta: BD sin vocabulario | obtenido=db_conn=Connection; imprime '[OK] enlazada' sin avisar que no hay tablas (0 ms)
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> casa
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ALERTA GROQ]: no hay cliente disponible para fallback online.
+[TRADUCTOR] ONLINE: error -> no se obtuvo respuesta del servicio
+[OBSERVACION] YURA-EXT-506 | traductor | BD de 0 bytes: traducir 'casa' | entrada=casa | esperado=aviso de BD vacía | obtenido=('continuar', ['No estoy seguro de cómo traducir esa frase. ¿Puedes decirla de otra manera?']) (0 ms)
+[OK] YURA-EXT-507 | conversacion | BD de 0 bytes: práctica | entrada=enséñame quechua | esperado=aviso | obtenido='No pude cargar una palabra del vocabulario local. Probemos más tarde.' (0 ms)
+[OK]: Base de datos 'diccionario.db' enlazada.
+[FALLA] YURA-EXT-508 | main_robot | Archivo de texto como BD: inicializar | entrada=texto plano | esperado=detectar y alertar | obtenido=db_conn=Connection (lo da por bueno) (0 ms)
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+
+=== YURA-EXT-509 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 96, in <lambda>
+    "mensaje de error, sin excepción", lambda: traducir(r.db_conn), evalua=lambda x: err(x) if isinstance(x, BaseException) else ("OK", repr(x)))
+                                               ^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 50, in traducir
+    ret = traductor.ejecutar_traducir(lambda: frase, habla.append, conn, None,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 415, in ejecutar_traducir
+    resultado_local = buscar_vocabulario(entrada_norm, "espanol", conexion_db)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.DatabaseError: file is not a database
+
+[FALLA] YURA-EXT-509 | traductor | Archivo de texto como BD: traducir | entrada=casa | esperado=mensaje de error, sin excepción | obtenido=EXCEPCIÓN NO CONTROLADA DatabaseError: file is not a database (1 ms)
+
+=== YURA-EXT-510 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 99, in <lambda>
+    "mensaje, sin excepción", lambda: conversacion.procesar_entrada("enséñame quechua", None),
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 677, in procesar_entrada
+    "respuesta": _comenzar_practica()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 223, in _comenzar_practica
+    registro = _seleccionar_leccion()
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 213, in _seleccionar_leccion
+    candidatos = _obtener_vocabulario_para_practica(conexion_db)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 195, in _obtener_vocabulario_para_practica
+    resultado = traductor.buscar_vocabulario(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.DatabaseError: file is not a database
+
+[FALLA] YURA-EXT-510 | conversacion | Archivo de texto como BD: práctica | entrada=enséñame quechua | esperado=mensaje, sin excepción | obtenido=EXCEPCIÓN NO CONTROLADA DatabaseError: file is not a database (1 ms)
+
+=== YURA-EXT-511 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 103, in <lambda>
+    "mensaje, sin excepción", lambda: conversacion.procesar_entrada("como se dice casa", None),
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 699, in procesar_entrada
+    respuesta_local = _responder_consulta_local(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/conversacion.py", line 384, in _responder_consulta_local
+    resultado = traductor.buscar_vocabulario(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.DatabaseError: file is not a database
+
+[FALLA] YURA-EXT-511 | conversacion | Archivo de texto como BD: '¿cómo se dice casa?' | entrada=como se dice casa | esperado=mensaje, sin excepción | obtenido=EXCEPCIÓN NO CONTROLADA DatabaseError: file is not a database (2 ms)
+
+=== YURA-EXT-512 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 108, in <lambda>
+    lambda: j.ejecutar_turno(), lambda x: err(x) if isinstance(x, BaseException) else ("OK", repr(x)))
+            ^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/juego.py", line 100, in ejecutar_turno
+    traduccion_correcta = self.consultar_traduccion(palabra_es)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 105, in <lambda>
+    j = Juego(["casa"], lambda p: traductor.consultar_diccionario_local(p, r.db_conn), lambda: "wasi",
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 187, in consultar_diccionario_local
+    resultado = buscar_vocabulario(palabra, "espanol", conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.DatabaseError: file is not a database
+
+[FALLA] YURA-EXT-512 | juego | Archivo de texto como BD: turno de juego | entrada=wasi | esperado=sin excepción | obtenido=EXCEPCIÓN NO CONTROLADA DatabaseError: file is not a database (0 ms)
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+[DEBUG AUDIO] reiniciando escucha state=TRADUCIR
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+
+=== YURA-EXT-513 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 120, in <lambda>
+    "el robot sigue vivo (captura el error)", lambda: rb.loop_principal(),
+                                                      ^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/main_robot.py", line 1182, in loop_principal
+    self.ejecutar_traducir()
+  File "/home/yura/Proyecto Yura /cerebro_yura/main_robot.py", line 1094, in ejecutar_traducir
+    resultado = traductor.ejecutar_traducir(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 415, in ejecutar_traducir
+    resultado_local = buscar_vocabulario(entrada_norm, "espanol", conexion_db)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.DatabaseError: file is not a database
+
+[FALLA] YURA-EXT-513 | main_robot | Archivo de texto como BD: loop_principal en modo traductor | entrada=casa | esperado=el robot sigue vivo (captura el error) | obtenido=loop_principal TERMINA con DatabaseError: file is not a database; en web/app.py el hilo muere y NO se llama os._exit -> la pantalla sigue mostrando el último estado (0 ms)
+[FALLA] YURA-EXT-522 | web | Pantalla después de que el hilo del robot muere por la BD | entrada=GET /api/status | esperado=indicar que el robot no está funcionando | obtenido=running=True state=TRADUCIR activity='MODO TRADUCTOR ACTIVO' (la pantalla dice que todo va bien) (3 ms)
+[OBSERVACION] YURA-EXT-514 | traductor | Esquema raro: tablas detectadas | entrada=sin columnas, mayúsculas, comillas/SQL, espacio, nivel007 | esperado=ignorar las inválidas sin error; avisar de tablas ignoradas | obtenido=detectadas=[('nivel007_ok', 7, 'ok')]; 'nivel1_Frutas' (con datos) se ignora EN SILENCIO; tabla t sigue existiendo=True (0 ms)
+[OBSERVACION] YURA-EXT-515 | traductor | Esquema raro: buscar 'durazno' (tabla nivel1_Frutas) | entrada=durazno | esperado=encontrar o avisar | obtenido=encontrado=False (0 ms)
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> casa
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ALERTA GROQ]: no hay cliente disponible para fallback online.
+[TRADUCTOR] ONLINE: error -> no se obtuvo respuesta del servicio
+[OK] YURA-EXT-516 | traductor | Fila con quechua NULL: traducir 'casa' | entrada=casa | esperado=no decir 'None' | obtenido=['No estoy seguro de cómo traducir esa frase. ¿Puedes decirla de otra manera?'] (1 ms)
+[TRADUCTOR] Usuario: sol
+[TRADUCTOR] Buscando en BD local...
+[TRADUCTOR] BD LOCAL: no encontrada -> sol
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ALERTA GROQ]: no hay cliente disponible para fallback online.
+[TRADUCTOR] ONLINE: error -> no se obtuvo respuesta del servicio
+[OK] YURA-EXT-517 | traductor | Fila con quechua vacío '': traducir 'sol' | entrada=sol | esperado=no quedar mudo / avisar | obtenido=['No estoy seguro de cómo traducir esa frase. ¿Puedes decirla de otra manera?'] (1 ms)
+[FALLA] YURA-EXT-518 | traductor | NULL en vocabulario enviado a Groq | entrada=casa sol wasi | esperado=no enviar 'None' como vocabulario verificado | obtenido='- Casa = None\n- None = Wasi' (1 ms)
+[FALLA] YURA-EXT-519 | conversacion | Práctica con filas quechua NULL / '' (20 semillas) | entrada=enséñame quechua | esperado=no decir 'None' ni una palabra vacía | obtenido=con 'None'=11, vacías=9; ej: ['Practiquemos una palabra. En quechua se dice . Significa Sol: una palabra de uso cotidiano. Repítela, por favor.', 'Practiquemos una palabra. En quechua se dice None. Significa Casa: una palabra de uso cotidiano. Repítela, por favor.'] (8 ms)
+[TRADUCTOR] Usuario: casa
+[TRADUCTOR] Buscando en BD local...
+
+=== YURA-EXT-520 TRAZA ===
+Traceback (most recent call last):
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/comun.py", line 90, in caso
+    res = fn()
+          ^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 204, in <lambda>
+    "mensaje de error, sin excepción", lambda: traducir(lectora),
+                                               ^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/documentacion_pruebas/evidencias/05_scripts/g05_bd.py", line 50, in traducir
+    ret = traductor.ejecutar_traducir(lambda: frase, habla.append, conn, None,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 415, in ejecutar_traducir
+    resultado_local = buscar_vocabulario(entrada_norm, "espanol", conexion_db)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 149, in buscar_vocabulario
+    registros = _leer_registros_vocabulario(conexion_db)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 100, in _leer_registros_vocabulario
+    for nombre_tabla, nivel, categoria in _tablas_de_vocabulario(conexion_db):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yura/Proyecto Yura /cerebro_yura/traductor.py", line 67, in _tablas_de_vocabulario
+    cursor.execute(
+sqlite3.OperationalError: database is locked
+
+[FALLA] YURA-EXT-520 | traductor | BD bloqueada (BEGIN EXCLUSIVE en otra conexión) | entrada=casa | esperado=mensaje de error, sin excepción | obtenido=EXCEPCIÓN NO CONTROLADA OperationalError: database is locked (5007 ms)
+[OBSERVACION] YURA-EXT-521 | traductor | BD con 50.187 filas: tiempo de búsqueda y de iniciar práctica | entrada=casa / quiero practicar | esperado=< 0,5 s | obtenido=búsqueda=0.18s práctica=1.48s (lee TODAS las filas en cada consulta; práctica = 5 lecturas) (0 ms)
+
+RESUMEN: {'OK': 7, 'FALLA': 11, 'OBSERVACION': 4} total 22
+Matriz escrita en ../05_g05_matriz.md

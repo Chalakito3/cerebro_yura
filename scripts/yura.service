@@ -1,20 +1,29 @@
+# Servicio de usuario: enciende a Yura al iniciar la sesión de "yura".
+# La computadora inicia sesión sola (GDM AutomaticLogin), así que Yura
+# arranca al encender la máquina. Se instala con scripts/instalar_arranque.sh.
+#
+# Ver lo que hace:   journalctl --user -u yura -f
+# Detener:           systemctl --user stop yura
+# Reiniciar:         systemctl --user restart yura
+# No arrancar sola:  systemctl --user disable yura
+
 [Unit]
-Description=Yura robot brain and local web interface
-After=pipewire.service wireplumber.service network-online.target
-Wants=network-online.target
+Description=Yura: cerebro del robot y pantalla web local
+After=pipewire.service wireplumber.service
+Wants=pipewire.service wireplumber.service
 
 [Service]
 Type=simple
-WorkingDirectory=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua
 Environment=PYTHONUNBUFFERED=1
-EnvironmentFile=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/.env.local
-Environment="YURA_INPUT_DEVICE=Logitech USB Headset"
-Environment="YURA_OUTPUT_DEVICE=Logitech USB Headset"
-Environment=YURA_GEMINI_ENABLED=1
-Environment=YURA_GEMINI_TRANSCRIBE_MODEL=gemini-3.8-flash
-Environment=YURA_WHISPER_MODEL=base
-Environment=YURA_GROQ_MODEL=openai/gpt-oss-20b
-ExecStart=/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/.venv/bin/python /home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/web/app.py
+# "Apágate" por voz solo cierra la aplicación. Para que apague también la
+# computadora, quitar el # de la línea siguiente y reinstalar.
+#Environment=YURA_APAGAR_EQUIPO=1
+# Espera hasta 30 s a que haya internet (Gemini, Groq y la voz lo necesitan).
+ExecStartPre=/bin/sh -c 'for i in $$(seq 30); do getent hosts api.groq.com >/dev/null && exit 0; sleep 1; done; exit 0'
+# La carpeta "Proyecto Yura " termina en un espacio: se entra con cd entre comillas.
+ExecStart=/bin/sh -c "cd '/home/yura/Proyecto Yura /cerebro_yura' && exec .venv/bin/python web/app.py"
+# Tras "apágate" confirmado sale con código 0 y no se reinicia sola; si se
+# detiene por errores sale con código 1 y se reinicia.
 Restart=on-failure
 RestartSec=5
 

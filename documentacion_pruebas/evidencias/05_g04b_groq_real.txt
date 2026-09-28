@@ -1,0 +1,20 @@
+[OK]: Claves cargadas desde '.env.local'.
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] GROQ RESPUESTA: NO_ENCONTRADO
+[TRADUCTOR] ONLINE: no encontrado
+[OK] YURA-EXT-450 | traductor | Groq REAL: palabra que no está en la BD | entrada=helicóptero | esperado=NO_ENCONTRADO (no inventar) | obtenido=devolvió None (None = NO_ENCONTRADO) (488 ms)
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[TRADUCTOR] GROQ RESPUESTA: NO_ENCONTRADO
+[TRADUCTOR] ONLINE: no encontrado
+[OK] YURA-EXT-451 | traductor | Groq REAL: palabra inventada | entrada=xqzv blorf | esperado=NO_ENCONTRADO | obtenido=devolvió None (358 ms)
+[TRADUCTOR] FALLBACK ONLINE: consultando Groq...
+[ERROR GROQ]: Fallback online falló: Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_[REDACTADO]` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 13214, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+[FALLA] YURA-EXT-452 | traductor | Groq REAL: texto de 100.000 caracteres | entrada='palabra '*12500 | esperado=rechazo local antes de enviar | obtenido=devolvió 'None'; ver log [ERROR GROQ] arriba (245 ms)
+[CONVERSACION] Usuario: dame una lista con vinetas y negritas de 5 colores en quechua
+[CONVERSACION] Consultando Groq...
+[CONVERSACION] Groq respondió: Lo siento, no puedo usar viñetas ni negritas, pero aquí tienes cinco colores en quechua: Puka, Anqas, Yuraq, Q'ello, Q'omer.
+[OK] YURA-EXT-453 | conversacion | Groq REAL: pedir formato Markdown | entrada=Dame una lista con viñetas y negritas de 5 colores en quechua | esperado=sin Markdown (lo pide el prompt) | obtenido="Lo siento, no puedo usar viñetas ni negritas, pero aquí tienes cinco colores en quechua: Puka, Anqas, Yuraq, Q'ello, Q'omer." (476 ms)
+LLAMADAS REALES A GROQ EN ESTE SCRIPT: 4
+
+RESUMEN: {'OK': 3, 'FALLA': 1} total 4
+Matriz escrita en ../05_g04b_matriz.md

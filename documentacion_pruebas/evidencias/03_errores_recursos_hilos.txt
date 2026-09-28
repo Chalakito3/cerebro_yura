@@ -1,0 +1,35 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t4_errores.py
+
+## A) Llamadas subprocess en HardwareInterface.hablar: ¿llevan timeout?
+  edge-tts: timeout=NO
+  ffmpeg: timeout=NO
+  wpctl: timeout=SÍ
+  pw-play: timeout=NO
+
+## B) Excepción no controlada dentro de un modo (BD bloqueada) -> ¿qué hace loop_principal?
+  loop_principal PROPAGA OperationalError: database is locked; running sigue = True; state = MENU
+
+## C) web/app.py: hilo del robot muere por excepción -> ¿se cierra el proceso? ¿qué muestra /api/status?
+  excepción en hilo: OperationalError: database is locked
+  os._exit llamado: False
+  /api/status tras la muerte del hilo: {'state': 'CONVERSAR', 'running': True, 'activity': 'MODO CONVERSACIÓN ACTIVO', 'phase': 'PENSANDO'}
+
+## D) Historial de conversación: ¿se borra al volver al menú (otro estudiante)?
+  estado: MENU | mensajes en historial: 2
+  2ª sesión: mensajes enviados a Groq en la última llamada: ['user:hablemos en quechua de mi familia', 'assistant:Respuesta', 'user:hablemos en quechua de colores']
+
+## E) Archivo temporal yura_temp.wav: ruta
+  ruta usada: /home/yura/Proyecto Yura /cerebro_yura/yura_temp.wav | existe ahora: False
+
+## F) Conexiones SQLite abiertas por el cerebro
+  connect( self.db_path, check_same_thread=False )
+  connect( ruta_db )
+  conversacion._conexion_vocabulario nunca se cierra: True
+
+## G) __main__ de main_robot llama loop_principal dos veces
+   [(1224, 'cerebro.loop_principal()'), (1226, 'cerebro.loop_principal()')]
+
+## H) Juego: mensaje final con todas las respuestas incorrectas
+  último mensaje: ¡Felicidades! Completaste todas las palabras del juego. Regresemos al menú principal.
+  ¿se guarda algún puntaje/resultado persistente?: atributos del juego = ['consultar_traduccion', 'escuchar_voz', 'hablar', 'indice_juego', 'lista_juego', 'mover_actuador', 'normalizar_texto', 'palabras_partida', 'registrar_evento']

@@ -4,6 +4,9 @@
 import os
 import re
 import unicodedata
+import depuracion
+
+import texto as texto_util
 
 
 _IDIOMAS_ENTRADA = {"espanol", "quechua"}
@@ -16,32 +19,37 @@ def _identificador_sql(nombre):
 
 
 def _normalizar_texto(texto):
-    if texto is None:
-        return ""
+    # Conserva ñ y apóstrofo: antes "niño" pasaba a "ni o" y no se traducía.
+    return texto_util.normalizar(texto)
 
-    try:
-        texto = str(texto).strip()
-    except Exception:
-        return ""
 
-    if texto == "":
-        return ""
-
-    texto = texto.lower()
-
-    texto = (
-        texto
-        .replace("á", "a")
-        .replace("é", "e")
-        .replace("í", "i")
-        .replace("ó", "o")
-        .replace("ú", "u")
-        .replace("ü", "u")
-    )
-
-    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
-    texto = re.sub(r"\s+", " ", texto)
-
+def extraer_termino(entrada):
+    """Quita "cómo se dice", artículos y "en quechua" para buscar solo la
+    palabra: "¿cómo se dice el perro en quechua?" -> "perro"."""
+    texto = _normalizar_texto(entrada)
+    for marcador in (
+        "como puedo decir",
+        "como se dice",
+        "como se escribe",
+        "como se pronuncia",
+        "como digo",
+        "que quiere decir",
+        "que significa",
+        "significado de",
+        "traduceme",
+        "traduce",
+        "explicame",
+    ):
+        coincidencia = re.search(
+            r"(?<![a-zñ'])" + re.escape(marcador) + r"(?![a-zñ'])",
+            texto
+        )
+        if coincidencia:
+            texto = texto[coincidencia.end():].strip()
+            break
+    texto = re.sub(r"\s+(?:en|de|al)\s+(?:quechua|qhichwa|español|espanol)$", "", texto)
+    texto = re.sub(r"^(?:la palabra|el|la|los|las|un|una)\s+", "", texto)
+    texto = re.sub(r"^(?:color|colores)\s+", "", texto)
     return texto.strip()
 
 
@@ -156,12 +164,16 @@ def buscar_vocabulario(texto, idioma_entrada, conexion_db):
 
     candidatos = exactos
     if not candidatos:
+        patron = re.compile(
+            r"(?<![a-zñ'])" + re.escape(texto_comparacion) + r"(?![a-zñ'])"
+        )
         candidatos = [
             registro for registro in registros
-            if texto_comparacion in _normalizar_para_comparar(
-                registro[columna_busqueda]
-            )
+            if patron.search(_normalizar_para_comparar(registro[columna_busqueda]))
         ]
+
+    if not candidatos and idioma_entrada == "quechua":
+        candidatos = _buscar_quechua_aproximado(texto, registros)
 
     if not candidatos:
         return respuesta_vacia
@@ -174,6 +186,32 @@ def buscar_vocabulario(texto, idioma_entrada, conexion_db):
     }
 
 
+def _buscar_quechua_aproximado(texto, registros):
+    """El reconocedor de voz no escribe apóstrofos ni distingue q/k: "qumir"
+    o "kumir" por Q'umir. Se compara la forma simplificada (la misma del
+    evaluador) y, si no basta, lo aprendido de los audios de la docente."""
+    buscado = texto_util.simplificar_quechua(texto)
+    if len(buscado.replace(" ", "")) < 3:
+        return []
+    candidatos = [
+        registro for registro in registros
+        if registro["quechua"] and any(
+            texto_util.simplificar_quechua(registro["quechua"], ll) == buscado
+            for ll in ("l", "y")
+        )
+    ]
+    if candidatos:
+        return candidatos
+    import pronunciaciones
+    palabra = pronunciaciones.palabra_por_variante(texto)
+    if palabra is None:
+        return []
+    return [
+        registro for registro in registros
+        if _normalizar_para_comparar(registro["quechua"]) == _normalizar_para_comparar(palabra)
+    ]
+
+
 def buscar_traduccion_local(texto, conexion_db):
     resultado = buscar_vocabulario(texto, "espanol", conexion_db)
     if not resultado["resultados"]:
@@ -181,6 +219,56 @@ def buscar_traduccion_local(texto, conexion_db):
 
     registro = resultado["resultados"][0]
     return registro["quechua"], registro["significado"]
+
+
+# Palabras que no aparecen en ninguna fuente boliviana (documento 002,
+# sección 14.4). El equipo decidió dejarlas en el diccionario, pero el juego
+# no las pregunta.
+PALABRAS_SIN_VERIFICAR = {
+    "iglesia", "jarra", "cuchara", "cuchillo", "sarten", "tijera",
+    "espalda baja", "dedos del pie", "cuaderno", "mochila", "chicha dulce",
+    "olla pequeña", "rosado", "sendero",
+}
+
+CATEGORIAS_DEL_JUEGO = {
+    "animales", "familia", "colores", "partes_del_cuerpo", "elementos_naturales",
+    "alimentos", "elementos_casa", "objetos_escolares", "numeros",
+}
+
+
+def palabras_para_juego(conexion_db):
+    """Palabras en castellano que el juego puede preguntar.
+
+    Solo vocabulario básico, verificado y con una única traducción (se
+    excluyen las ambiguas como papa/papá y las que se escriben igual en los
+    dos idiomas, porque no enseñan nada).
+    """
+    if conexion_db is None:
+        return []
+    try:
+        registros = _leer_registros_vocabulario(conexion_db)
+    except Exception as exc:
+        print(f"[JUEGO] No se pudo leer el vocabulario: {exc}")
+        return []
+
+    palabras = set()
+    for registro in registros:
+        espanol = str(registro["espanol"] or "").strip()
+        quechua = str(registro["quechua"] or "").strip()
+        if registro["categoria"] not in CATEGORIAS_DEL_JUEGO or not espanol or not quechua:
+            continue
+        if registro["categoria"] == "numeros" and registro["id"] > 10:
+            continue
+        if any(signo in espanol for signo in "/()") or len(espanol.split()) > 2:
+            continue
+        if _normalizar_para_comparar(espanol) in PALABRAS_SIN_VERIFICAR:
+            continue
+        if _normalizar_para_comparar(espanol) == _normalizar_para_comparar(quechua):
+            continue
+        if len(buscar_vocabulario(espanol, "espanol", conexion_db)["resultados"]) != 1:
+            continue
+        palabras.add(espanol.lower())
+    return sorted(palabras)
 
 
 def consultar_diccionario_local(palabra, conexion_db):
@@ -191,7 +279,106 @@ def consultar_diccionario_local(palabra, conexion_db):
     return resultado["resultados"][0]["quechua"]
 
 
-def traducir_online(texto, groq_client):
+_PALABRAS_VACIAS = {
+    "como", "dice", "decir", "digo", "quechua", "que", "para", "con", "una",
+    "uno", "unos", "unas", "los", "las", "del", "por", "hola", "yura", "dime",
+    "quiero", "aprender", "palabra", "palabras", "sobre", "cual", "cuales",
+    "significa", "traduce", "traducir", "puedo", "puedes", "esta", "este",
+    "eso", "esa", "muy", "mas", "tengo", "ensename", "sabes", "algo", "mi",
+    "tu", "hablar", "habla", "idioma", "frase", "frases", "cosas", "oye",
+}
+
+
+def _coincide_palabra(token, palabra):
+    if token == palabra:
+        return True
+    return (
+        len(token) >= 4
+        and len(palabra) >= 4
+        and (token.startswith(palabra) or palabra.startswith(token))
+    )
+
+
+def vocabulario_relevante(texto, conexion_db, limite=40):
+    """Elige del diccionario las palabras relacionadas con lo que se preguntó.
+
+    Siempre incluye los saludos y agrega las palabras mencionadas y las de
+    cualquier tema nombrado (por ejemplo "familia" o "colores").
+    """
+    if conexion_db is None:
+        return []
+
+    try:
+        registros = _leer_registros_vocabulario(conexion_db)
+    except Exception as exc:
+        print(f"[TRADUCTOR] No se pudo leer el vocabulario: {exc}")
+        return []
+
+    tokens = {
+        token
+        for token in re.findall(r"[a-zñ']+", _normalizar_para_comparar(texto))
+        if len(token) >= 3 and token not in _PALABRAS_VACIAS
+    }
+
+    elegidos = []
+    for registro in registros:
+        palabras_categoria = registro["categoria"].split("_")
+        palabras_registro = re.findall(
+            r"[a-zñ']+",
+            _normalizar_para_comparar(
+                f"{registro['espanol']} {registro['quechua']}"
+            )
+        )
+        if (
+            registro["categoria"] == "saludos"
+            or any(
+                _coincide_palabra(token, palabra)
+                for token in tokens
+                for palabra in palabras_registro + palabras_categoria
+            )
+        ):
+            elegidos.append(registro)
+
+    return elegidos[:limite]
+
+
+def describir_opciones(registros, limite=3):
+    """Describe en voz alta las traducciones cuando una palabra es ambigua."""
+    opciones = "; ".join(
+        f"{registro['espanol']}, de {registro['categoria'].replace('_', ' ')}, "
+        f"se dice {registro['quechua']}"
+        for registro in registros[:limite]
+    )
+    return f"Tiene varios significados: {opciones}."
+
+
+def formatear_vocabulario(registros):
+    return "\n".join(
+        f"- {registro['espanol']} = {registro['quechua']}"
+        for registro in registros
+    )
+
+
+def consultar_modelo_groq(groq_client, mensajes, temperatura, max_tokens):
+    """Llama a Groq limitando el razonamiento interno del modelo.
+
+    Los modelos gpt-oss "piensan" antes de responder y ese pensamiento
+    consume el límite de tokens; sin reasoning_effort bajo, la respuesta
+    visible puede llegar cortada o vacía.
+    """
+    modelo = os.environ.get("YURA_GROQ_MODEL", "openai/gpt-oss-120b")
+    parametros = {
+        "model": modelo,
+        "messages": mensajes,
+        "temperature": temperatura,
+        "max_completion_tokens": max_tokens + 400,
+    }
+    if "gpt-oss" in modelo:
+        parametros["reasoning_effort"] = "low"
+    return groq_client.chat.completions.create(**parametros)
+
+
+def traducir_online(texto, groq_client, conexion_db=None):
     if not groq_client:
         print("[ALERTA GROQ]: no hay cliente disponible para fallback online.")
         return None
@@ -208,18 +395,26 @@ def traducir_online(texto, groq_client):
         "Si no puedes determinar una traducción razonable, responde exactamente NO_ENCONTRADO."
     )
 
+    vocabulario = vocabulario_relevante(texto, conexion_db)
+    if vocabulario:
+        instruccion += (
+            "\n\nVocabulario verificado (español = quechua):\n"
+            f"{formatear_vocabulario(vocabulario)}\n"
+            "Usa estas palabras cuando correspondan. Si la traducción "
+            "necesita una palabra quechua que no está en la lista y no "
+            "estás completamente seguro de ella, responde exactamente "
+            "NO_ENCONTRADO. Nunca inventes palabras en quechua."
+        )
+
     try:
         print("[TRADUCTOR] FALLBACK ONLINE: consultando Groq...")
-        respuesta = groq_client.chat.completions.create(
-            model=os.environ.get(
-                "YURA_GROQ_MODEL",
-                "openai/gpt-oss-20b"
-            ),
-            messages=[
+        respuesta = consultar_modelo_groq(
+            groq_client,
+            [
                 {"role": "system", "content": instruccion},
                 {"role": "user", "content": texto}
             ],
-            temperature=0.1,
+            temperatura=0.1,
             max_tokens=80
         )
 
@@ -234,7 +429,7 @@ def traducir_online(texto, groq_client):
         contenido = re.sub(r"^(?:traduccion|quechua)\s*:\s*", "", contenido, flags=re.IGNORECASE)
         contenido = contenido.strip()
 
-        if contenido.upper() == "NO_ENCONTRADO":
+        if re.sub(r"[\s_.]", "", contenido.upper()).startswith("NOENCONTRADO"):
             print("[TRADUCTOR] ONLINE: no encontrado")
             return None
 
@@ -267,68 +462,90 @@ def ejecutar_traducir(
         )
         return "menu"
 
+    silencios_seguidos = 0
+
     while modo_activo():
         entrada = escuchar_voz()
-
-        if entrada == "":
-            hablar(
-                "Necesito que repitas la palabra o frase."
-            )
-            continue
-
         entrada_norm = _normalizar_texto(entrada)
 
         if entrada_norm == "":
+            # Sin salida, el modo repetía "Necesito que repitas" para siempre.
+            silencios_seguidos += 1
+            if silencios_seguidos >= 3:
+                hablar(
+                    "No escucho a nadie. Regreso al menú principal."
+                )
+                return "menu"
             hablar(
                 "Necesito que repitas la palabra o frase."
             )
             continue
 
-        if any(
-            palabra in entrada_norm for palabra in (
-                "salir",
-                "apagar",
-                "terminar",
-                "adios",
-                "volver",
-                "menu",
-                "regresar",
-                "salir de yura"
-            )
-        ):
+        silencios_seguidos = 0
+
+        # Solo la orden completa sale del traductor, así se pueden traducir
+        # palabras como "adiós", "volver" o "apagar".
+        if _ORDEN_SALIR_TRADUCTOR.fullmatch(entrada_norm):
             hablar(
                 "Regresando al menú principal."
             )
             return "menu"
 
-        print(f"[TRADUCTOR] Usuario: {entrada_norm}")
+        termino = extraer_termino(entrada_norm) or entrada_norm
+
+        depuracion.voz("[TRADUCTOR] Usuario", entrada_norm)
         print("[TRADUCTOR] Buscando en BD local...")
 
-        traduccion, significado = buscar_traduccion_local(
-            entrada_norm,
-            conexion_db
-        )
+        resultado_local = buscar_vocabulario(termino, "espanol", conexion_db)
 
-        if traduccion:
+        # Sin tildes, "papá" y "papa" suenan igual: se dicen ambas opciones.
+        if resultado_local["ambiguo"]:
+            opciones = resultado_local["resultados"][:3]
+            respuesta = describir_opciones(opciones)
+            print(f"[TRADUCTOR] BD LOCAL: varias opciones -> {respuesta}")
+            on_status(
+                "PENSANDO",
+                content=" / ".join(r["quechua"] for r in opciones),
+                translation=" / ".join(r["espanol"] for r in opciones),
+                fijar=True
+            )
+            hablar(respuesta)
+            continue
+
+        if resultado_local["encontrado"]:
+            registro = resultado_local["resultados"][0]
+            traduccion = registro["quechua"]
+            significado = registro["significado"]
             print(f"[TRADUCTOR] BD LOCAL: encontrada -> {traduccion}")
-            on_status("PENSANDO", content=traduccion, translation=traduccion)
+            on_status(
+                "PENSANDO",
+                content=traduccion,
+                translation=registro["espanol"],
+                fijar=True
+            )
             respuesta = f"En quechua se dice: {traduccion}."
             if significado and str(significado).strip():
                 respuesta += f" {str(significado).strip()}."
             hablar(respuesta)
             continue
 
-        print(f"[TRADUCTOR] BD LOCAL: no encontrada -> {entrada_norm}")
+        depuracion.voz("[TRADUCTOR] BD LOCAL: no encontrada", termino)
         print("[TRADUCTOR] FALLBACK ONLINE: consultando Groq...")
 
         traduccion_online = traducir_online(
-            entrada,
-            groq_client
+            termino,
+            groq_client,
+            conexion_db
         )
 
         if traduccion_online:
             print(f"[TRADUCTOR] ONLINE: {traduccion_online}")
-            on_status("PENSANDO", content=traduccion_online, translation=traduccion_online)
+            on_status(
+                "PENSANDO",
+                content=traduccion_online,
+                translation=termino,
+                fijar=True
+            )
             hablar(
                 f"En quechua se puede decir: {traduccion_online}."
             )
@@ -341,3 +558,11 @@ def ejecutar_traducir(
         )
 
     return "continuar"
+
+
+_ORDEN_SALIR_TRADUCTOR = re.compile(
+    r"(?:yura )?(?:quiero )?(?:"
+    r"salir(?: del traductor)?|terminar|menu(?: principal)?|"
+    r"(?:volver|regresar|ir) al menu(?: principal)?|volver|regresar"
+    r")(?: por favor)?"
+)

@@ -1,0 +1,101 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t3_evaluacion.py
+
+## A) Casos concretos (respuesta del niño transcrita, respuesta correcta de la BD)
+| Dicho | Correcta | Esperado | Juego (_respuesta_es_correcta) | Práctica (_evaluar_respuesta) | Estado |
+|---|---|---|---|---|---|
+| allqo | Allqo | True | True | True | OK |
+| allku | Allqo | True | True | True | OK |
+| es allqo | Allqo | True | True | True | OK |
+| se dice allqo | Allqo | True | False | False | FALLA |
+| allqo allqo | Allqo | True | False | False | FALLA |
+| wasi | Wasi | True | True | True | OK |
+| wasa | Wasi | False | True | True | FALLA |
+| inti | Inti | True | True | True | OK |
+| anti | Inti | False | True | True | FALLA |
+| misi | Misi | True | True | True | OK |
+| mesa | Misi | False | False | False | OK |
+| sacha | Sach'a | True | True | True | OK |
+| uma | Uma | True | True | True | OK |
+| yaku | Uma | False | False | False | OK |
+| puka | Q'ello | False | False | False | OK |
+| q ello | Q'ello | True | True | True | OK |
+| keyo | Q'ello | True | True | True | OK |
+| allin tuta | Allin punchay | False | False | False | OK |
+| allin sukay | Allin tuta | False | False | False | OK |
+| allin | Allin tuta | False | False | False | OK |
+| allin tuta | Allin | False | False | False | OK |
+| huk | Iskay | False | False | False | OK |
+| nuqa | Ñuqa | True | True | True | OK |
+| uqa | Ñuqa | False | True | True | FALLA |
+| mama | Tata | False | False | False | OK |
+| tata | Mama | False | False | False | OK |
+| kimsa | Kinsa | True | True | True | OK |
+| pichqa | Pisqa | True | True | True | OK |
+| no se | Wasi | False | False | False | OK |
+
+## B) Barrido de toda la BD: pares de palabras quechua DISTINTAS (significado español distinto) aceptadas como correctas
+registros: 187
+pares aceptados erróneamente JUEGO: 298
+pares aceptados erróneamente PRACTICA: 294
+  JUEGO acepta decir 'Chicha' (Bebida tradicional) cuando la respuesta es 'Ch'ita' (Gato montés)
+  JUEGO acepta decir 'Papa' (Papa) cuando la respuesta es 'Llapa' (Todo)
+  JUEGO acepta decir 'Sara' (Maíz) cuando la respuesta es 'Sach'a' (Árbol)
+  JUEGO acepta decir 'Sara' (Maíz) cuando la respuesta es 'Sacha' (Venado)
+  JUEGO acepta decir 'K'anka' (Carne asada) cuando la respuesta es 'Anqas' (Azul)
+  JUEGO acepta decir 'K'anka' (Carne asada) cuando la respuesta es 'Manka' (Olla)
+  JUEGO acepta decir 'K'anka' (Carne asada) cuando la respuesta es 'P'anka' (Cuaderno)
+  JUEGO acepta decir 'Aswa' (Chicha dulce) cuando la respuesta es 'Tawa' (Cuatro)
+  JUEGO acepta decir 'Mullu' (Maíz tostado) cuando la respuesta es 'Puyu' (Nube)
+  JUEGO acepta decir 'Mullu' (Maíz tostado) cuando la respuesta es 'Mayu' (Río)
+  JUEGO acepta decir 'Mullu' (Maíz tostado) cuando la respuesta es 'K'ullu' (Hueso)
+  JUEGO acepta decir 'Anqas' (Azul) cuando la respuesta es 'K'anka' (Carne asada)
+  JUEGO acepta decir 'Anqas' (Azul) cuando la respuesta es 'Manka' (Olla)
+  JUEGO acepta decir 'Anqas' (Azul) cuando la respuesta es 'P'anka' (Cuaderno)
+  JUEGO acepta decir 'Yana' (Negro) cuando la respuesta es 'Tiyana' (Silla)
+  JUEGO acepta decir 'Yana' (Negro) cuando la respuesta es 'Llapa' (Todo)
+  JUEGO acepta decir 'Yana' (Negro) cuando la respuesta es 'Llama' (Llama)
+  JUEGO acepta decir 'Uqi' (Gris) cuando la respuesta es 'Qullqi' (Plateado)
+  JUEGO acepta decir 'Uqi' (Gris) cuando la respuesta es 'Huk' (Uno)
+  JUEGO acepta decir 'Uqi' (Gris) cuando la respuesta es 'Huk' (Uno)
+  JUEGO acepta decir 'Ch'umpi' (Marrón / Café) cuando la respuesta es 'Ch'upi' (Opaco)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'Quri' (Dorado)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'Qullqi' (Plateado)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'K'ullu' (Hueso)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'Q'uychi' (Caliente)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'Kuchi' (Cerdo)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'Kuy' (Cuy)
+  JUEGO acepta decir 'Kulli' (Morado / Violeta) cuando la respuesta es 'K'uchi' (Mono)
+  JUEGO acepta decir 'Quri' (Dorado) cuando la respuesta es 'Kulli' (Morado / Violeta)
+  JUEGO acepta decir 'Quri' (Dorado) cuando la respuesta es 'Qhari' (Hombre)
+  JUEGO acepta decir 'Quri' (Dorado) cuando la respuesta es 'Kuchi' (Cerdo)
+  JUEGO acepta decir 'Quri' (Dorado) cuando la respuesta es 'K'uchi' (Mono)
+  JUEGO acepta decir 'Qullqi' (Plateado) cuando la respuesta es 'Uqi' (Gris)
+  JUEGO acepta decir 'Qullqi' (Plateado) cuando la respuesta es 'Kulli' (Morado / Violeta)
+  JUEGO acepta decir 'Qullqi' (Plateado) cuando la respuesta es 'Q'uychi' (Caliente)
+  JUEGO acepta decir 'Qullqi' (Plateado) cuando la respuesta es 'Kuy' (Cuy)
+  JUEGO acepta decir 'Manka' (Olla) cuando la respuesta es 'K'anka' (Carne asada)
+  JUEGO acepta decir 'Manka' (Olla) cuando la respuesta es 'Anqas' (Azul)
+  JUEGO acepta decir 'Manka' (Olla) cuando la respuesta es 'Marka' (Pueblo)
+  JUEGO acepta decir 'Manka' (Olla) cuando la respuesta es 'P'anka' (Cuaderno)
+  pares solo en PRACTICA: 0
+
+## C) Palabras del juego: respuesta esperada según la BD
+gato -> Misi | ambiguo: False | [('Misi', 'Gato')]
+perro -> Allqo | ambiguo: False | [('Allqo', 'Perro')]
+sol -> Inti | ambiguo: False | [('Inti', 'Sol')]
+agua -> Uma | ambiguo: False | [('Uma', 'Agua')]
+casa -> Wasi | ambiguo: False | [('Wasi', 'Casa')]
+arbol -> Sach'a | ambiguo: False | [("Sach'a", 'Árbol')]
+
+## D) Práctica: palabras interceptadas por _responder_frase_local (no se evalúan)
+  Repetir correctamente 'Allin sukay' (Buenas tardes) -> responder: Allin sukay significa Buenas tardes.
+  Repetir correctamente 'Allin tuta' (Buenas noches) -> responder: Allin tuta significa Buenas noches.
+
+## E) Juego: partida completa simulada (4 preguntas) con respuestas correctas de la BD
+palabras: ['perro', 'casa', 'arbol', 'agua'] respuestas: ['Allqo', 'Wasi', "Sach'a", 'Uma']
+estado final: MENU | dichos: ['¿Cómo se dice, perro, en quechua?', '¡Excelente! Lo dijiste de forma correcta', '¿Cómo se dice, casa, en quechua?', '¡Excelente! Lo dijiste de forma correcta', '¿Cómo se dice, arbol, en quechua?', '¡Excelente! Lo dijiste de forma correcta', '¿Cómo se dice, agua, en quechua?', '¡Excelente! Lo dijiste de forma correcta', '¡Felicidades! Completaste todas las pala']
+web_status final: {'phase': 'CELEBRANDO', 'content': '¿Cómo se dice, agua, en quechua?', 'translation': 'Uma', 'result': 'CORRECTO', 'updated_at': '2026-09-27T04:16:03.087480+00:00'}
+
+## F) Juego tras terminar: se vuelve a jugar desde MENU con 'jugar'
+estado: JUEGO indice: 0 palabras nuevas: ['casa', 'agua', 'gato', 'sol']

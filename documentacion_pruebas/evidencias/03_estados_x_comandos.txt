@@ -1,0 +1,100 @@
+# Fecha: 2026-09-27T00:20:13-04:00
+# Comando: cd scratchpad/backend && PYTHONDONTWRITEBYTECODE=1 "/home/yura/Proyecto Yura /cerebro_yura/.venv/bin/python" t1_estados.py
+
+| Estado inicial | Comando dicho | Estado final | running | Primera frase de Yura (recortada) |
+|---|---|---|---|---|
+| MENU | "" | MENU | True | (nada) |
+| MENU | "hola" | CONVERSAR | True | Rimaykullayki significa hola. |
+| MENU | "preséntate" | MENU | True | Ñuqaqa Yura kani. Robotmi kani, qhichwa simita rimanakuypaq yanapakuq. |
+| MENU | "silencio" | SILENCIO | True | Entendido. Me quedaré en silencio hasta que me pidas volver. |
+| MENU | "cállate" | SILENCIO | True | Entendido. Me quedaré en silencio hasta que me pidas volver. |
+| MENU | "espera" | SILENCIO | True | Entendido. Me quedaré en silencio hasta que me pidas volver. |
+| MENU | "apagar" | SALIR | False | Hasta luego. Me voy a apagar. |
+| MENU | "salir" | SILENCIO | True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras volver. |
+| MENU | "adiós" | SILENCIO | True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras volver. |
+| MENU | "terminar" | SILENCIO | True | Hasta luego. Tupananchiskama. Dime despierta cuando quieras volver. |
+| MENU | "menú" | MENU | True | Hasta luego. Tupananchiskama. |
+| MENU | "volver" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| MENU | "despierta" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| MENU | "traducir" | TRADUCIR | True | Modo traductor. Dime una palabra o frase en español y te diré cómo se  |
+| MENU | "conversar" | CONVERSAR | True | Modo conversación activado. ¿De qué te gustaría hablar hoy? |
+| MENU | "jugar" | JUEGO | True | (nada) |
+| MENU | "enséñame quechua" | CONVERSAR | True | Practiquemos una palabra. En quechua se dice Runa. Significa Persona:  |
+| MENU | "otra vez" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| MENU | "¿cómo se dice perro?" | CONVERSAR | True | En quechua se dice Allqo, que significa perro. Puedes practicarla usán |
+| CONVERSAR | "" | CONVERSAR | True | (nada) |
+| CONVERSAR | "hola" | CONVERSAR | True | Rimaykullayki significa hola. |
+| CONVERSAR | "preséntate" | CONVERSAR | True | Ñuqaqa Yura kani. Robotmi kani, qhichwa simita rimanakuypaq yanapakuq. |
+| CONVERSAR | "silencio" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "cállate" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "espera" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "apagar" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "salir" | MENU | True | Hasta luego. Tupananchiskama. |
+| CONVERSAR | "adiós" | MENU | True | Hasta luego. Tupananchiskama. |
+| CONVERSAR | "terminar" | MENU | True | Hasta luego. Tupananchiskama. |
+| CONVERSAR | "menú" | MENU | True | Hasta luego. Tupananchiskama. |
+| CONVERSAR | "volver" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "despierta" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "traducir" | CONVERSAR | True | No tengo una traducción segura de 'traducir' en mi vocabulario local t |
+| CONVERSAR | "conversar" | CONVERSAR | True | RESPUESTA_GROQ_FALSA |
+| CONVERSAR | "jugar" | CONVERSAR | True | Practiquemos una palabra. En quechua se dice Runa. Significa Persona:  |
+| CONVERSAR | "enséñame quechua" | CONVERSAR | True | Practiquemos una palabra. En quechua se dice Runa. Significa Persona:  |
+| CONVERSAR | "otra vez" | CONVERSAR | True | Soy Yura, un robot educativo que ayuda a practicar quechua. Puedo ense |
+| CONVERSAR | "¿cómo se dice perro?" | CONVERSAR | True | En quechua se dice Allqo, que significa perro. Puedes practicarla usán |
+| JUEGO | "" | JUEGO | True | No logré escucharte. |
+| JUEGO | "hola" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "preséntate" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "silencio" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "cállate" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "espera" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "apagar" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "salir" | MENU | True | Saliendo al menú principal. |
+| JUEGO | "adiós" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "terminar" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "menú" | MENU | True | Saliendo al menú principal. |
+| JUEGO | "volver" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "despierta" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "traducir" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "conversar" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "jugar" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "enséñame quechua" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "otra vez" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| JUEGO | "¿cómo se dice perro?" | JUEGO | True | Sigue aprendiendo, tú puedes. Se dice de la siguiente manera: Allqo. |
+| TRADUCIR | "" | TRADUCIR [bucle traductor sigue esperando] | True | Necesito que repitas la palabra o frase. |
+| TRADUCIR | "hola" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "preséntate" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "silencio" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "cállate" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "espera" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "apagar" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "salir" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "adiós" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "terminar" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "menú" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "volver" | MENU | True | Regresando al menú principal. |
+| TRADUCIR | "despierta" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "traducir" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "conversar" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "jugar" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "enséñame quechua" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "otra vez" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| TRADUCIR | "¿cómo se dice perro?" | TRADUCIR [bucle traductor sigue esperando] | True | En quechua se puede decir: RESPUESTA_GROQ_FALSA. |
+| SILENCIO | "" | SILENCIO | True | (nada) |
+| SILENCIO | "hola" | SILENCIO | True | (nada) |
+| SILENCIO | "preséntate" | SILENCIO | True | (nada) |
+| SILENCIO | "silencio" | MENU | True | Ya estoy de vuelta. ¿Qué te gustaría hacer? |
+| SILENCIO | "cállate" | SILENCIO | True | (nada) |
+| SILENCIO | "espera" | SILENCIO | True | (nada) |
+| SILENCIO | "apagar" | SILENCIO | True | (nada) |
+| SILENCIO | "salir" | SILENCIO | True | (nada) |
+| SILENCIO | "adiós" | SILENCIO | True | (nada) |
+| SILENCIO | "terminar" | SILENCIO | True | (nada) |
+| SILENCIO | "menú" | SILENCIO | True | (nada) |
+| SILENCIO | "volver" | MENU | True | Ya estoy de vuelta. ¿Qué te gustaría hacer? |
+| SILENCIO | "despierta" | MENU | True | Ya estoy de vuelta. ¿Qué te gustaría hacer? |
+| SILENCIO | "traducir" | SILENCIO | True | (nada) |
+| SILENCIO | "conversar" | SILENCIO | True | (nada) |
+| SILENCIO | "jugar" | SILENCIO | True | (nada) |
+| SILENCIO | "enséñame quechua" | SILENCIO | True | (nada) |
+| SILENCIO | "otra vez" | SILENCIO | True | (nada) |
+| SILENCIO | "¿cómo se dice perro?" | SILENCIO | True | (nada) |

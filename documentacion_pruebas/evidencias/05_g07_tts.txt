@@ -1,0 +1,63 @@
+[FALLA] YURA-EXT-701 | tts | limpiar/formatear/visible | entrada=markdown | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio="Colores Puka: rojo Q'illu: amarillo 1. [ver](http://x.y)" voz="Colores Puka: rojo Q'illu: amarillo 1. [ver](http://x.y)." visible="Colores Puka: rojo Q'illu: amarillo 1" (0 ms)
+[FALLA] YURA-EXT-702 | tts | limpiar/formatear/visible | entrada=html | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='<p>Rimaykullayki</p><br>&nbsp;&amp;' voz='<p>Rimaykullayki</p><br>&nbsp;&amp;' visible='<p>Rimaykullayki</p><br>&nbsp;&amp;' (0 ms)
+[FALLA] YURA-EXT-703 | tts | limpiar/formatear/visible | entrada=url | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='Visita https://www.ejemplo.com/quechua?x=1&y=2 para más' voz='Visita https://www.ejemplo.com/quechua.x=1&y=2 para más.' visible='Visita https://www.ejemplo.com/quechua?x=1&y=2 par' (0 ms)
+[FALLA] YURA-EXT-704 | tts | limpiar/formatear/visible | entrada=tabla | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='| es | qu | |---|---| | casa | wasi |' voz='| es | qu | |---|---| | casa | wasi |.' visible='| es | qu | |---|---| | casa | wasi |' (0 ms)
+[FALLA] YURA-EXT-705 | tts | limpiar/formatear/visible | entrada=solo_signos | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='¿¡?!...;;;' voz='.....;;;' visible='¿¡?!...;;;' (0 ms)
+[FALLA] YURA-EXT-706 | tts | limpiar/formatear/visible | entrada=espacios | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='' voz='.' visible='' (0 ms)
+[OK] YURA-EXT-707 | tts | limpiar/formatear/visible | entrada=guion_bajo | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='p unchay y NO ENCONTRADO' voz='p unchay, y NO ENCONTRADO.' visible='p unchay y NO ENCONTRADO' (0 ms)
+[OK] YURA-EXT-708 | tts | limpiar/formatear/visible | entrada=apostrofo | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio="Allin p'unchay, Q'ello" voz="Allin p'unchay, Q'ello." visible="Allin p'unchay, Q'ello" (0 ms)
+[OK] YURA-EXT-709 | tts | limpiar/formatear/visible | entrada=pregunta | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='¿Imaynalla kachkanki?' voz='Imaynalla kachkanki.' visible='¿Imaynalla kachkanki?' (0 ms)
+[OK] YURA-EXT-710 | tts | limpiar/formatear/visible | entrada=abreviatura | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='Sr. Pérez dice: En quechua se dice Tata.' voz='Sr. Pérez dice: En quechua se dice Tata.' visible='Sr' (0 ms)
+[FALLA] YURA-EXT-711 | tts | limpiar/formatear/visible | entrada=traduccion | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='En quechua se dice: Tata. Significa padre.' voz='En quechua se dice: Tata. Significa padre.' visible=': Tata' (0 ms)
+[OK] YURA-EXT-712 | tts | limpiar/formatear/visible | entrada=asteriscos_mat | esperado=sin Markdown/HTML/URL; texto pronunciable | obtenido=limpio='3 4 5 = 60' voz='3 4 5 = 60.' visible='3 4 5 = 60' (0 ms)
+[OBSERVACION] YURA-EXT-720 | tts | texto extremo (rendimiento y longitud) | entrada=10000_palabras | esperado=< 100 ms; limitar longitud visible/hablada | obtenido=1.1 ms; voz=10000 car; pantalla=9999 car (0 ms)
+[OK] YURA-EXT-721 | tts | texto extremo (rendimiento y longitud) | entrada=10000_asteriscos | esperado=< 100 ms; limitar longitud visible/hablada | obtenido=1.2 ms; voz=1 car; pantalla=0 car (0 ms)
+[OBSERVACION] YURA-EXT-722 | tts | texto extremo (rendimiento y longitud) | entrada=5000_negritas | esperado=< 100 ms; limitar longitud visible/hablada | obtenido=1.7 ms; voz=5001 car; pantalla=5000 car (0 ms)
+[OBSERVACION] YURA-EXT-723 | tts | texto extremo (rendimiento y longitud) | entrada=10000_sin_punto | esperado=< 100 ms; limitar longitud visible/hablada | obtenido=0.6 ms; voz=10001 car; pantalla=10000 car (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[AUDIO] Edge TTS falló; reintentando una vez...
+[AUDIO] Edge TTS no generó voz (código 1).
+[AUDIO] Error al generar o reproducir la voz: Falló la generación de voz con Edge TTS
+[AUDIO] No hay un motor de voz local disponible.
+[OK] YURA-EXT-730 | tts | hablar(): Edge TTS falla (sin internet), sin motor local | entrada=Rimaykullayki | esperado=reintenta 1 vez, avisa y NO se bloquea | obtenido=procesos=['edge-tts', 'edge-tts'] estados=['HABLANDO', 'ESPERANDO'] 0 ms (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[AUDIO] Edge TTS falló; reintentando una vez...
+[AUDIO] Edge TTS no generó voz (código 1).
+[AUDIO] Error al generar o reproducir la voz: Falló la generación de voz con Edge TTS
+[OK] YURA-EXT-731 | tts | hablar(): Edge TTS falla, hay spd-say | entrada=Rimaykullayki | esperado=usa spd-say | obtenido=procesos=['edge-tts', 'edge-tts', 'spd-say'] estados=['HABLANDO', 'ESPERANDO'] 0 ms (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[AUDIO] Ningún reproductor disponible pudo emitir la voz.
+[AUDIO] No hay un motor de voz local disponible.
+[OK] YURA-EXT-732 | tts | hablar(): Sin ffmpeg ni reproductores | entrada=Rimaykullayki | esperado=avisa que no hay audio | obtenido=procesos=['edge-tts'] estados=['HABLANDO', 'ESPERANDO'] 0 ms (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[AUDIO] Falló pw-play; probando otra salida.
+[AUDIO] Falló ffplay; probando otra salida.
+[AUDIO] Falló mpg123; probando otra salida.
+[AUDIO] Ningún reproductor disponible pudo emitir la voz.
+[AUDIO] No hay un motor de voz local disponible.
+[OK] YURA-EXT-733 | tts | hablar(): Todos los reproductores fallan | entrada=Rimaykullayki | esperado=prueba todos y cae a motor local | obtenido=procesos=['edge-tts', 'ffmpeg', 'wpctl', 'pw-play', 'ffplay', 'mpg123'] estados=['HABLANDO', 'ESPERANDO'] 0 ms (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[OK] YURA-EXT-734 | tts | hablar(): Camino normal | entrada=Rimaykullayki | esperado=edge-tts -> ffmpeg -> pw-play | obtenido=procesos=['edge-tts', 'ffmpeg', 'wpctl', 'pw-play'] estados=['HABLANDO', 'ESPERANDO'] 0 ms (0 ms)
+
+[YURA HABLA]: Rimaykullayki.
+[AUDIO] Edge TTS falló; reintentando una vez...
+[AUDIO] Edge TTS no generó voz (código 0).
+[AUDIO] Error al generar o reproducir la voz: Falló la generación de voz con Edge TTS
+[AUDIO] No hay un motor de voz local disponible.
+[FALLA] YURA-EXT-740 | tts | hablar(): Edge TTS se cuelga 1,5 s por intento (red lenta) | entrada=Rimaykullayki | esperado=timeout en subprocess.run | obtenido=bloqueado 3.0 s; llamadas SIN timeout=['edge-tts', 'edge-tts'] (un cuelgue real bloquea al robot indefinidamente) (3001 ms)
+
+[YURA HABLA]: .
+[FALLA] YURA-EXT-741 | tts | hablar('     ') solo espacios | entrada='     ' | esperado=no llamar a Edge TTS | obtenido=procesos=['edge-tts', 'ffmpeg', 'pw-play'] (sintetiza '.') (2 ms)
+
+[YURA HABLA]: ..
+[FALLA] YURA-EXT-742 | tts | hablar('¿¡?!') solo signos | entrada='¿¡?!' | esperado=no llamar a Edge TTS | obtenido=procesos=['edge-tts', 'ffmpeg', 'pw-play'] texto enviado='..' (1 ms)
+[OK] YURA-EXT-743 | tts | hablar(None) | entrada=None | esperado=no hacer nada | obtenido=procesos=[] (0 ms)
+[FALLA] YURA-EXT-750 | tts | Edge TTS real con texto que empieza por '--' | entrada='--hola.' | esperado=sintetizar el texto (usar --text=<texto>) | obtenido=returncode=2 stderr=['edge-tts: error: argument -t/--text: expected one argument'] (0 ms)
+
+RESUMEN: {'FALLA': 11, 'OK': 12, 'OBSERVACION': 3} total 26
+Matriz escrita en ../05_g07_matriz.md

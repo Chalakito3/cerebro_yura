@@ -1,0 +1,84 @@
+## Variables de entorno usadas en el código (os.environ)
+traductor.py:281:os.environ.get("YURA_GROQ_MODEL", "openai/gpt-oss-120b"
+gemini_transcriber.py:22:os.environ.get("YURA_GEMINI_ENABLED", "1"
+gemini_transcriber.py:27:os.environ.get("GEMINI_API_KEY", ""
+gemini_transcriber.py:28:os.environ.get("GOOGLE_API_KEY", ""
+audio_manager.py:297:os.environ.get("YURA_INPUT_DEVICE", ""
+audio_manager.py:359:os.environ.get("YURA_OUTPUT_DEVICE", ""
+main_robot.py:417:os.environ.get("YURA_WHISPER_MODEL", "base"
+main_robot.py:598:os.environ.get("GROQ_API_KEY", ""
+main_robot.py:679:os.environ["GROQ_API_KEY"] = api_key
+## .env.local
+-rw------- 600 yura 139 bytes .env.local
+-rw-rw-r-- 664 yura 137 bytes .env.example
+GROQ_API_KEY definida (lineas no vacias): 1
+GEMINI_API_KEY definida: 1
+Nombres de variables definidas en .env.local:
+GROQ_API_KEY
+GEMINI_API_KEY
+## Variables YURA_/claves en el entorno actual del shell (solo nombres)
+(ninguna)
+## .bashrc/.profile mencionan GROQ?
+ugrep: warning: /home/yura/.zshrc: No such file or directory
+ugrep: warning: /home/yura/.env: No such file or directory
+/home/yura/.profile:0
+/home/yura/.bashrc:0
+## git check-ignore
+.env.local                          .gitignore:4:.env*	.env.local
+.env.example                        .gitignore:10:!.env.example	.env.example
+diccionario.db                      .gitignore:5:*.db	diccionario.db
+diccionario.respaldo.db             .gitignore:5:*.db	diccionario.respaldo.db
+yura_temp.wav                       .gitignore:11:yura_temp.wav	yura_temp.wav
+clave api.txt                       .gitignore:12:clave api.txt	clave api.txt
+model/                              NO IGNORADO
+.venv/                              .gitignore:1:.venv/	.venv/
+requirements.txt                    NO IGNORADO
+documentacion_pruebas/evidencias/x.txt NO IGNORADO
+## archivos rastreados por git
+.gitignore
+audio_manager.py
+comandospara ejecutaryura.txt
+conversacion.py
+entrada.txt
+gemini_transcriber.py
+juego.py
+main_robot.py
+model/README
+model/am/final.mdl
+model/conf/mfcc.conf
+model/conf/model.conf
+model/graph/Gr.fst
+model/graph/HCLr.fst
+model/graph/disambig_tid.int
+model/graph/phones/word_boundary.int
+model/ivector/final.dubm
+model/ivector/final.ie
+model/ivector/final.mat
+model/ivector/global_cmvn.stats
+model/ivector/online_cmvn.conf
+model/ivector/splice.conf
+scripts/yura-open-browser.sh
+scripts/yura.desktop
+scripts/yura.service
+tests/test_audio_threshold.py
+tests/test_conversacion_ui.py
+tests/test_frontend_display.py
+tests/test_monitor_display.py
+tests/test_transcription_fallback.py
+traductor.py
+web/app.py
+web/static/css/style-draft.css
+web/static/css/style.css
+web/static/js/app.js
+web/templates/index.html
+## git status
+ M .gitignore
+ M conversacion.py
+ M gemini_transcriber.py
+ M main_robot.py
+ M traductor.py
+ M web/app.py
+?? .env.example
+?? documentacion_pruebas/
+?? requirements.txt
+?? tests/test_vocabulario_groq.py

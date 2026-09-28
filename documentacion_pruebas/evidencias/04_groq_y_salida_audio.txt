@@ -1,0 +1,27 @@
+[OK]: Claves cargadas desde '.env.local'.
+Modelo Groq: openai/gpt-oss-120b
+[CONVERSACION] Usuario: Imaynalla kachkanki
+[CONVERSACION] Consultando Groq...
+[CONVERSACION] Groq respondió: Allinmi, gracias. ¿Imaynalla kanki?
+[GROQ] 'imaynalla kachkanki' -> {'accion': 'responder', 'respuesta': 'Allinmi, gracias. ¿Imaynalla kanki?'} (0.60s)
+
+[YURA HABLA]: En quechua se dice: Allqo. Animal doméstico común.
+hablar('En quechua se dice: Allqo. Animal domést'...) total=6.64s
+    ('estado_web', 'HABLANDO', '', 0)
+    ('edge-tts', [], 0, 1.7)
+    ('ffmpeg', [], 0, 0.04)
+    ('wpctl', [], 0, 0.01)
+    ('pw-play', ['--target'], 0, 4.9)
+    ('estado_web', 'ESPERANDO', '', 0)
+   archivo temporal borrado: True
+
+[YURA HABLA]: Allinmi, gracias. Imaynalla kanki.
+hablar('Allinmi, gracias. ¿Imaynalla kanki?'...) total=6.23s
+    ('estado_web', 'HABLANDO', '', 0)
+    ('edge-tts', [], 0, 1.69)
+    ('ffmpeg', [], 0, 0.04)
+    ('wpctl', [], 0, 0.01)
+    ('pw-play', ['--target'], 0, 4.49)
+    ('estado_web', 'ESPERANDO', '', 0)
+   archivo temporal borrado: True
+sink por defecto: ['id 50, type PipeWire:Interface:Node'] ['* node.description = "HDA NVidia Digital Stereo (HDMI)"', '* object.serial = "242"']

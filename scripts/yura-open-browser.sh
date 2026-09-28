@@ -1,44 +1,27 @@
 #!/bin/sh
+# Abre la pantalla de Yura en Firefox a pantalla completa cuando el cerebro
+# ya responde. Se ejecuta al iniciar sesión (scripts/yura.desktop).
+# Para salir de la pantalla completa: Alt+F4.
 
 set -eu
 
-url="http://yura.local:5000/"
+url="http://localhost:5000/"
 status_url="${url}api/status"
 max_attempts=180
 attempt=0
 
-browser_bin=""
-for candidate in \
-    /usr/bin/google-chrome \
-    /usr/bin/google-chrome-stable \
-    /usr/bin/chromium \
-    /usr/bin/chromium-browser \
-    /snap/bin/chromium; do
-    if [ -x "$candidate" ]; then
-        browser_bin="$candidate"
-        break
-    fi
-done
-
-if [ -z "$browser_bin" ]; then
-    echo "[YURA] No se encontró Chrome/Chromium para la pantalla completa." >&2
+if ! command -v firefox >/dev/null 2>&1; then
+    echo "[YURA] No se encontró Firefox para la pantalla completa." >&2
     exit 1
 fi
 
 while [ "$attempt" -lt "$max_attempts" ]; do
-    if /usr/bin/python3 -c 'import sys; from urllib.request import urlopen; response = urlopen(sys.argv[1], timeout=2); response.read(1)' "$status_url" >/dev/null 2>&1; then
-        exec "$browser_bin" \
-            --user-data-dir=/tmp/yura-kiosk \
-            --no-first-run \
-            --disable-infobars \
-            --disable-session-crashed-bubble \
-            --disable-component-update \
-            --disable-features=TranslateUI,BackForwardCache,MediaRouter \
-            --kiosk \
-            --app="$url"
+    if /usr/bin/python3 -c 'import sys; from urllib.request import urlopen; urlopen(sys.argv[1], timeout=2).read(1)' "$status_url" >/dev/null 2>&1; then
+        exec firefox --kiosk "$url"
     fi
     attempt=$((attempt + 1))
     sleep 1
 done
 
+echo "[YURA] El cerebro no respondió en ${max_attempts} s; no se abre la pantalla." >&2
 exit 1

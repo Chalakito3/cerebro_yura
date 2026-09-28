@@ -1,0 +1,39 @@
+## historial git: secretos
+0
+coincidencias gsk_/AIza en historial (conteo):
+0
+coincidencias en árbol de trabajo (excl .venv, .env.local):
+0
+## rutas absolutas / relativas en código y scripts
+main_robot.py:645:            "bash -lc 'source ~/.bashrc >/dev/null 2>&1 || true; source ~/.profile >/dev/null 2>&1 || true; printf %s \"${GROQ_API_KEY:-}\"'",
+main_robot.py:647:            "zsh -lc 'source ~/.zshrc >/dev/null 2>&1 || true; printf %s \"${GROQ_API_KEY:-}\"'"
+## existencia de rutas de scripts
+/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua                      NO_EXISTE
+/home/yura/Documents/YURAQUECHUA/Proyecto_Quechua/.env.local           NO_EXISTE
+/usr/bin/google-chrome                                                 NO_EXISTE
+/usr/bin/google-chrome-stable                                          NO_EXISTE
+/usr/bin/chromium                                                      NO_EXISTE
+/usr/bin/chromium-browser                                              NO_EXISTE
+/snap/bin/chromium                                                     NO_EXISTE
+/usr/bin/firefox                                                       EXISTE
+/snap/bin/firefox                                                      EXISTE
+## permisos scripts
+total 12
+-rw-rw-r-- 1 yura yura  218 Sep 26 13:40 yura.desktop
+-rwxrwxr-x 1 yura yura 1137 Sep 26 13:40 yura-open-browser.sh
+-rw-rw-r-- 1 yura yura  837 Sep 26 13:40 yura.service
+## ¿servicio/autostart instalados?
+ls: cannot access '/etc/systemd/system/yura*': No such file or directory
+ls: cannot access '/home/yura/.config/systemd/user/yura*': No such file or directory
+ls: cannot access '/home/yura/.config/autostart/yura*': No such file or directory
+Unit yura.service could not be found.
+Unit yura.service could not be found.
+## usuario del servicio: línea User=
+sin User= → systemd de sistema corre como root; comandos usan sudo systemctl (no --user)
+## yura.local
+yura.local -> ERROR gaierror [Errno -2] Name or service not known
+localhost -> 127.0.0.1
+yura-System-Product-Name -> 127.0.1.1
+yura-System-Product-Name
+## avahi
+active

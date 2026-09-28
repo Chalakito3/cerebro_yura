@@ -1,0 +1,5 @@
+esquema igual: True
+nivel1_familia 1 RESPALDO: (1, 'Tayta', 'C:/audios/nivel1/familia/tayta.mp3', 'Padre') | ACTUAL: (1, 'Tata', 'C:/audios/nivel1/familia/tata.mp3', 'Padre')
+nivel1_familia 7 RESPALDO: None | ACTUAL: (7, 'Tata', 'C:/audios/nivel1/familia/tata.mp3', 'Papá')
+seq respaldo: 6 actual: 7
+filas respaldo: 186

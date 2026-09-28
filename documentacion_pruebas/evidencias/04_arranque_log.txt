@@ -1,0 +1,266 @@
+# Log de arranque real (web/app.py) — líneas DEBUG antes/después filtradas
+# Tiempo hasta primera respuesta /api/status: 4.08 s
+[OK]: Claves cargadas desde '.env.local'.
+[AUDIO] Buscando dispositivos...
+[AUDIO] Dispositivo 0: HDA Intel PCH: ALC887-VD Analog (hw:0,0) (entrada=2, salida=2)
+[AUDIO] Dispositivo 1: HDA Intel PCH: ALC887-VD Digital (hw:0,1) (entrada=0, salida=2)
+[AUDIO] Dispositivo 2: HDA Intel PCH: ALC887-VD Alt Analog (hw:0,2) (entrada=2, salida=0)
+[AUDIO] Dispositivo 3: HDA NVidia: Mi TV (hw:1,3) (entrada=0, salida=8)
+[AUDIO] Dispositivo 4: HDA NVidia: HDMI 1 (hw:1,7) (entrada=0, salida=8)
+[AUDIO] Dispositivo 5: HDA NVidia: HDMI 2 (hw:1,8) (entrada=0, salida=8)
+[AUDIO] Dispositivo 6: HDA NVidia: HDMI 3 (hw:1,9) (entrada=0, salida=8)
+[AUDIO] Dispositivo 7: USB Audio Device: - (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo 8: sysdefault (entrada=128, salida=128)
+[AUDIO] Dispositivo 9: front (entrada=0, salida=2)
+[AUDIO] Dispositivo 10: surround40 (entrada=0, salida=2)
+[AUDIO] Dispositivo 11: surround51 (entrada=0, salida=2)
+[AUDIO] Dispositivo 12: surround71 (entrada=0, salida=2)
+[AUDIO] Dispositivo 13: iec958 (entrada=0, salida=2)
+[AUDIO] Dispositivo 14: spdif (entrada=0, salida=2)
+[AUDIO] Dispositivo 15: pipewire (entrada=64, salida=64)
+[AUDIO] Dispositivo 16: dmix (entrada=0, salida=2)
+[AUDIO] Dispositivo 17: default (entrada=64, salida=64)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[AUDIO] Salida seleccionada: USB Audio Device: - (hw:2,0)
+[WHISPER]: Cargando modelo base...
+[WHISPER]: Modelo cargado base.
+[GEMINI]: Transcriptor listo (gemini-3.8-flash).
+[OK GROQ]: Cliente Groq inicializado desde la configuración disponible del entorno.
+[VOSK]: Modelo cargado desde '/home/yura/Proyecto Yura /cerebro_yura/model'
+[OK]: Base de datos 'diccionario.db' enlazada.
+
+[SISTEMA]: Yura operativo de forma local e independiente...
+[DEBUG AUDIO] reiniciando escucha state=MENU
+
+[YURA HABLA]: Ñuqaqa Yura kani. Robotmi kani, qhichwa simita rimanakuypaq yanapakuq. Qhichwa simita rimanakuyta, rimaykunata kallpachayta yanapani. Imapin yanapaykiman.
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.40.194:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [27/Sep/2026 00:12:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:15] "GET /api/status HTTP/1.1" 200 -
+[DEBUG AUDIO] iniciando escucha state=MENU device=7 device_index=7
+
+==============================
+[YURA ESCUCHA]
+[MICRÓFONO]: índice 7
+[WHISPER]: reconocimiento principal
+==============================
+[DEBUG AUDIO] captura iniciada device=7
+[AUDIO] Dispositivo 0: HDA Intel PCH: ALC887-VD Analog (hw:0,0) (entrada=2, salida=2)
+[AUDIO] Dispositivo 1: HDA Intel PCH: ALC887-VD Digital (hw:0,1) (entrada=0, salida=2)
+[AUDIO] Dispositivo 2: HDA Intel PCH: ALC887-VD Alt Analog (hw:0,2) (entrada=2, salida=0)
+[AUDIO] Dispositivo 3: HDA NVidia: Mi TV (hw:1,3) (entrada=0, salida=8)
+[AUDIO] Dispositivo 4: HDA NVidia: HDMI 1 (hw:1,7) (entrada=0, salida=8)
+[AUDIO] Dispositivo 5: HDA NVidia: HDMI 2 (hw:1,8) (entrada=0, salida=8)
+[AUDIO] Dispositivo 6: HDA NVidia: HDMI 3 (hw:1,9) (entrada=0, salida=8)
+[AUDIO] Dispositivo 7: USB Audio Device: - (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo 8: sysdefault (entrada=128, salida=128)
+[AUDIO] Dispositivo 9: front (entrada=0, salida=2)
+[AUDIO] Dispositivo 10: surround40 (entrada=0, salida=2)
+[AUDIO] Dispositivo 11: surround51 (entrada=0, salida=2)
+[AUDIO] Dispositivo 12: surround71 (entrada=0, salida=2)
+[AUDIO] Dispositivo 13: iec958 (entrada=0, salida=2)
+[AUDIO] Dispositivo 14: spdif (entrada=0, salida=2)
+[AUDIO] Dispositivo 15: pipewire (entrada=64, salida=64)
+[AUDIO] Dispositivo 16: dmix (entrada=0, salida=2)
+[AUDIO] Dispositivo 17: default (entrada=64, salida=64)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[DEBUG AUDIO] abriendo InputStream device=7 samplerate=48000 channels=1 blocksize=3840
+[DEBUG AUDIO] InputStream abierto
+[AUDIO] Calibración: ruido=0.0003; umbral=0.0060
+127.0.0.1 - - [27/Sep/2026 00:13:23] "GET /api/status HTTP/1.1" 200 -
+
+[AUDIO] No se detectó voz dentro del tiempo de espera (umbral=0.0060).
+[DEBUG AUDIO] finalizando captura sin voz
+[DEBUG AUDIO] captura finalizada
+[DEBUG AUDIO] audio recibido: 0 bytes
+[YURA]: No se capturó audio.
+[DEBUG AUDIO] reiniciando escucha state=MENU
+[DEBUG AUDIO] iniciando escucha state=MENU device=7 device_index=7
+
+==============================
+[YURA ESCUCHA]
+[MICRÓFONO]: índice 7
+[WHISPER]: reconocimiento principal
+==============================
+[DEBUG AUDIO] captura iniciada device=7
+[AUDIO] Dispositivo 0: HDA Intel PCH: ALC887-VD Analog (hw:0,0) (entrada=2, salida=2)
+[AUDIO] Dispositivo 1: HDA Intel PCH: ALC887-VD Digital (hw:0,1) (entrada=0, salida=2)
+[AUDIO] Dispositivo 2: HDA Intel PCH: ALC887-VD Alt Analog (hw:0,2) (entrada=2, salida=0)
+[AUDIO] Dispositivo 3: HDA NVidia: Mi TV (hw:1,3) (entrada=0, salida=8)
+[AUDIO] Dispositivo 4: HDA NVidia: HDMI 1 (hw:1,7) (entrada=0, salida=8)
+[AUDIO] Dispositivo 5: HDA NVidia: HDMI 2 (hw:1,8) (entrada=0, salida=8)
+[AUDIO] Dispositivo 6: HDA NVidia: HDMI 3 (hw:1,9) (entrada=0, salida=8)
+[AUDIO] Dispositivo 7: USB Audio Device: - (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo 8: sysdefault (entrada=128, salida=128)
+[AUDIO] Dispositivo 9: front (entrada=0, salida=2)
+[AUDIO] Dispositivo 10: surround40 (entrada=0, salida=2)
+[AUDIO] Dispositivo 11: surround51 (entrada=0, salida=2)
+[AUDIO] Dispositivo 12: surround71 (entrada=0, salida=2)
+[AUDIO] Dispositivo 13: iec958 (entrada=0, salida=2)
+[AUDIO] Dispositivo 14: spdif (entrada=0, salida=2)
+[AUDIO] Dispositivo 15: pipewire (entrada=64, salida=64)
+[AUDIO] Dispositivo 16: dmix (entrada=0, salida=2)
+[AUDIO] Dispositivo 17: default (entrada=64, salida=64)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[DEBUG AUDIO] abriendo InputStream device=7 samplerate=48000 channels=1 blocksize=3840127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/card HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /static/css/style.css?v=voice-2 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /static/css/style-draft.css HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /static/js/app.js?v=voice-2 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[33mGET /no-existe HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[31m[1mPOST /api/status HTTP/1.1[0m" 405 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[31m[1mPOST /api/card HTTP/1.1[0m" 405 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[31m[1mPUT /api/status HTTP/1.1[0m" 405 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[33mGET /static/../../.env.local HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "[33mGET /static/..%2f..%2f.env.local HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:25] "GET /api/status HTTP/1.1" 200 -
+
+[DEBUG AUDIO] InputStream abierto
+[AUDIO] Calibración: ruido=0.0004; umbral=0.0060
+192.168.40.194 - - [27/Sep/2026 00:13:33] "GET /api/status HTTP/1.1" 200 -
+
+[AUDIO] No se detectó voz dentro del tiempo de espera (umbral=0.0060).
+[DEBUG AUDIO] finalizando captura sin voz
+[DEBUG AUDIO] captura finalizada
+[DEBUG AUDIO] audio recibido: 0 bytes
+[YURA]: No se capturó audio.
+[DEBUG AUDIO] reiniciando escucha state=MENU
+[DEBUG AUDIO] iniciando escucha state=MENU device=7 device_index=7
+
+==============================
+[YURA ESCUCHA]
+[MICRÓFONO]: índice 7
+[WHISPER]: reconocimiento principal
+==============================
+[DEBUG AUDIO] captura iniciada device=7
+[AUDIO] Dispositivo 0: HDA Intel PCH: ALC887-VD Analog (hw:0,0) (entrada=2, salida=2)
+[AUDIO] Dispositivo 1: HDA Intel PCH: ALC887-VD Digital (hw:0,1) (entrada=0, salida=2)
+[AUDIO] Dispositivo 2: HDA Intel PCH: ALC887-VD Alt Analog (hw:0,2) (entrada=2, salida=0)
+[AUDIO] Dispositivo 3: HDA NVidia: Mi TV (hw:1,3) (entrada=0, salida=8)
+[AUDIO] Dispositivo 4: HDA NVidia: HDMI 1 (hw:1,7) (entrada=0, salida=8)
+[AUDIO] Dispositivo 5: HDA NVidia: HDMI 2 (hw:1,8) (entrada=0, salida=8)
+[AUDIO] Dispositivo 6: HDA NVidia: HDMI 3 (hw:1,9) (entrada=0, salida=8)
+[AUDIO] Dispositivo 7: USB Audio Device: - (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo 8: sysdefault (entrada=128, salida=128)
+[AUDIO] Dispositivo 9: front (entrada=0, salida=2)
+[AUDIO] Dispositivo 10: surround40 (entrada=0, salida=2)
+[AUDIO] Dispositivo 11: surround51 (entrada=0, salida=2)
+[AUDIO] Dispositivo 12: surround71 (entrada=0, salida=2)
+[AUDIO] Dispositivo 13: iec958 (entrada=0, salida=2)
+[AUDIO] Dispositivo 14: spdif (entrada=0, salida=2)
+[AUDIO] Dispositivo 15: pipewire (entrada=64, salida=64)
+[AUDIO] Dispositivo 16: dmix (entrada=0, salida=2)
+[AUDIO] Dispositivo 17: default (entrada=64, salida=64)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[DEBUG AUDIO] abriendo InputStream device=7 samplerate=48000 channels=1 blocksize=3840
+[DEBUG AUDIO] InputStream abierto
+[AUDIO] Calibración: ruido=0.0007; umbral=0.0060
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+127.0.0.1 - - [27/Sep/2026 00:13:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 00:13:45] "GET /api/status HTTP/1.1" 200 -
+
+[AUDIO] Voz capturada: 2.3s; umbral=0.0060
+[DEBUG AUDIO] captura finalizada con voz
+[DEBUG AUDIO] captura finalizada
+[DEBUG AUDIO] audio recibido: 74240 bytes
+[GEMINI]: Cuota agotada; se usará Whisper hasta reiniciar Yura.
+[WHISPER]: Fallback de precisión activado.
+[DEBUG AUDIO] enviando audio a Whisper
+[DEBUG AUDIO] Whisper respondió
+[WHISPER]: procesamiento en 0.7s
+[TRANSCRIPCIÓN FINAL - Whisper]: hola como estas
+[DEBUG AUDIO] texto listo; devolviendo al estado actual
+[CONVERSACION] Usuario: hola como estas
+[CONVERSACION] Consultando Groq...
+[CONVERSACION] Groq respondió: ¡Hola! Estoy bien, ¿y tú, imaynalla?
+
+[YURA HABLA]: Hola. Estoy bien,, y tú, imaynalla.
+[DEBUG AUDIO] reiniciando escucha state=CONVERSAR
+[DEBUG AUDIO] iniciando escucha state=CONVERSAR device=7 device_index=7
+
+==============================
+[YURA ESCUCHA]
+[MICRÓFONO]: índice 7
+[WHISPER]: reconocimiento principal
+==============================
+[DEBUG AUDIO] captura iniciada device=7
+[AUDIO] Dispositivo 0: HDA Intel PCH: ALC887-VD Analog (hw:0,0) (entrada=2, salida=2)
+[AUDIO] Dispositivo 1: HDA Intel PCH: ALC887-VD Digital (hw:0,1) (entrada=0, salida=2)
+[AUDIO] Dispositivo 2: HDA Intel PCH: ALC887-VD Alt Analog (hw:0,2) (entrada=2, salida=0)
+[AUDIO] Dispositivo 3: HDA NVidia: Mi TV (hw:1,3) (entrada=0, salida=8)
+[AUDIO] Dispositivo 4: HDA NVidia: HDMI 1 (hw:1,7) (entrada=0, salida=8)
+[AUDIO] Dispositivo 5: HDA NVidia: HDMI 2 (hw:1,8) (entrada=0, salida=8)
+[AUDIO] Dispositivo 6: HDA NVidia: HDMI 3 (hw:1,9) (entrada=0, salida=8)
+[AUDIO] Dispositivo 7: USB Audio Device: - (hw:2,0) (entrada=1, salida=2)
+[AUDIO] Dispositivo 8: sysdefault (entrada=128, salida=128)
+[AUDIO] Dispositivo 9: front (entrada=0, salida=2)
+[AUDIO] Dispositivo 10: surround40 (entrada=0, salida=2)
+[AUDIO] Dispositivo 11: surround51 (entrada=0, salida=2)
+[AUDIO] Dispositivo 12: surround71 (entrada=0, salida=2)
+[AUDIO] Dispositivo 13: iec958 (entrada=0, salida=2)
+[AUDIO] Dispositivo 14: spdif (entrada=0, salida=2)
+[AUDIO] Dispositivo 15: pipewire (entrada=64, salida=64)
+[AUDIO] Dispositivo 16: dmix (entrada=0, salida=2)
+[AUDIO] Dispositivo 17: default (entrada=64, salida=64)
+[AUDIO] Entrada seleccionada: USB Audio Device: - (hw:2,0)
+[AUDIO] Canales: 1
+[AUDIO] Sample rate: 48000
+[AUDIO] Dispositivo validado correctamente.
+[DEBUG AUDIO] abriendo InputStream device=7 samplerate=48000 channels=1 blocksize=3840
+[DEBUG AUDIO] InputStream abierto
+[AUDIO] Calibración: ruido=0.0010; umbral=0.0060
+127.0.0.1 - - [27/Sep/2026 00:13:55] "GET /api/status HTTP/1.1" 200 -
+# (líneas VoskAPI omitidas: 9)
