@@ -854,6 +854,109 @@ def _corregir_repeticion_quechua(texto):
 
 
 
+# Traducciones inventadas (11/10/2026): Groq dijo «fútbol se dice pukllay
+# bola», que no existe. Cada vez que la respuesta afirma cómo se dice algo en
+# quechua, la palabra tiene que estar en el diccionario de Yura; si no, esa
+# oración se cambia por un aviso. Así un niño no aprende palabras falsas.
+_AVISO_SIN_PALABRA = "Esa palabra todavía no está en mi diccionario."
+_SUFIJOS_QUECHUA = tuple(sorted({
+    texto_util.simplificar_quechua(sufijo) for sufijo in (
+        "kunata", "kunapi", "kuna", "manta", "wan", "pi", "ta", "mi", "m",
+        "qa", "chu", "lla", "cha", "yki", "y", "n", "ri", "pas", "taq", "sapa",
+    )
+}, key=len, reverse=True))
+_COMILLAS = "\"“”«»'‘’"
+_AFIRMACIONES_QUECHUA = (
+    # «perro se dice Allqu», «se dice así: Allqu»
+    re.compile(r"\bse dice(?: as[ií])?\s*:?\s*([^.!?;:,()]+)", re.IGNORECASE),
+    # «en quechua, perro es Allqu»
+    re.compile(r"\ben (?:quechua|qhichwa)\s*,?\s*[^.!?;:]{1,40}?\s+es\s+([^.!?;:,()]+)", re.IGNORECASE),
+    # «"Allqu" significa perro»
+    re.compile(r"[\"“«‘']([^\"”»’']{2,40})[\"”»’']\s+significa\b", re.IGNORECASE),
+)
+_memoria_quechua = {"formas": None}
+
+
+def _formas_quechua_del_diccionario():
+    """(frases enteras, palabras sueltas) del diccionario, simplificadas."""
+    if _memoria_quechua["formas"] is None:
+        enteras, sueltas = set(), set()
+        conexion = _obtener_conexion_vocabulario()
+        registros = traductor._leer_registros_vocabulario(conexion) if conexion else []
+        for registro in registros:
+            for ll in ("l", "y"):
+                forma = texto_util.simplificar_quechua(str(registro["quechua"] or ""), ll)
+                if forma:
+                    enteras.add(forma.replace(" ", ""))
+                    sueltas.update(forma.split())
+        _memoria_quechua["formas"] = (enteras, sueltas)
+    return _memoria_quechua["formas"]
+
+
+def _palabra_quechua_conocida(palabra, sueltas):
+    """La palabra está en el diccionario, sola o con sufijos comunes."""
+    pendientes = [palabra]
+    for _ in range(3):
+        siguientes = []
+        for forma in pendientes:
+            if forma in sueltas:
+                return True
+            siguientes += [forma[:-len(s)] for s in _SUFIJOS_QUECHUA
+                           if forma.endswith(s) and len(forma) - len(s) >= 3]
+        pendientes = siguientes
+    return False
+
+
+def es_quechua_del_diccionario(texto):
+    """¿Todo el texto es quechua del diccionario de Yura?"""
+    enteras, sueltas = _formas_quechua_del_diccionario()
+    if not enteras:
+        return True  # sin diccionario no se puede revisar: no se borra nada
+    forma = texto_util.simplificar_quechua(texto)
+    if not forma:
+        return True
+    if forma.replace(" ", "") in enteras:
+        return True
+    return all(_palabra_quechua_conocida(palabra, sueltas) for palabra in forma.split())
+
+
+def _quechua_afirmado(coincidencia):
+    """La palabra quechua de una afirmación, sin comillas ni «en quechua»."""
+    texto = coincidencia.strip().strip(_COMILLAS + " ")
+    texto = re.sub(r"^en (?:quechua|qhichwa)\s*:?\s*", "", texto, flags=re.IGNORECASE).strip(_COMILLAS + " ")
+    # «se dice que...», «se dice en español...»: no enseña quechua.
+    if re.match(r"(?:que|de|del|con|cuando|como|cómo|en (?:español|castellano))\b", texto, re.IGNORECASE):
+        return ""
+    texto = re.split(r"\s+(?:en (?:quechua|qhichwa)|y |o |que |pero |porque |para )", texto, maxsplit=1)[0]
+    texto = texto.strip(_COMILLAS + " ")
+    palabras = texto.split()
+    return " ".join(palabras[:5]) if 0 < len(palabras) <= 5 else ""
+
+
+def quitar_traducciones_inventadas(texto):
+    """Cambia por un aviso cada oración que enseña una palabra quechua que no
+    está en el diccionario de Yura."""
+    oraciones = re.split(r"(?<=[.!?])\s+", str(texto or "").strip())
+    resultado = []
+    for oracion in oraciones:
+        # «¿Sabes cómo se dice perro?» pregunta, no enseña.
+        pregunta = oracion.rstrip().endswith("?") or re.search(r"\bc[oó]mo se dice\b", oracion, re.IGNORECASE)
+        inventada = False
+        for patron in _AFIRMACIONES_QUECHUA:
+            if pregunta and patron is _AFIRMACIONES_QUECHUA[0]:
+                continue
+            for coincidencia in patron.finditer(oracion):
+                quechua = _quechua_afirmado(coincidencia.group(1))
+                if quechua and not es_quechua_del_diccionario(quechua):
+                    print(f"[CONVERSACION] Traducción inventada quitada: «{quechua}»")
+                    inventada = True
+        if not inventada:
+            resultado.append(oracion)
+        elif not resultado or resultado[-1] != _AVISO_SIN_PALABRA:
+            resultado.append(_AVISO_SIN_PALABRA)
+    return " ".join(resultado).strip()
+
+
 # Cómo enseña Yura (07/10/2026): más suelta y creativa, apoya al estudiante
 # y al docente. Se agrega a las instrucciones de Groq en los dos modos.
 _ESTILO_YURA = (
@@ -970,6 +1073,7 @@ def _consultar_groq(entrada, groq_client, historial=None, forzar_espanol=False):
         ).strip()
 
         contenido = texto_util.limpiar_respuesta_ia(contenido)
+        contenido = quitar_traducciones_inventadas(contenido)
         if not contenido:
             print(
                 "[CONVERSACION] Error Groq: "

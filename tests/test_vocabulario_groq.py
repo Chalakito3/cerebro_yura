@@ -143,3 +143,53 @@ def test_extraer_termino_con_pregunta_repetida():
     import traductor
     assert traductor.extraer_termino("cómo se dice, cómo se dice cómo estás") == "como estas"
     assert traductor.extraer_termino("qué significa qué significa wasi") == "wasi"
+
+
+@pytest.mark.parametrize("respuesta, esperado", [
+    # Groq lo dijo en vivo (11/10/2026): «pukllay bola» no existe.
+    ("¡Qué divertido! En quechua, “fútbol” se dice “pukllay bola”. ¿Quieres jugar?",
+     "¡Qué divertido! Esa palabra todavía no está en mi diccionario. ¿Quieres jugar?"),
+    ("En quechua, computadora es antanikiq. Vamos a practicar.",
+     "Esa palabra todavía no está en mi diccionario. Vamos a practicar."),
+    ("Perro se dice en quechua bolatay.", "Esa palabra todavía no está en mi diccionario."),
+])
+def test_quita_traducciones_que_no_estan_en_el_diccionario(respuesta, esperado):
+    assert conversacion.quitar_traducciones_inventadas(respuesta) == esperado
+
+
+@pytest.mark.parametrize("respuesta", [
+    "¡Buena pregunta! Perro se dice Allqu. Repítela conmigo: «Allqu».",
+    "Gato se dice Misi y perro se dice Allqu.",
+    "Perro se dice en quechua Allqu.",
+    "Se dice así: Allillanmi. ¡Muy bien!",
+    "\"Allqu\" significa perro.",
+    "¿Sabes cómo se dice perro en quechua?",
+    "Se dice que los incas hablaban quechua.",
+    "Allqu se dice en español perro.",
+    "Eso significa que estás aprendiendo mucho.",
+    "Rimaykullayki! Imaynalla kachkanki?",
+])
+def test_deja_las_palabras_del_diccionario_y_el_castellano(respuesta):
+    assert conversacion.quitar_traducciones_inventadas(respuesta) == respuesta
+
+
+def test_groq_no_puede_ensenar_palabras_inventadas():
+    mensajes = []
+    cliente = _cliente_que_captura(mensajes, respuesta="¡Qué bien! Fútbol se dice pukllay bola.")
+    respuesta = conversacion._consultar_groq("me gusta jugar futbol", cliente)
+
+    assert "pukllay bola" not in respuesta
+    assert "todavía no está en mi diccionario" in respuesta
+
+
+@pytest.mark.parametrize("respuesta, esperado", [
+    # En vivo (11/10/2026) la negrita quedaba «se dice * * en quechua».
+    ("Tu perro es muy grande, se dice **Allqu jatun** en quechua.",
+     "Tu perro es muy grande, se dice Allqu jatun en quechua."),
+    ("*sonríe feliz* ¡Kusa, qamri! 😊 (contenta) Imataq munanki?", "¡Kusa, qamri! Imataq munanki?"),
+    ("Se dice *Misi* en quechua.", "Se dice Misi en quechua."),
+    ("[risas] Allqu es lindo.", "Allqu es lindo."),
+])
+def test_quita_gestos_pero_no_las_palabras_resaltadas(respuesta, esperado):
+    import texto as texto_util
+    assert texto_util.limpiar_respuesta_ia(respuesta) == esperado

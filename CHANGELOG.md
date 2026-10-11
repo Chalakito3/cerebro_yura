@@ -19,6 +19,7 @@ Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detal
 - Afinado de la pronunciación de Sofía hacia la docente (`afinar_pronunciacion.py`).
 - Cuerpo con ESP32 (programa v6): movimiento por voz, límite de 3 s, freno ante obstáculos y `SENSORES:OFF/ON` para pruebas.
 - Pedido de hablar en español aunque Vosk deforme la frase («conversa en español»).
+- Control de traducciones: si Groq enseña una palabra quechua que no está en el diccionario («fútbol se dice pukllay bola»), esa oración se cambia por «Esa palabra todavía no está en mi diccionario».
 - Arranque automático en la Pi (labwc), resolución 1080p en televisores 4K.
 - Versión del producto (`VERSION`, este historial, `/api/status`).
 
@@ -31,6 +32,7 @@ Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detal
 **Corregido**
 - Yura muda: la ruta con espacio final rompía `edge-tts` y el servicio.
 - Kiosco que no abría si ya había un Chromium abierto.
+- La palabra en negrita («**Allqu jatun**») se borraba junto con los gestos.
 
 ## [0.2.0] — 2026-09-28 — Auditoría, voz y modo docente
 

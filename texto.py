@@ -411,7 +411,14 @@ def frase_prohibida(oracion):
 def limpiar_respuesta_ia(texto):
     """Quita de una respuesta de la IA las oraciones en otro idioma o sobre
     compras, ventas, precios o publicidad. Devuelve "" si no queda nada."""
-    texto = re.sub(r"\*[^*\n]{1,60}\*|\([^)\n]{1,60}\)|\[[^\]\n]{1,60}\]", " ", str(texto or ""))
+    texto = str(texto or "")
+    # La negrita de Markdown («**Allqu jatun**») es la palabra que enseña: se
+    # conserva sin asteriscos. Los gestos («*sonríe*», «(contenta)», «[risas]»)
+    # empiezan en minúscula y se borran; «*Allqu*» o «(Allqu)» se conservan.
+    texto = re.sub(r"\*\*([^*\n]{1,80})\*\*", r"\1", texto)
+    texto = re.sub(r"\*(?=[a-záéíóúñ¡¿])[^*\n]{1,60}\*|\((?=[a-záéíóúñ])[^)\n]{1,60}\)|\[[^\]\n]{1,60}\]", " ", texto)
+    texto = re.sub(r"[*_]{1,2}([^*_\n]{1,80})[*_]{1,2}", r"\1", texto)
+    texto = re.sub(r"[ \t]{2,}", " ", texto)
     texto = re.sub(r"[\U0001F000-\U0001FAFF\u2600-\u27BF\uFE0F]", "", texto)
     oraciones = re.split(r"(?<=[.!?])\s+", texto.strip())
     return " ".join(o for o in oraciones if o and not frase_prohibida(o)).strip()
