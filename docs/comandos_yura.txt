@@ -70,6 +70,13 @@ YURA_DEBUG=1 .venv/bin/python web/app.py
 #    Después de grabar palabras nuevas, para que Yura aprenda de los audios
 #    (tarda unos 20 s por grabación nueva; se puede dejar con Yura encendida):
 .venv/bin/python basedatos/aprender_de_audios.py
+#    Para que Yura aprenda a PRONUNCIAR las palabras grabadas (tarda ~25 s por palabra):
+.venv/bin/python basedatos/aprender_pronunciacion.py
+#    Para que Yura diga las palabras con la pronunciación de los audios, con su voz
+#    (tarda ~10 s por palabra; la primera vez descarga un modelo de 1,3 GB):
+.venv/bin/python basedatos/entrenar_voz_yura.py
+#    Para ver cuánto aprendió (meta 80 %):
+.venv/bin/python basedatos/medir_aprendizaje.py
 
 
 Las claves API deben guardarse únicamente en .env.local, con permisos 600.

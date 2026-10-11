@@ -2,7 +2,7 @@
 Type=Application
 Name=Yura
 Comment=Pantalla de Yura en pantalla completa
-Exec="/home/yura/Proyecto Yura /cerebro_yura/scripts/yura-open-browser.sh"
+Exec="/home/yura/Proyecto Yura/cerebro_yura/scripts/yura-open-browser.sh"
 Terminal=false
 X-GNOME-Autostart-enabled=true
 X-GNOME-Autostart-Delay=5

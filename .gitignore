@@ -5,10 +5,19 @@ __pycache__/
 *.db
 *.mp3
 *.zip
-vosk-model-es/
-old/
 !.env.example
 yura_temp.wav
 clave api.txt
 # Voz de la docente (modo docente): datos personales, no se suben.
 basedatos/pronunciaciones/
+# Copias de la voz de la docente para comparar la pronunciación (datos personales).
+documentacion_pruebas/evidencias/16_pronunciacion_voz/*_docente.wav
+# Voz de Yura entrenada con los audios de la docente (sale de su voz).
+basedatos/pronunciaciones_yura/
+documentacion_pruebas/evidencias/16_pronunciacion_voz/*_4_yura_*.wav
+documentacion_pruebas/evidencias/18_frases_yura/*.wav
+# Caché local de la voz de Sofía (basedatos/pregenerar_voces_sofia.py): se
+# regenera con el script; no hace falta subir los audios ni el índice.
+basedatos/voces_sofia/
+basedatos/ordenes_aprendidas_vosk.json
+basedatos/whisper_tiny_yura.pt

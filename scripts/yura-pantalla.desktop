@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Yura pantalla
+Comment=Adapta la resolución a la pantalla conectada
+Exec=/usr/bin/python3 "/home/yura/Proyecto Yura/cerebro_yura/scripts/yura-ajustar-pantalla.py"
+Terminal=false
+X-GNOME-Autostart-enabled=true
