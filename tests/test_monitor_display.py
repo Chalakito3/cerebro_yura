@@ -53,3 +53,75 @@ def test_hablar_genera_el_audio_antes_de_convertirlo(monkeypatch, tmp_path):
     robot.hablar("Rimaykullayki")
 
     assert llamadas[-3:] == ["ffmpeg", "wpctl", "pw-play"]
+
+
+def test_voz_en_vivo_suena_mientras_llega_y_la_guarda_en_cache(monkeypatch, tmp_path):
+    import sys
+    import types
+    import wave
+
+    monkeypatch.setenv("YURA_VOZ_EN_VIVO", "1")
+    robot = HardwareInterface.__new__(HardwareInterface)
+    robot.voz_mujer = "es-BO-SofiaNeural"
+    robot.audio_manager = None
+    monkeypatch.setattr(robot, "_destino_pipewire_predeterminado", lambda: "56", raising=False)
+    pcm = b"\x01\x00" * 2400
+    lanzados = {}
+
+    class Entrada:
+        def __init__(self):
+            self.datos = bytearray()
+
+        def write(self, datos):
+            self.datos.extend(datos)
+
+        def flush(self):
+            pass
+
+        def close(self):
+            pass
+
+    class Proceso:
+        def __init__(self, comando, **_kwargs):
+            self.comando = comando
+            self.stdin = Entrada()
+            self.returncode = 0
+            salida = [pcm, b""]
+            self.stdout = types.SimpleNamespace(read=lambda _n: salida.pop(0) if salida else b"")
+            lanzados[comando[0]] = self
+
+        def wait(self, timeout=None):
+            return 0
+
+        def poll(self):
+            return 0
+
+        def kill(self):
+            pass
+
+    class Comunicar:
+        def __init__(self, texto, voz, rate, pitch):
+            lanzados["edge"] = (texto, voz)
+
+        async def stream(self):
+            yield {"type": "audio", "data": b"mp3"}
+
+    monkeypatch.setitem(sys.modules, "edge_tts", types.SimpleNamespace(Communicate=Comunicar))
+    monkeypatch.setattr("main_robot.subprocess.Popen", Proceso)
+    monkeypatch.setattr("main_robot.shutil.which", lambda programa: programa if programa in ("ffmpeg", "pw-play") else None)
+    cache = tmp_path / "frase.wav"
+
+    assert robot._hablar_edge_en_vivo("Allillanmi", str(cache), espera=5)
+
+    assert lanzados["edge"] == ("Allillanmi", "es-BO-SofiaNeural")
+    assert bytes(lanzados["ffmpeg"].stdin.datos) == b"mp3"
+    assert lanzados["pw-play"].comando[1:4] == ["--target", "56", "--raw"]
+    assert bytes(lanzados["pw-play"].stdin.datos) == pcm
+    with wave.open(str(cache), "rb") as archivo:
+        assert archivo.readframes(archivo.getnframes()) == pcm
+
+
+def test_voz_en_vivo_se_puede_desactivar(monkeypatch):
+    monkeypatch.setenv("YURA_VOZ_EN_VIVO", "0")
+    robot = HardwareInterface.__new__(HardwareInterface)
+    assert robot._hablar_edge_en_vivo("Allillanmi", None, espera=5) is False

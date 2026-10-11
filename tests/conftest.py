@@ -30,3 +30,9 @@ def _modo_idioma_quechua():
     limpiar()
     yield
     limpiar()
+
+
+@pytest.fixture(autouse=True)
+def _sin_voz_en_vivo(monkeypatch):
+    """Las pruebas nunca hacen sonar la voz en vivo (Edge TTS + pw-play)."""
+    monkeypatch.setenv("YURA_VOZ_EN_VIVO", "0")

@@ -25,6 +25,7 @@ Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detal
 - Versión del producto (`VERSION`, este historial, `/api/status`).
 
 **Cambiado**
+- La voz nueva de Sofía empieza a sonar mientras se genera: ≈ 1,95 s → ≈ 0,96 s antes de hablar (`YURA_VOZ_EN_VIVO=0` vuelve a lo anterior).
 - Silencio para dar por terminada la frase: 1,0 s → 0,7 s (`YURA_SILENCIO_FINAL`).
 - Yura no describe emociones ni gestos.
 - Tatay, Mamay, Wawqiy y Ñañay se traducen sin «mi».
@@ -33,6 +34,7 @@ Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detal
 **Corregido**
 - Yura muda: la ruta con espacio final rompía `edge-tts` y el servicio.
 - Kiosco que no abría si ya había un Chromium abierto.
+- Sin internet ni frase guardada, la voz de respaldo no sonaba: se buscaba `espeak` y en la Pi está `espeak-ng`.
 - La palabra en negrita («**Allqu jatun**») se borraba junto con los gestos.
 
 ## [0.2.0] — 2026-09-28 — Auditoría, voz y modo docente

@@ -316,6 +316,8 @@ class HardwareInterface:
                 if not voz_sofia.hay_internet():
                     voz_sofia.anotar_faltante(self.carpeta_cache_voz, texto_limpio)
                     raise RuntimeError("Sin internet y sin esta frase guardada con la voz de Sofía")
+                if self._hablar_edge_en_vivo(texto_voz, ruta_cache, espera_reproduccion):
+                    return
                 edge_tts = os.path.join(
                     os.path.dirname(os.path.abspath(__file__)),
                     ".venv",
@@ -477,10 +479,12 @@ class HardwareInterface:
                 if resultado.returncode != 0:
                     print("[AUDIO] Speech Dispatcher no pudo reproducir la voz.")
             else:
-                espeak = shutil.which("espeak")
+                # En la Raspberry está espeak-ng (antes solo se buscaba espeak).
+                espeak = shutil.which("espeak-ng") or shutil.which("espeak")
                 if espeak:
+                    voz_espeak = "es-419" if espeak.endswith("espeak-ng") else "es-la"
                     subprocess.run(
-                        [espeak, "-v", "es-la", "-s", "140", texto_voz],
+                        [espeak, "-v", voz_espeak, "-s", "140", texto_voz],
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL,
                         timeout=60
@@ -496,6 +500,103 @@ class HardwareInterface:
                 except OSError:
                     pass
             self._notify_status("ESPERANDO")
+
+    def _hablar_edge_en_vivo(self, texto_voz, ruta_cache, espera):
+        """Genera la voz de Sofía con Edge TTS y la reproduce mientras llega.
+
+        Antes se esperaba el audio completo (≈ 2 s) y además se arrancaba el
+        programa edge-tts en cada frase (≈ 0,3 s). Al terminar se guarda en la
+        caché como siempre. Devuelve True si la voz sonó; False si falló antes
+        de sonar (entonces se usa el camino anterior). YURA_VOZ_EN_VIVO=0 lo
+        desactiva."""
+        if os.environ.get("YURA_VOZ_EN_VIVO", "1").strip() == "0":
+            return False
+        ffmpeg = shutil.which("ffmpeg")
+        pw_play = shutil.which("pw-play")
+        if not (ffmpeg and pw_play):
+            return False
+        try:
+            import asyncio
+            import edge_tts
+        except ImportError:
+            return False
+
+        velocidad, tono = voz_sofia.prosodia(texto_voz)
+        destino = self._destino_pipewire_predeterminado()
+        comando_pw = [pw_play] + (["--target", destino] if destino else []) + [
+            "--raw", "--format", "s16", "--rate", "24000", "--channels", "1", "-"]
+        decodificador = subprocess.Popen(
+            [ffmpeg, "-hide_banner", "-loglevel", "error", "-probesize", "32", "-analyzeduration", "0",
+             "-f", "mp3", "-i", "pipe:0", "-f", "s16le", "-ac", "1", "-ar", "24000", "pipe:1"],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+        )
+        reproductor = subprocess.Popen(
+            comando_pw, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        pcm = bytearray()
+        inicio = time.monotonic()
+        primer_sonido = []
+
+        def copiar():
+            # Del decodificador al parlante, guardando el audio para la caché.
+            while True:
+                bloque = decodificador.stdout.read(4800)
+                if not bloque:
+                    break
+                if not primer_sonido:
+                    primer_sonido.append(time.monotonic() - inicio)
+                pcm.extend(bloque)
+                try:
+                    reproductor.stdin.write(bloque)
+                    reproductor.stdin.flush()
+                except (BrokenPipeError, ValueError):
+                    break
+            try:
+                reproductor.stdin.close()
+            except OSError:
+                pass
+
+        hilo = threading.Thread(target=copiar, daemon=True)
+        hilo.start()
+
+        async def generar():
+            comunicar = edge_tts.Communicate(texto_voz, self.voz_mujer, rate=velocidad, pitch=tono)
+            async for parte in comunicar.stream():
+                if parte["type"] == "audio" and parte["data"]:
+                    decodificador.stdin.write(parte["data"])
+                    decodificador.stdin.flush()
+
+        generada = True
+        try:
+            asyncio.run(asyncio.wait_for(generar(), timeout=20))
+        except Exception as exc:
+            generada = False
+            print(f"[AUDIO] Voz en vivo: Edge TTS falló ({type(exc).__name__}).")
+        finally:
+            try:
+                decodificador.stdin.close()
+            except OSError:
+                pass
+        hilo.join(espera)
+        try:
+            reproductor.wait(timeout=espera)
+        except subprocess.TimeoutExpired:
+            reproductor.kill()
+        if decodificador.poll() is None:
+            decodificador.kill()
+        if primer_sonido:
+            print(f"[AUDIO] Voz en vivo: empezó a sonar a {primer_sonido[0]:.2f} s.")
+        sono = bool(pcm) and reproductor.returncode == 0
+        if sono and generada and ruta_cache:
+            try:
+                with wave.open(ruta_cache, "wb") as archivo:
+                    archivo.setnchannels(1)
+                    archivo.setsampwidth(2)
+                    archivo.setframerate(24000)
+                    archivo.writeframes(bytes(pcm))
+            except OSError:
+                pass
+        # Si alcanzó a sonar algo no se repite con otra voz, aunque se cortara.
+        return bool(pcm)
 
     def _hablar_con_oraciones_guardadas(self, texto_voz, espera):
         partes = voz_sofia.oraciones(texto_voz)
