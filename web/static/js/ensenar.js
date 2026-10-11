@@ -77,7 +77,7 @@ function pintarLista() {
     return fila;
   }));
   const grabadas = palabras.filter((p) => p.grabaciones > 0).length;
-  texto($('#conteo'), `${visibles.length} ${visibles.length === 1 ? 'palabra' : 'palabras'} en la lista · ${grabadas} de ${palabras.length} ya tienen la voz de la docente`);
+  texto($('#conteo'), `${visibles.length} ${visibles.length === 1 ? 'palabra' : 'palabras'} en la lista · ${grabadas} de ${palabras.length} ya tienen grabación de la docente`);
 }
 
 ['#buscar', '#categoria', '#sin-grabar'].forEach((s) => $(s).addEventListener('input', pintarLista));
@@ -96,6 +96,7 @@ function elegir(palabra) {
   aviso.classList.remove('escuchando');
   pintarLista();
   cargarGuardadas();
+  cargarVoz();
   panelGrabacion.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -114,7 +115,7 @@ async function cargarGuardadas() {
   }
   const titulo = document.createElement('p');
   titulo.className = 'etiqueta';
-  titulo.textContent = 'Grabaciones guardadas (Yura usa la más reciente para hablar)';
+  titulo.textContent = 'Grabaciones guardadas (Yura aprende de ellas)';
   contenedor.append(titulo);
   grabaciones.forEach((g) => {
     const fila = document.createElement('div');
@@ -125,7 +126,7 @@ async function cargarGuardadas() {
     audio.src = `/ensenar/audio/${g.id}`;
     const nota = document.createElement('span');
     nota.className = 'nota';
-    const uso = g.sirve_para_calificar ? 'se usa para calificar' : 'solo para escuchar';
+    const uso = g.sirve_para_calificar ? 'se usa para calificar' : 'no se usa para calificar';
     nota.textContent = `${g.fecha.replace('T', ' ')} · escuchó «${g.transcripcion || '—'}» · ${uso}`;
     const borrar = document.createElement('button');
     borrar.type = 'button';
@@ -141,6 +142,42 @@ async function cargarGuardadas() {
     contenedor.append(fila);
   });
 }
+
+// ---------- Pronunciación para la voz de Yura ----------
+
+const vozTexto = $('#voz-texto');
+const vozNota = $('#voz-nota');
+
+async function cargarVoz() {
+  if (!elegida) return;
+  const respuesta = await fetch(`/api/ensenar/voz?tabla=${encodeURIComponent(elegida.tabla)}&id=${elegida.id}`);
+  const datos = await respuesta.json();
+  vozTexto.value = datos.texto || elegida.quechua;
+  texto(vozNota, datos.fijada
+    ? '✅ Pronunciación fijada por la docente: Yura la dice así.'
+    : 'Pronunciación automática. Escriba la palabra como se oye, escúchela y guárdela.');
+}
+
+$('#boton-escuchar-voz').addEventListener('click', () => {
+  const valor = vozTexto.value.trim();
+  if (!valor) return;
+  texto(vozNota, 'Generando la voz de Yura…');
+  const audio = new Audio(`/api/ensenar/voz/escuchar?texto=${encodeURIComponent(valor)}`);
+  audio.addEventListener('playing', () => texto(vozNota, '🔊 Así lo dice Yura. ¿Suena bien? Si no, ajuste la escritura.'));
+  audio.addEventListener('error', () => texto(vozNota, 'No se pudo generar la voz (¿hay internet?).'));
+  audio.play().catch(() => texto(vozNota, 'No se pudo reproducir el audio.'));
+});
+
+$('#boton-guardar-voz').addEventListener('click', async () => {
+  if (!elegida) return;
+  try {
+    const datos = await enviar('/api/ensenar/voz', { tabla: elegida.tabla, id: elegida.id, texto: vozTexto.value });
+    vozTexto.value = datos.texto;
+    texto(vozNota, datos.fijada ? '✅ Guardada. Desde ahora Yura la dice así.' : 'Se volvió a la pronunciación automática.');
+  } catch (error) {
+    texto(vozNota, error.message);
+  }
+});
 
 // ---------- Botones ----------
 
@@ -205,10 +242,10 @@ function mostrarEnsenanza(e) {
     escuchado.hidden = false;
     texto($('#texto-escuchado'), e.transcripcion || '(no entendí palabras)');
     let nota;
-    if (!e.transcripcion) nota = 'Se puede guardar para que los estudiantes la escuchen, pero no servirá para calificar.';
-    else if (e.confunde_con) nota = `Ojo: eso se parece a otra palabra del diccionario (${e.confunde_con}). Se guardará para escuchar, pero no para calificar.`;
-    else if (e.reconocida) nota = 'Yura ya reconocía esta palabra; la grabación servirá para que los estudiantes la escuchen.';
-    else nota = 'Yura no la reconocía así: al guardarla aprenderá a aceptarla cuando un estudiante la diga igual.';
+    if (!e.transcripcion) nota = 'Se puede guardar, pero no servirá para calificar.';
+    else if (e.confunde_con) nota = `Ojo: eso se parece a otra palabra del diccionario (${e.confunde_con}). Se guardará, pero no se usará para calificar.`;
+    else if (e.reconocida) nota = '✅ Yura entiende esta palabra así: en el juego la aceptaría. Puede guardarla o descartarla (si solo estaba probando).';
+    else nota = 'Yura todavía no la entiende así: al guardarla (y aprender de los audios) la aceptará cuando un estudiante la diga igual.';
     texto($('#nota-escuchado'), nota);
     audioPendiente.src = `/ensenar/audio/pendiente?v=${Date.now()}`;
     botonGuardar.hidden = false;

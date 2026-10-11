@@ -63,3 +63,13 @@ button.boton:disabled { opacity: .45; cursor: not-allowed; }
 tr.elegida td { background: rgba(91, 155, 255, .1); }
 td.grabaciones { color: var(--muted); }
 td.grabaciones.si { color: var(--aqua); font-weight: 700; }
+
+/* Pronunciación dictada por la docente para la voz de Yura. */
+.voz-yura { margin: 4px 0 14px; display: grid; gap: 6px; }
+.voz-yura label { font-weight: 700; }
+.fila-voz { display: flex; flex-wrap: wrap; gap: 8px; }
+.fila-voz input {
+  flex: 1 1 220px; min-width: 0; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--deep); color: var(--ink); font: inherit;
+}
+.fila-voz input:focus-visible { outline: 3px solid var(--yellow); outline-offset: 1px; }

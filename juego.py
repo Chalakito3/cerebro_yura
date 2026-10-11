@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import re
 import random
 from difflib import SequenceMatcher
 
@@ -59,11 +58,7 @@ class Juego:
     def _respuesta_es_correcta(self, respuesta_usuario, respuesta_correcta):
         # Antes bastaba un 75 % de parecido y se aceptaban palabras distintas
         # (wawa por Tawa, Sara por Sach'a).
-        return texto_util.respuesta_quechua_correcta(
-            respuesta_usuario,
-            respuesta_correcta,
-            pronunciaciones.variantes(respuesta_correcta)
-        )
+        return pronunciaciones.respuesta_aceptada(respuesta_usuario, respuesta_correcta)
 
     def ejecutar_turno(self):
         if not self.palabras_partida:

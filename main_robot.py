@@ -21,7 +21,9 @@ import whisper
 from groq import Groq
 import conversacion
 import pronunciaciones
+import voz_sofia
 from audio_manager import AudioManager
+from cuerpo import CuerpoESP32
 from juego import Juego
 from gemini_transcriber import GeminiTranscriber
 
@@ -112,9 +114,12 @@ class RobotStates:
 class HardwareInterface:
 
     def __init__(self, audio_manager=None, on_status=None):
+        # Los audios temporales van a la memoria (/dev/shm): no se escriben
+        # en el disco, que en esta Raspberry es lento (USB).
         descriptor, self.audio_temp = tempfile.mkstemp(
             prefix="yura-",
-            suffix=".mp3"
+            suffix=".mp3",
+            dir="/dev/shm" if os.path.isdir("/dev/shm") else None
         )
         os.close(descriptor)
         # Voz boliviana elegida por el equipo (27/09/2026); antes era mexicana
@@ -123,26 +128,19 @@ class HardwareInterface:
         self.audio_manager = audio_manager
         self.on_status = on_status
 
+        # Carpeta de caché local offline para la voz de Sofía (autonomía sin internet)
+        carpeta_cache = os.environ.get(
+            "YURA_CACHE_VOZ",
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "basedatos", "voces_sofia")
+        )
+        self.carpeta_cache_voz = os.path.abspath(carpeta_cache)
+        try:
+            os.makedirs(self.carpeta_cache_voz, exist_ok=True)
+        except OSError:
+            pass
+
     def _formatear_texto_voz(self, texto):
-        if texto is None:
-            return ""
-
-        texto = str(texto).strip()
-        texto = re.sub(r"\s+", " ", texto)
-        texto = texto.replace("¿", "")
-        texto = texto.replace("¡", "")
-        texto = texto.replace("?", ".")
-        texto = texto.replace("!", ".")
-
-        if not re.search(r"[.,;:]$", texto):
-            texto = texto + "."
-
-        texto = texto.replace(" y ", ", y ")
-        texto = texto.replace(" pero ", ". Pero ")
-        texto = texto.replace(" entonces ", ". Entonces ")
-        texto = texto.replace(" por favor ", ", por favor, ")
-
-        return texto.strip()
+        return voz_sofia.formatear_texto_voz(texto)
 
     def _limpiar_texto_tts(self, texto):
         if texto is None:
@@ -191,6 +189,71 @@ class HardwareInterface:
         )
         return coincidencia.group(1) if coincidencia else None
 
+    def _ruta_cache_voz(self, texto_voz):
+        return voz_sofia.ruta_cache(
+            getattr(self, "carpeta_cache_voz", None),
+            getattr(self, "voz_mujer", "es-BO-SofiaNeural"),
+            texto_voz,
+        )
+
+    def _reproducir_archivo_audio(self, ruta, espera=30):
+        if not ruta or not os.path.exists(ruta):
+            return False
+
+        reproductores = []
+        pw_play = shutil.which("pw-play")
+        if pw_play:
+            destino = self._destino_pipewire_predeterminado()
+            cmd = [pw_play]
+            if destino:
+                cmd.extend(["--target", destino])
+            cmd.append(ruta)
+            reproductores.append(cmd)
+
+        ffplay = shutil.which("ffplay")
+        if ffplay:
+            reproductores.append([
+                ffplay,
+                "-nodisp",
+                "-autoexit",
+                "-loglevel",
+                "error",
+                ruta
+            ])
+
+        aplay = shutil.which("aplay")
+        if aplay and ruta.lower().endswith(".wav"):
+            reproductores.append([aplay, "-q", ruta])
+
+        mpg123 = shutil.which("mpg123")
+        if mpg123 and ruta.lower().endswith(".mp3"):
+            audio_mgr = getattr(self, "audio_manager", None)
+            if audio_mgr and getattr(audio_mgr, "output_alsa_device", None):
+                reproductores.append([
+                    mpg123,
+                    "-q",
+                    "-a",
+                    audio_mgr.output_alsa_device,
+                    ruta
+                ])
+            else:
+                reproductores.append([mpg123, "-q", ruta])
+
+        for reproductor in reproductores:
+            try:
+                res = subprocess.run(
+                    reproductor,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=espera
+                )
+                if res.returncode == 0:
+                    return True
+            except (subprocess.TimeoutExpired, OSError):
+                continue
+
+        return False
+
     def _texto_visible(self, texto):
         original = str(texto or "").strip()
         if not original:
@@ -216,8 +279,9 @@ class HardwareInterface:
             return
 
         texto_limpio = self._limpiar_texto_tts(texto)
-        texto_voz = self._formatear_texto_voz(texto_limpio)
         texto_visible = self._texto_visible(texto_limpio)
+        # La voz dice las palabras quechuas como en los audios de la docente.
+        texto_voz = self._formatear_texto_voz(pronunciaciones.texto_para_hablar(texto_limpio))
         print(f"\n[YURA HABLA]: {texto_voz}")
         self._notify_status(
             "HABLANDO",
@@ -226,10 +290,32 @@ class HardwareInterface:
         )
 
         try:
+            espera_reproduccion = 30 + len(texto_voz) / 10
+
+            # 1. Verificar si la frase ya está guardada en la caché local offline de Sofía
+            ruta_cache = self._ruta_cache_voz(texto_voz)
+            if ruta_cache and os.path.exists(ruta_cache) and os.path.getsize(ruta_cache) > 0:
+                if self._reproducir_archivo_audio(ruta_cache, espera=espera_reproduccion):
+                    return
+
+            # 1b. No está entera, pero sí cada oración: se dicen seguidas con
+            # la voz de Sofía (igual con o sin internet).
+            if self._hablar_con_oraciones_guardadas(texto_voz, espera_reproduccion):
+                return
+
+            # 2. Palabras quechuas con la voz entrenada con los audios de la docente.
+            if self._hablar_por_partes(texto_limpio):
+                return
+
             # ----------------------------------------------------
             # EDGE TTS
             # ----------------------------------------------------
             try:
+                # Sin internet no se espera a Edge TTS (antes, hasta 40 s): se
+                # anota la frase para generarla con Sofía cuando vuelva.
+                if not voz_sofia.hay_internet():
+                    voz_sofia.anotar_faltante(self.carpeta_cache_voz, texto_limpio)
+                    raise RuntimeError("Sin internet y sin esta frase guardada con la voz de Sofía")
                 edge_tts = os.path.join(
                     os.path.dirname(os.path.abspath(__file__)),
                     ".venv",
@@ -241,17 +327,10 @@ class HardwareInterface:
 
                 cmd_tts = [
                     edge_tts,
-                    "--voice",
-                    self.voz_mujer,
-                    "--rate=+5%",
-                    "--text",
-                    texto_voz,
+                    *voz_sofia.argumentos_edge(self.voz_mujer, texto_voz),
                     "--write-media",
                     self.audio_temp
                 ]
-
-                # Sin tiempo máximo, una red colgada bloquearía a Yura.
-                espera_reproduccion = 30 + len(texto_voz) / 10
 
                 res = None
                 for intento in range(2):
@@ -313,6 +392,11 @@ class HardwareInterface:
                         timeout=15
                     )
                     if conversion.returncode == 0 and os.path.exists(wav_temp):
+                        if ruta_cache and os.path.getsize(wav_temp) > 0:
+                            try:
+                                shutil.copyfile(wav_temp, ruta_cache)
+                            except OSError:
+                                pass
                         destino = self._destino_pipewire_predeterminado()
                         comando_pw = [pw_play]
                         if destino:
@@ -413,32 +497,105 @@ class HardwareInterface:
                     pass
             self._notify_status("ESPERANDO")
 
+    def _hablar_con_oraciones_guardadas(self, texto_voz, espera):
+        partes = voz_sofia.oraciones(texto_voz)
+        if len(partes) < 2:
+            return False
+        rutas = [self._ruta_cache_voz(parte) for parte in partes]
+        if not all(ruta and os.path.exists(ruta) and os.path.getsize(ruta) > 0 for ruta in rutas):
+            return False
+        for ruta in rutas:
+            if not self._reproducir_archivo_audio(ruta, espera=espera):
+                return False
+        return True
+
+    def _edge_tts(self):
+        ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".venv", "bin", "edge-tts")
+        return ruta if os.path.exists(ruta) else "edge-tts"
+
+    def _voz_a_muestras(self, texto, indice):
+        """Genera un tramo con la voz de Yura y lo devuelve como muestras de
+        24 kHz (float32). Tramos sin letras (", ") son una pausa corta."""
+        import numpy as np
+        if not re.search(r"[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]", texto):
+            return np.zeros(int(24000 * 0.12), dtype=np.float32)
+        mp3 = f"{self.audio_temp}.{indice}.mp3"
+        try:
+            limpio = texto.replace("¿", "").replace("¡", "").strip()
+            resultado = subprocess.run(
+                [self._edge_tts(), *voz_sofia.argumentos_edge(self.voz_mujer, limpio), "--write-media", mp3],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20,
+            )
+            if resultado.returncode != 0 or not os.path.exists(mp3):
+                raise RuntimeError("Edge TTS no generó un tramo")
+            crudo = subprocess.run(
+                ["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", mp3, "-ac", "1", "-ar", "24000", "-f", "s16le", "-"],
+                capture_output=True, check=True, timeout=15,
+            ).stdout
+            return np.frombuffer(crudo, dtype=np.int16).astype(np.float32) / 32768.0
+        finally:
+            try:
+                os.remove(mp3)
+            except OSError:
+                pass
+
+    def _hablar_por_partes(self, texto):
+        """Dice la frase con la voz de Yura y, en el lugar de cada palabra
+        quechua entrenada, su audio (pronunciación de la docente con la voz
+        de Yura). Devuelve False si no hay palabras entrenadas o algo falla,
+        y entonces se habla como siempre."""
+        partes = pronunciaciones.partes_para_hablar(texto)
+        if not any(tipo == "audio" for tipo, _ in partes):
+            return False
+        import numpy as np
+        from concurrent.futures import ThreadPoolExecutor
+        destino = f"{self.audio_temp}.partes.wav"
+        try:
+            with ThreadPoolExecutor(max_workers=4) as grupo:
+                futuros = [
+                    grupo.submit(self._voz_a_muestras, pronunciaciones.texto_para_hablar(contenido), i)
+                    if tipo == "texto" else None
+                    for i, (tipo, contenido) in enumerate(partes)
+                ]
+            tramos_voz = [f.result() for f in futuros if f is not None]
+            volumen = np.mean([np.sqrt((t ** 2).mean()) for t in tramos_voz if t.size and t.any()] or [0.1])
+            pausa = np.zeros(int(24000 * 0.06), dtype=np.float32)
+            senal = []
+            for (tipo, contenido), futuro in zip(partes, futuros):
+                if tipo == "texto":
+                    senal.append(futuro.result())
+                    continue
+                with wave.open(contenido, "rb") as archivo:
+                    palabra = np.frombuffer(archivo.readframes(archivo.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
+                propio = np.sqrt((palabra ** 2).mean()) or 1.0
+                senal += [pausa, palabra * (volumen / propio), pausa]
+            total = np.clip(np.concatenate(senal), -1, 1)
+            with wave.open(destino, "wb") as archivo:
+                archivo.setnchannels(1)
+                archivo.setsampwidth(2)
+                archivo.setframerate(24000)
+                archivo.writeframes((total * 32767).astype(np.int16).tobytes())
+            return self.reproducir_grabacion(destino)
+        except Exception as exc:
+            print(f"[AUDIO] No se pudo hablar con la voz entrenada ({type(exc).__name__}); se usa la voz normal.")
+            return False
+        finally:
+            try:
+                os.remove(destino)
+            except OSError:
+                pass
+
     def reproducir_grabacion(self, ruta):
         """Reproduce un archivo WAV (la voz de la docente) por la salida
         de audio actual."""
         if not ruta or not os.path.exists(ruta):
             return False
         self._notify_status("HABLANDO")
-        comandos = []
-        pw_play = shutil.which("pw-play")
-        if pw_play:
-            destino = self._destino_pipewire_predeterminado()
-            comandos.append([pw_play] + (["--target", destino] if destino else []) + [ruta])
-        ffplay = shutil.which("ffplay")
-        if ffplay:
-            comandos.append([ffplay, "-nodisp", "-autoexit", "-loglevel", "error", ruta])
         try:
-            for comando in comandos:
-                try:
-                    resultado = subprocess.run(
-                        comando, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20
-                    )
-                except (subprocess.TimeoutExpired, OSError):
-                    continue
-                if resultado.returncode == 0:
-                    return True
-            print("[AUDIO] No se pudo reproducir la grabación de la docente.")
-            return False
+            exito = self._reproducir_archivo_audio(ruta, espera=20)
+            if not exito:
+                print("[AUDIO] No se pudo reproducir la grabación de la docente.")
+            return exito
         finally:
             self._notify_status("ESPERANDO")
 
@@ -478,16 +635,51 @@ class BrainYura:
         self.ensenanza = {"estado": "inactivo"}
         self.ultima_actividad_docente = 0.0
 
+        # Cuerpo (ESP32 por USB). Sin él conectado, Yura funciona igual.
+        self.cuerpo = CuerpoESP32()
         self.audio_manager = AudioManager()
         self.hw = HardwareInterface(
             self.audio_manager,
             on_status=self._set_web_status
         )
-        # "small" entendió 77-93 % de las frases de prueba; "base", 70 % (27/09/2026).
+        # Selector de motor de escucha: "whisper", "vosk", o auto-detección según GPU
+        motor_asr = os.environ.get("YURA_ASR", "").strip().lower()
         whisper_name = os.environ.get("YURA_WHISPER_MODEL", "small").strip() or "small"
-        print(f"[WHISPER]: Cargando modelo {whisper_name}...")
-        self.whisper_model = whisper.load_model(whisper_name)
-        print(f"[WHISPER]: Modelo cargado {whisper_name}.")
+        self.vosk_model = None
+        self.whisper_model = None
+
+        # Detectar disponibilidad de GPU NVIDIA / CUDA
+        hay_gpu = False
+        try:
+            import torch
+            hay_gpu = bool(torch.cuda.is_available())
+        except Exception:
+            hay_gpu = False
+
+        usar_vosk = (
+            motor_asr == "vosk"
+            or whisper_name.lower() in ("none", "vosk", "0", "false")
+            or (motor_asr in ("auto", "") and not hay_gpu)
+        )
+
+        if usar_vosk:
+            ruta_vosk = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")
+            if os.path.exists(ruta_vosk):
+                try:
+                    from vosk import Model
+                    motivo = "YURA_ASR=vosk" if motor_asr == "vosk" else "sin GPU NVIDIA detectada"
+                    print(f"[VOSK]: Cargando modelo ligero ({motivo}) desde '{ruta_vosk}'...")
+                    self.vosk_model = Model(ruta_vosk)
+                    print("[VOSK]: Modelo cargado (modo ultraligero activo).")
+                except Exception as exc:
+                    print(f"[ALERTA VOSK]: No se pudo cargar VOSK ({exc}).")
+            else:
+                print(f"[ALERTA VOSK]: No se encontró la carpeta '{ruta_vosk}'.")
+        else:
+            print(f"[WHISPER]: Cargando modelo {whisper_name} (GPU activa: {hay_gpu})...")
+            self.whisper_model = whisper.load_model(whisper_name)
+            print(f"[WHISPER]: Modelo cargado {whisper_name}.")
+
         self.gemini_transcriber = GeminiTranscriber()
 
         # ----------------------------------------------------
@@ -547,6 +739,9 @@ class BrainYura:
         en pantalla mientras Yura habla, en lugar de la primera frase de lo
         que dice; se libera cuando vuelve a escuchar.
         """
+        cuerpo = getattr(self, "cuerpo", None)
+        if cuerpo is not None:
+            cuerpo.estado(phase)
         with self.web_status_lock:
             self.web_status["phase"] = phase
             if phase == "ESCUCHANDO":
@@ -573,6 +768,9 @@ class BrainYura:
             self._set_web_status("CELEBRANDO", result="CORRECTO")
         elif comando == "TRISTE":
             self._set_web_status("TRISTE", result="INCORRECTO")
+        cuerpo = getattr(self, "cuerpo", None)
+        if cuerpo is not None:
+            cuerpo.accion(comando)
         self.hw.mover_actuador(comando)
 
     def _set_game_event(self, event, **data):
@@ -592,11 +790,6 @@ class BrainYura:
                 result="CORRECTO" if data.get("correct") else "INCORRECTO",
                 fijar=True
             )
-
-    # ========================================================
-    # CARGAR MODELO VOSK
-    # ========================================================
-
 
     def _buscar_headset_usb(self):
         self.dispositivo_index = self.audio_manager.input_device
@@ -697,7 +890,7 @@ class BrainYura:
     # Nunca consulta el diccionario para simular una respuesta.
     # ========================================================
 
-    def escuchar_voz(self, solo_local=False, pistas=None, guardar_audio_en=None):
+    def escuchar_voz(self, solo_local=False, pistas=None, guardar_audio_en=None, al_escuchar=None):
         self._revisar_pedido_docente()
 
         self._set_web_status("ESCUCHANDO")
@@ -722,8 +915,12 @@ class BrainYura:
             audio_bytes = self.audio_manager.grabar_hasta_silencio(
                 espera_maxima=10.0,
                 duracion_maxima=15.0,
-                silencio_final=1.0,
-                bloque_ms=80
+                # Silencio que da por terminada la frase: menos espera antes de
+                # responder. Si corta a un niño que habla despacio, subirlo
+                # con YURA_SILENCIO_FINAL=1.0 en .env.local.
+                silencio_final=float(os.environ.get("YURA_SILENCIO_FINAL", "0.7")),
+                bloque_ms=80,
+                al_escuchar=al_escuchar
             )
             depuracion.depurar("[DEBUG AUDIO] después de recibir audio")
             depuracion.depurar("[DEBUG AUDIO] captura finalizada")
@@ -795,6 +992,24 @@ class BrainYura:
                 texto = self._normalizar_texto(
                     resultado.get("text", "")
                 )
+            elif getattr(self, "vosk_model", None) is not None:
+                motor_transcripcion = "Vosk"
+                inicio_vosk = time.perf_counter()
+                import json
+                from vosk import KaldiRecognizer
+                rec = KaldiRecognizer(self.vosk_model, 16000)
+                rec.SetWords(False)
+                rec.AcceptWaveform(audio_bytes)
+                res_json = json.loads(rec.FinalResult())
+                texto_crudo = res_json.get("text", "")
+                print(
+                    f"[VOSK]: procesamiento en "
+                    f"{time.perf_counter() - inicio_vosk:.2f}s"
+                )
+                texto_afinado = pronunciaciones.afinar_vosk(texto_crudo)
+                if texto_afinado and texto_afinado.lower() != texto_crudo.lower():
+                    depuracion.voz("[VOSK AFINADO]", f"'{texto_crudo}' -> '{texto_afinado}'")
+                texto = self._normalizar_texto(texto_afinado)
             else:
                 texto = ""
 
@@ -978,9 +1193,12 @@ class BrainYura:
         # OPCIÓN DESCONOCIDA
         # ====================================================
 
+        # Con el historial también en el menú: Groq recuerda lo que se habló
+        # (antes, aquí perdía el hilo: "no digas el resto" no tenía contexto).
         resultado = conversacion.procesar_entrada(
             opcion,
-            self.groq_client
+            self.groq_client,
+            self.historial_conversacion
         )
 
         if resultado["accion"] == "menu":
@@ -1006,7 +1224,14 @@ class BrainYura:
 
     def _reproducir_pronunciacion(self, quechua):
         """Si la docente grabó esta palabra, se escucha su voz después de
-        la de Yura (la voz sintética no pronuncia bien el quechua)."""
+        la de Yura (la voz sintética no pronuncia bien el quechua).
+
+        Desactivado por pedido del equipo (28/09/2026): las grabaciones y lo
+        aprendido de ellas se siguen usando para entender y calificar. Para
+        volver a hacerlas sonar: YURA_VOZ_DOCENTE=1 en .env.local.
+        """
+        if os.environ.get("YURA_VOZ_DOCENTE", "0").strip() != "1":
+            return
         ruta = pronunciaciones.audio_de(quechua) if quechua else None
         if ruta:
             self.hw.reproducir_grabacion(ruta)
@@ -1077,13 +1302,20 @@ class BrainYura:
 
     def _grabar_para_docente(self, palabra):
         pronunciaciones.descartar_pendiente()
-        self.ensenanza = {"estado": "grabando", "palabra": palabra}
+        # "grabando" (la página dice "Hable ahora") recién cuando el micrófono
+        # capta: antes se perdía el inicio (q', k', qh) si se hablaba enseguida.
+        self.ensenanza = {"estado": "esperando", "palabra": palabra}
+
+        def _microfono_listo():
+            self.ensenanza = {"estado": "grabando", "palabra": palabra}
+
         self._set_web_status("ESCUCHANDO", content=palabra["quechua"], translation=palabra["espanol"])
         # Mismas pistas que en una actividad, para anotar cómo escribe el
         # reconocedor la palabra bien dicha.
         pistas = [palabra["quechua"]] + list(texto_util.PISTAS_GENERALES)
         escuchado = self.escuchar_voz(
-            solo_local=True, pistas=pistas, guardar_audio_en=pronunciaciones.ruta_pendiente()
+            solo_local=True, pistas=pistas, guardar_audio_en=pronunciaciones.ruta_pendiente(),
+            al_escuchar=_microfono_listo,
         )
         self.ultima_actividad_docente = time.monotonic()
 
@@ -1096,7 +1328,8 @@ class BrainYura:
             "estado": "grabado",
             "palabra": palabra,
             "transcripcion": escuchado,
-            "reconocida": texto_util.respuesta_quechua_correcta(escuchado, palabra["quechua"]),
+            # Con lo aprendido de los audios: es lo que Yura acepta hoy en el juego.
+            "reconocida": pronunciaciones.respuesta_aceptada(escuchado, palabra["quechua"]),
             "confunde_con": pronunciaciones.otra_palabra_igual(escuchado, palabra["quechua"]) if escuchado else None,
         }
         self._set_web_status(
@@ -1106,14 +1339,47 @@ class BrainYura:
             fijar=True,
         )
 
-    def _escuchar_con_ordenes(self, solo_local=False, pistas=None):
-        """Escucha y atiende "apágate" en cualquier modo (antes solo en el
-        menú: en conversación la orden se enviaba a Groq)."""
+    def _escuchar_con_ordenes(self, solo_local=False, pistas=None, permitir_movimiento=True):
+        """Escucha y atiende "apágate" y las órdenes de movimiento ("camina
+        hacia adelante", "para") en cualquier modo (antes solo en el menú: en
+        conversación la orden se enviaba a Groq).
+
+        permitir_movimiento=False (modo silencio): lo que se habla en el aula
+        no debe mover al robot; "para" sí se atiende siempre."""
         texto = self.escuchar_voz(solo_local=solo_local, pistas=pistas)
-        if texto_util.es_orden_apagar(self._normalizar_texto(texto)):
+        normalizado = self._normalizar_texto(texto)
+        if texto_util.es_orden_apagar(normalizado):
             self._confirmar_apagado()
             return ""
+        movimiento = texto_util.orden_movimiento(normalizado)
+        if movimiento and (permitir_movimiento or movimiento == "ALTO"):
+            self._mover_por_voz(movimiento, hablar=permitir_movimiento)
+            return ""
         return texto
+
+    # Cuánto dura cada movimiento pedido por voz (el ESP32 limita a 3 s y
+    # frena solo ante un obstáculo a menos de 20 cm).
+    DURACION_MOVIMIENTO_MS = {"ADELANTE": 1500, "ATRAS": 1000, "IZQUIERDA": 700, "DERECHA": 700}
+    _AVISO_MOVIMIENTO = {
+        "ADELANTE": "Camino hacia adelante.",
+        "ATRAS": "Voy hacia atrás.",
+        "IZQUIERDA": "Giro a la izquierda.",
+        "DERECHA": "Giro a la derecha.",
+    }
+
+    def _mover_por_voz(self, movimiento, hablar=True):
+        cuerpo = getattr(self, "cuerpo", None)
+        if movimiento == "ALTO":
+            if cuerpo is not None:
+                cuerpo.alto()
+            if hablar:
+                self.hw.hablar("Me detengo.")
+            return
+        if cuerpo is None or not cuerpo.conectado:
+            self.hw.hablar("Todavía no tengo mi cuerpo conectado para moverme.")
+            return
+        cuerpo.mover(movimiento, self.DURACION_MOVIMIENTO_MS[movimiento])
+        self.hw.hablar(self._AVISO_MOVIMIENTO[movimiento])
 
     def _confirmar_apagado(self):
         self.hw.hablar(
@@ -1158,7 +1424,7 @@ class BrainYura:
     def ejecutar_silencio(self):
         # Privacidad: en silencio Yura solo espera "despierta"; lo que se
         # habla en el aula se transcribe en esta computadora y no sale a internet.
-        entrada = self._escuchar_con_ordenes(solo_local=True)
+        entrada = self._escuchar_con_ordenes(solo_local=True, permitir_movimiento=False)
         entrada = self._normalizar_texto(entrada)
         entrada = re.sub(r"^yura\s+", "", entrada).strip()
 

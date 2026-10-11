@@ -11,6 +11,9 @@ class RobotFalso:
         self.state = "MENU"
         self.running = True
         self.ws = {"phase": "ESPERANDO", "content": "", "translation": "", "result": None, "updated_at": None}
+        # Modo docente (página /ensenar): inactivo en el robot falso.
+        self.pedido_docente = threading.Event()
+        self.ensenanza = {"estado": "inactivo"}
     def get_web_status(self):
         d = dict(self.ws); d["updated_at"] = datetime.now(timezone.utc).isoformat(); return d
 

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#06122b">
   <title>Modo docente de Yura</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css', v='colores-1') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/ensenar.css', v='colores-1') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ensenar.css', v='voz-1') }}">
 </head>
 <body>
   <main class="pagina">
@@ -14,7 +14,7 @@
       <div>
         <p class="marca">YURA · MODO DOCENTE</p>
         <h1>Enseñar pronunciación</h1>
-        <p class="nota">Elija una palabra, presione <strong>Grabar</strong> y dígala al micrófono de Yura. Si está bien dicha, guárdela: Yura la usará para calificar y la hará escuchar a los estudiantes.</p>
+        <p class="nota">Elija una palabra, presione <strong>Grabar</strong> y dígala al micrófono de Yura. Si está bien dicha, guárdela: Yura aprenderá de ella para entender y calificar mejor a los estudiantes.</p>
       </div>
       <nav class="acciones">
         <a class="boton secundario" href="{{ url_for('pagina_resultados') }}">Resultados</a>
@@ -33,6 +33,15 @@
     <section class="panel grabacion" id="panel-grabacion" hidden aria-live="polite">
       <p class="etiqueta">Palabra elegida</p>
       <h2 class="palabra"><span id="palabra-quechua"></span> <small id="palabra-espanol"></small></h2>
+      <div class="voz-yura">
+        <label for="voz-texto">Cómo debe sonar con la voz de Yura</label>
+        <div class="fila-voz">
+          <input id="voz-texto" maxlength="80" autocomplete="off" placeholder="Ej.: Imaynalla kashanki">
+          <button type="button" class="boton secundario" id="boton-escuchar-voz">▶ Escuchar a Yura</button>
+          <button type="button" class="boton" id="boton-guardar-voz">Guardar pronunciación</button>
+        </div>
+        <p class="nota" id="voz-nota">Escriba la palabra como se oye (no como se escribe), escúchela y ajústela hasta que suene bien.</p>
+      </div>
       <p class="aviso" id="aviso-grabacion"></p>
       <div class="escuchado" id="escuchado" hidden>
         <p>Yura escuchó: <strong id="texto-escuchado"></strong></p>
@@ -62,6 +71,6 @@
       </div>
     </section>
   </main>
-  <script src="{{ url_for('static', filename='js/ensenar.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ensenar.js', v='voz-1') }}"></script>
 </body>
 </html>

@@ -104,3 +104,17 @@ def test_el_juego_usa_palabras_de_respaldo_sin_diccionario():
     juego = Juego(lambda: [], Mock(), Mock(), Mock(), Mock(), texto.normalizar)
     juego.reiniciar()
     assert set(juego.palabras_partida) <= set(PALABRAS_DE_RESPALDO)
+
+
+def test_dialogo_infantil_en_diccionario():
+    conexion = _conexion()
+    filas = conexion.execute("SELECT palabra_frase, traduccion FROM nivel1_dialogo_infantil").fetchall()
+    assert len(filas) >= 15
+    palabras = {f[0].lower() for f in filas}
+    assert "allillanmi" in palabras
+    assert "kusisqam kani" in palabras
+    assert "imataq sutiyki" in palabras
+    # Verificar que pronunciaciones_voz tiene las 113 preservadas
+    total_voz = conexion.execute("SELECT count(*) FROM pronunciaciones_voz").fetchone()[0]
+    assert total_voz >= 280
+

@@ -97,19 +97,25 @@ def es_pregunta_de_idioma(texto_normalizado):
     )
 
 
-_FORMAS_APAGATE_ESCRITAS = ("apagate", "apagarte", "apagues", "apagarse", "apaguese")
+_FORMAS_APAGATE_ESCRITAS = (
+    "apagate", "apagarte", "apagues", "apagarse", "apaguese",
+    # "wañuchikuy" (quechua): apágate. "Yurata wañuchikuy" es "Yura, apágate".
+    "wañuchikuy",
+)
 
 _OBJETOS_DE_APAGAR = {
     "yura", "a", "el", "la", "robot", "equipo", "computadora", "maquina",
     "por", "favor", "ya", "todo", "ahora",
+    # El reconocedor a veces separa "apágate" en "apaga" + "te".
+    "te",
 }
 
 
 def es_orden_apagar(texto_normalizado):
     """Reconoce la orden de apagar dirigida a Yura en cualquier forma común
-    ("apágate", "¿puedes apagarte?", "apaga el robot"), pero no frases que
-    solo mencionan la palabra ("no te apagues", "apagar la luz",
-    "¿cómo se dice apagar?")."""
+    ("apágate", "¿puedes apagarte?", "apaga el robot", "wañuchikuy",
+    "Yurata wañuchikuy"), pero no frases que solo mencionan la palabra
+    ("no te apagues", "apagar la luz", "¿cómo se dice apagar?")."""
     if not texto_normalizado or es_pregunta_de_idioma(texto_normalizado):
         return False
 
@@ -140,6 +146,61 @@ def es_orden_apagar(texto_normalizado):
     return all(palabra in _OBJETOS_DE_APAGAR for palabra in resto)
 
 
+# Movimiento del cuerpo (ESP32). Vosk sí tiene todas estas palabras.
+_DIRECCIONES_MOVIMIENTO = {
+    "adelante": "ADELANTE", "delante": "ADELANTE", "enfrente": "ADELANTE",
+    "atras": "ATRAS", "detras": "ATRAS",
+    "izquierda": "IZQUIERDA",
+    "derecha": "DERECHA",
+}
+_VERBOS_MOVIMIENTO = {
+    "camina", "caminar", "camine", "avanza", "avanzar", "avance", "anda", "andar",
+    "ve", "vete", "vaya", "ir", "muevete", "mueve", "moverte", "muevase",
+    "retrocede", "retroceder", "regresa", "gira", "girar", "gire", "voltea",
+    "voltear", "dobla", "doblar", "vamos", "hacia",
+}
+# Verbos que ya dicen la dirección sin nombrarla.
+_VERBOS_CON_DIRECCION = {
+    "camina": "ADELANTE", "avanza": "ADELANTE", "avanzar": "ADELANTE",
+    "retrocede": "ATRAS", "retroceder": "ATRAS",
+}
+# "Para" o "alto" son palabras comunes ("para mi mamá", "habla más alto"):
+# solo cuentan dichas solas. "Detente" o "no te muevas" valen en cualquier frase.
+_ALTO_SOLO = {
+    "para", "parate", "alto", "quieta", "quieto", "frena", "stop", "basta",
+    "detenerse", "para ya", "alto ahi", "ya para", "quedate quieta", "quedate ahi",
+}
+_ALTO_EN_FRASE = ("detente", "deten", "detenerte", "no te muevas", "frena", "frenate", "parate")
+# "Yura" no está en Vosk: la escribe "jura" o "llora", y el afinado vuelve "llora" en "Yuraq".
+_RELLENO_MOVIMIENTO = {"yura", "yuraq", "jura", "llora", "por", "favor", "ya", "ahora", "un", "poco", "mas", "la", "a", "el", "al"}
+
+
+def orden_movimiento(texto_normalizado):
+    """La orden de movimiento dicha a Yura: "ADELANTE", "ATRAS", "IZQUIERDA",
+    "DERECHA", "ALTO", o None.
+
+    "camina hacia adelante", "gira a la derecha", "retrocede", "para",
+    "Yura, detente". No cuenta "no camines", "¿cómo se dice derecha?" ni
+    frases donde "para" no es la orden ("para mi mamá")."""
+    if not texto_normalizado or es_pregunta_de_idioma(texto_normalizado):
+        return None
+    palabras_texto = texto_normalizado.split()
+    nucleo = [p for p in palabras_texto if p not in _RELLENO_MOVIMIENTO]
+    if " ".join(nucleo) in _ALTO_SOLO or texto_normalizado in _ALTO_SOLO:
+        return "ALTO"
+    if any(contiene_frase(texto_normalizado, frase) for frase in _ALTO_EN_FRASE):
+        return "ALTO"
+    if {"no", "nunca"} & set(palabras_texto):
+        return None
+    direcciones = [_DIRECCIONES_MOVIMIENTO[p] for p in palabras_texto if p in _DIRECCIONES_MOVIMIENTO]
+    verbos = [p for p in palabras_texto if p in _VERBOS_MOVIMIENTO]
+    if len(set(direcciones)) == 1 and (verbos or len(nucleo) <= 2):
+        return direcciones[0]
+    if not direcciones and len(nucleo) == 1 and nucleo[0] in _VERBOS_CON_DIRECCION:
+        return _VERBOS_CON_DIRECCION[nucleo[0]]
+    return None
+
+
 _ALUCINACIONES_WHISPER = (
     "subtitulos", "subtitulado", "amara org", "gracias por ver",
     "suscribete", "suscribanse", "no olvides suscribirte",
@@ -147,12 +208,19 @@ _ALUCINACIONES_WHISPER = (
 )
 
 
+# Con muy poca voz, Whisper copia partes de las instrucciones que se le dan
+# (instruccion_reconocedor): "ordenes" al grabar juk (27/09/2026).
+_ECOS_DE_INSTRUCCION = ("ordenes", "palabras en quechua", "espanol boliviano")
+
+
 def es_alucinacion_whisper(texto_normalizado):
     """Frases que Whisper inventa con ruido o silencio (vienen de subtítulos
-    de videos con los que fue entrenado); no las dijo nadie."""
-    return any(
-        contiene_frase(texto_normalizado, frase)
-        for frase in _ALUCINACIONES_WHISPER
+    de videos con los que fue entrenado, o de sus propias instrucciones);
+    no las dijo nadie."""
+    sin_signos = texto_normalizado.replace(":", " ").strip()
+    return (
+        any(contiene_frase(texto_normalizado, frase) for frase in _ALUCINACIONES_WHISPER)
+        or any(sin_signos == eco or sin_signos.startswith(eco + " ") for eco in _ECOS_DE_INSTRUCCION)
     )
 
 
@@ -175,8 +243,12 @@ def es_negacion(texto_normalizado):
 # Palabras quechuas frecuentes que se le dan al reconocedor como pista
 # cuando no hay una actividad con palabras propias (menú, conversación).
 PISTAS_GENERALES = (
-    "rimaykullayki", "imaynalla kachkanki", "allin p'unchay", "yusulpayki",
-    "ari", "mana", "ñuqa", "ñawi", "wasi", "yaku", "allqu", "misi", "inti", "puka",
+    "rimaykullayki", "imaynalla kachkanki", "allin p'unchay", "allillanmi",
+    "kusisqam", "imataq sutiyki", "sutiymi", "maymantataq", "mashkha watayuq",
+    "munani", "ama llakikuychu", "kuska yachakusun", "allquchaymi", "misichaymi",
+    "chiri", "rupay", "yachaywasi", "pukllay", "yusulpayki", "sulpayki",
+    "tupananchiskama", "ari", "mana", "ñuqa", "ñawi", "wasi", "yaku", "allqu",
+    "misi", "inti", "puka", "q'illu", "qullqi", "yuraq"
 )
 
 
@@ -205,7 +277,16 @@ def simplificar_quechua(texto, ll="l"):
     """
     # La "ch" se conserva aparte: si no, chay (ese) y kay (este) quedaban
     # iguales, porque la c pasa a k y la h se borra.
-    texto = normalizar(texto).replace("'", "").replace("ch", "\x01")
+    texto = normalizar(texto).replace("'", "")
+    # Escritura castellana del reconocedor (28/09/2026): "quilla" por killa,
+    # "hatung" por jatun, "uzpi" por uspi.
+    texto = re.sub(r"qu(?=[ei])", "k", texto)
+    texto = re.sub(r"ng\b", "n", texto)
+    # La i del inicio escrita como la palabra "y": «y maynaya» por imaynalla.
+    texto = re.sub(r"^y\s+(?=[a-zñ])", "i", texto)
+    # La ll escrita "ly" o "li" + vocal: «tolyu» por tullu, «osilio» por k'usillu.
+    texto = re.sub(r"l+y(?=[aeiou])|l+i(?=[aou])", "ll", texto)
+    texto = texto.replace("z", "s").replace("ch", "\x01")
     reemplazos = (
         # ph/th antes que "hu": si no, phuyu quedaba "pwyu" y no aceptaba "puyu".
         ("ph", "p"), ("th", "t"),
@@ -218,6 +299,12 @@ def simplificar_quechua(texto, ll="l"):
     )
     for original, reemplazo in reemplazos:
         texto = texto.replace(original, reemplazo)
+    # "taua" y "uira" por tawa y wira; "chai" y "kaai" por chay y kay.
+    texto = re.sub(r"(?<=[aiu])u(?=[ai])", "w", texto)
+    texto = re.sub(r"\bu(?=[ai])", "w", texto)
+    texto = re.sub(r"(?<=[aiu])i(?![aiu])", "y", texto)
+    # Letras repetidas ("pukku", "kaay") valen como una.
+    texto = re.sub(r"([a-z])\1+", r"\1", texto)
     texto = texto.replace("\x01", "ch")
     return re.sub(r"\s+", " ", texto).strip()
 
@@ -280,3 +367,51 @@ def _coincide_simplificada(respuesta, correcta):
 
     tolerancia = 0 if len(sin_espacios_correcta) <= 4 else 1 if len(sin_espacios_correcta) <= 8 else 2
     return distancia_edicion(sin_espacios_respuesta, sin_espacios_correcta) <= tolerancia
+
+
+# ------------------------------------------------------------------
+# Lo que Yura nunca debe decir (pedido del equipo, 29/09/2026)
+# ------------------------------------------------------------------
+
+# Palabras muy comunes de otros idiomas. Yura habla solo castellano y quechua.
+_OTROS_IDIOMAS = {
+    # inglés
+    "the", "we", "you", "your", "can", "if", "another", "word", "practice", "let's", "lets", "is", "are",
+    "and", "what", "how", "hello", "please", "try", "again", "good", "great", "it", "this", "that", "with",
+    "for", "of", "to", "do", "don't", "yes", "okay", "thanks", "thank", "say", "learn", "means", "would", "like",
+    # portugués
+    "você", "voce", "não", "obrigado", "obrigada", "olá", "também", "então", "muito", "bem-vindo",
+    # francés
+    "vous", "nous", "est", "avec", "bonjour", "merci", "oui", "très", "c'est", "je",
+    # italiano y alemán
+    "grazie", "ciao", "sono", "und", "nicht", "danke", "ich", "ist",
+}
+# Una sola de estas basta para saber que la frase no es castellano.
+_OTROS_IDIOMAS_SEGURAS = {"the", "you", "your", "hello", "please", "thanks", "you're", "you'll",
+                          "você", "obrigado", "bonjour", "merci", "grazie", "danke"}
+
+# Compras, ventas, dinero y publicidad: Yura es para niños en la escuela.
+_COMPRAS = re.compile(
+    r"\b(compr(?!end)\w*|vend(?!r)\w*|venta\w*|precio\w*|tienda\w*|oferta\w*|descuento\w*|"
+    r"pag(?:a|ar|as|an|ues|ue|ó|o|ado)\b|p[aá]gal\w*|cuesta (?:poco|mucho|solo|nada|\d)|cost[oó]\b|barat\w*|publicidad|anuncio\w*|patrocin\w*|suscrib\w*|"
+    r"producto\w*|marca\w*|dinero|d[oó]lar\w*|bolivianos?|bs\.?|amazon|mercado ?libre|"
+    r"descarg\w* (?:la|el) app\w*|link|enlace)\b",
+    re.IGNORECASE,
+)
+
+
+def frase_prohibida(oracion):
+    """True si la oración está en otro idioma o habla de comprar/vender."""
+    palabras = {p.strip(".,;:!?¿¡\"'“”()").lower() for p in oracion.split()}
+    if palabras & _OTROS_IDIOMAS_SEGURAS or len(palabras & _OTROS_IDIOMAS) >= 2:
+        return True
+    return bool(_COMPRAS.search(oracion))
+
+
+def limpiar_respuesta_ia(texto):
+    """Quita de una respuesta de la IA las oraciones en otro idioma o sobre
+    compras, ventas, precios o publicidad. Devuelve "" si no queda nada."""
+    texto = re.sub(r"\*[^*\n]{1,60}\*|\([^)\n]{1,60}\)|\[[^\]\n]{1,60}\]", " ", str(texto or ""))
+    texto = re.sub(r"[\U0001F000-\U0001FAFF\u2600-\u27BF\uFE0F]", "", texto)
+    oraciones = re.split(r"(?<=[.!?])\s+", texto.strip())
+    return " ".join(o for o in oraciones if o and not frase_prohibida(o)).strip()

@@ -15,3 +15,18 @@ def _pronunciaciones_temporales(tmp_path, monkeypatch):
     # Las pruebas nunca graban en diccionario.db ni en basedatos/pronunciaciones.
     monkeypatch.setattr(pronunciaciones, "RUTA_DB", str(tmp_path / "diccionario_prueba.db"))
     monkeypatch.setattr(pronunciaciones, "CARPETA_AUDIOS", str(tmp_path / "pronunciaciones"))
+
+
+@pytest.fixture(autouse=True)
+def _modo_idioma_quechua():
+    """Cada prueba empieza en el modo de idioma por defecto (quechua)."""
+    import conversacion
+
+    def limpiar():
+        conversacion.MODO_IDIOMA.update(bilingue=False, docente_hasta=0)
+        conversacion._PALABRA_ESPERADA.update(palabra=None, hasta=0.0, intentos=0)
+        conversacion._ULTIMO_TEMA.update(tema=None, desde=0, hasta=0.0)
+
+    limpiar()
+    yield
+    limpiar()

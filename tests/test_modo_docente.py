@@ -163,8 +163,14 @@ def test_grabar_para_la_docente_guarda_audio_y_lo_que_escucho(diccionario):
     robot = _robot()
     robot.state = RobotStates.ENSENAR
 
-    def escuchar(solo_local, pistas, guardar_audio_en):
+    estados_al_escuchar = []
+
+    def escuchar(solo_local, pistas, guardar_audio_en, al_escuchar):
         assert solo_local is True and "Pichqa" in pistas
+        # Hasta que el micrófono capta, la página dice "Preparando…".
+        assert robot.ensenanza["estado"] == "esperando"
+        al_escuchar()
+        estados_al_escuchar.append(robot.ensenanza["estado"])
         pronunciaciones.guardar_wav(guardar_audio_en, VOZ)
         return "pishka"
 
@@ -172,6 +178,7 @@ def test_grabar_para_la_docente_guarda_audio_y_lo_que_escucho(diccionario):
     palabra = pronunciaciones.palabra_del_diccionario("nivel1_numeros", 2)
     robot._grabar_para_docente(palabra)
 
+    assert estados_al_escuchar == ["grabando"]
     assert robot.ensenanza["estado"] == "grabado"
     assert robot.ensenanza["transcripcion"] == "pishka"
     assert os.path.exists(pronunciaciones.ruta_pendiente())
@@ -229,3 +236,90 @@ def test_flujo_web_grabar_y_guardar(monkeypatch, diccionario):
     assert pronunciaciones.variantes("Pichqa") == ["pishka"]
     # Guardar dos veces la misma grabación no se permite.
     assert cliente.post("/api/ensenar/guardar").status_code == 409
+
+
+def test_la_voz_de_la_docente_no_suena_por_defecto(monkeypatch, diccionario):
+    _grabar_pendiente()
+    pronunciaciones.guardar("nivel1_numeros", 2, "pichqa")
+    robot = _robot()
+    monkeypatch.delenv("YURA_VOZ_DOCENTE", raising=False)
+    robot._reproducir_pronunciacion("Pichqa")
+    robot.hw.reproducir_grabacion.assert_not_called()
+    # Lo aprendido se sigue usando para calificar.
+    assert pronunciaciones.variantes("Pichqa") == ["pichqa"]
+
+    monkeypatch.setenv("YURA_VOZ_DOCENTE", "1")
+    robot._reproducir_pronunciacion("Pichqa")
+    robot.hw.reproducir_grabacion.assert_called_once()
+
+
+def test_la_pagina_muestra_si_yura_ya_entiende_con_lo_aprendido(diccionario):
+    robot = _robot()
+    robot.state = RobotStates.ENSENAR
+    palabra = pronunciaciones.palabra_del_diccionario("nivel1_numeros", 2)
+
+    def escuchar(**datos):
+        pronunciaciones.guardar_wav(datos["guardar_audio_en"], VOZ)
+        return "pishka"
+
+    robot.escuchar_voz = escuchar
+    robot._grabar_para_docente(palabra)
+    assert robot.ensenanza["reconocida"] is False
+
+    # Después de guardar esa forma, la misma prueba dice que Yura ya la entiende.
+    pronunciaciones.guardar("nivel1_numeros", 2, "pishka")
+    robot._grabar_para_docente(palabra)
+    assert robot.ensenanza["reconocida"] is True
+
+
+def test_rebinding_de_dns_no_entra_sin_contrasena(monkeypatch, diccionario):
+    # Una página "atacante.example" que apunta a 127.0.0.1 no es la pantalla de Yura.
+    monkeypatch.delenv("YURA_RESULTADOS_CLAVE", raising=False)
+    cliente = _cliente()
+    for ruta in ("/resultados.csv", "/api/ensenar/palabras", "/ensenar"):
+        assert cliente.get(ruta, headers={"Host": "atacante.example:5000"}).status_code == 403
+        assert cliente.get(ruta, headers={"Host": "localhost:5000"}).status_code == 200
+        assert cliente.get(ruta, headers={"Host": "127.0.0.1:5000"}).status_code == 200
+
+
+def test_paginas_no_se_pueden_meter_en_otra(diccionario):
+    respuesta = _cliente().get("/ensenar")
+    assert respuesta.headers["X-Frame-Options"] == "DENY"
+    assert respuesta.headers["X-Content-Type-Options"] == "nosniff"
+
+
+def test_borrar_no_sale_de_la_carpeta_de_audios(diccionario, tmp_path):
+    victima = tmp_path / "victima.txt"
+    victima.write_text("no borrar")
+    with sqlite3.connect(pronunciaciones.RUTA_DB) as conexion:
+        pronunciaciones._conectar().close()
+        conexion.execute(
+            f"INSERT INTO {pronunciaciones.TABLA} (tabla, id_palabra, palabra_frase, archivo, fecha) "
+            "VALUES ('nivel1_numeros', 1, 'Tawa', '../victima.txt', 'hoy')"
+        )
+        id_fila = conexion.execute(f"SELECT max(id) FROM {pronunciaciones.TABLA}").fetchone()[0]
+    assert pronunciaciones.borrar(id_fila)
+    assert victima.exists()
+
+
+def test_guardar_dos_veces_seguidas_no_falla(diccionario):
+    _grabar_pendiente()
+    pronunciaciones.guardar("nivel1_numeros", 1, "tawa")
+    with pytest.raises(ValueError):
+        pronunciaciones.guardar("nivel1_numeros", 1, "tawa")
+
+
+def test_docente_fija_como_suena_la_palabra(diccionario):
+    cliente = _cliente()
+    assert cliente.get("/api/ensenar/voz?tabla=nivel1_numeros&id=1").get_json() == {"texto": "Tawa", "fijada": False}
+    respuesta = cliente.post("/api/ensenar/voz", json={"tabla": "nivel1_numeros", "id": 1, "texto": "Táua"})
+    assert respuesta.get_json()["fijada"] is True
+    assert pronunciaciones.texto_para_hablar("Tawa significa cuatro.") == "Táua significa cuatro."
+    # Vacío: vuelve a la automática.
+    cliente.post("/api/ensenar/voz", json={"tabla": "nivel1_numeros", "id": 1, "texto": ""})
+    assert pronunciaciones.voz_de("Tawa") == ("Tawa", False)
+
+
+def test_chk_se_dice_sh():
+    assert pronunciaciones.texto_para_hablar("Imaynalla kachkanki") == "Imaynalla kashanki"
+    assert pronunciaciones.texto_para_hablar("Mikhuchkanki. Chkay") == "Mikhushanki. Shay"

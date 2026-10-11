@@ -9,6 +9,31 @@ import sounddevice as sd
 import depuracion
 
 
+class FiltroGraves:
+    """Quita los sonidos graves (menos de 100 Hz): zumbido de cables y golpes.
+    La voz útil empieza más arriba. Con el micrófono de la placa (29/09/2026)
+    el zumbido hacía que Yura creyera que siempre le hablaban y grabara 15 s.
+    Dos filtros de primer orden en cascada; guarda su estado entre bloques."""
+
+    def __init__(self, frecuencia, corte=100.0):
+        rc = 1.0 / (2 * math.pi * corte)
+        self.a = rc / (rc + 1.0 / frecuencia)
+        self.estados = [(0.0, 0.0), (0.0, 0.0)]
+
+    def procesar(self, senal):
+        senal = np.asarray(senal, dtype=np.float64)
+        for n, (anterior_x, anterior_y) in enumerate(self.estados):
+            salida = np.empty_like(senal)
+            a = self.a
+            for i, valor in enumerate(senal):
+                anterior_y = a * (anterior_y + valor - anterior_x)
+                anterior_x = valor
+                salida[i] = anterior_y
+            self.estados[n] = (anterior_x, anterior_y)
+            senal = salida
+        return senal.astype(np.float32)
+
+
 class AudioManager:
 
     @staticmethod
@@ -22,7 +47,10 @@ class AudioManager:
     def _calcular_umbral_ruido(nivel_ruido):
         nivel_ruido = float(nivel_ruido or 0.0)
         nivel_ruido = max(0.0005, min(nivel_ruido, 0.0800))
-        return max(0.0060, min(0.1200, nivel_ruido * 1.25 + 0.0040))
+        # 1,8 veces el ruido (antes 1,25): con el micrófono de la placa el ruido
+        # sube y baja cerca del umbral y Yura creía que nunca se dejaba de
+        # hablar (grababa 13-15 s). La voz está muy por encima (0,03-0,3).
+        return max(0.0060, min(0.1200, nivel_ruido * 1.8 + 0.0040))
 
     def _ruido_para_umbral(self, nivel_ruido):
         """Nivel de ruido a usar y si la calibración parece contener voz.
@@ -36,6 +64,15 @@ class AudioManager:
 
         if referencia is None:
             if nivel_ruido > 0.03:
+                # Si dos calibraciones seguidas miden casi lo mismo, no es una
+                # persona hablando: es el ruido normal de un micrófono ruidoso
+                # (el de la placa, 29/09/2026). Sin esto el umbral quedaba
+                # bajo y Yura grababa siempre hasta el máximo de 15 s.
+                altas = getattr(self, "_calibraciones_altas", [])[-2:] + [nivel_ruido]
+                self._calibraciones_altas = altas
+                if len(altas) >= 2 and max(altas[-2:]) <= 1.5 * min(altas[-2:]):
+                    self.ruido_referencia = nivel_ruido
+                    return nivel_ruido, False
                 return 0.002, True
             self.ruido_referencia = nivel_ruido
             return nivel_ruido, False
@@ -397,9 +434,15 @@ class AudioManager:
         espera_maxima=10.0,
         duracion_maxima=15.0,
         silencio_final=1.0,
-        bloque_ms=80
+        bloque_ms=80,
+        al_escuchar=None
     ):
-        """Graba una respuesta completa usando actividad de voz y silencio."""
+        """Graba una respuesta completa usando actividad de voz y silencio.
+
+        al_escuchar: función que se llama cuando el micrófono ya está
+        captando (tras 0,2 s de arranque). Lo dicho antes se pierde, así que
+        recién entonces se puede pedir "hable ahora".
+        """
         self.detectar_dispositivos()
         self.seleccionar_entrada()
 
@@ -445,6 +488,9 @@ class AudioManager:
                     stream.read(frames_por_bloque)
                     depuracion.depurar("[DEBUG AUDIO] después de recibir audio arranque")
 
+                if al_escuchar:
+                    al_escuchar()
+
                 calibracion = []
                 for _ in range(max(1, int(0.2 * frecuencia / frames_por_bloque))):
                     depuracion.depurar("[DEBUG AUDIO] antes de esperar audio calibración")
@@ -453,7 +499,12 @@ class AudioManager:
                     calibracion.append(np.asarray(bloque, dtype=np.float32))
 
                 ruido = np.concatenate(calibracion, axis=0)
-                ruido = ruido.mean(axis=1)
+                # Un micrófono de la placa entra por un solo canal: se usa el
+                # canal con señal. Promediar con el canal vacío dejaba la voz a
+                # la mitad y le sumaba ruido (29/09/2026).
+                canal = int(np.argmax(np.sqrt((ruido ** 2).mean(axis=0)))) if ruido.shape[1] > 1 else 0
+                filtro = FiltroGraves(frecuencia)
+                ruido = filtro.procesar(ruido[:, canal])
                 nivel_ruido = self._calcular_nivel_audio(ruido)
                 nivel_usado, voz_en_calibracion = self._ruido_para_umbral(nivel_ruido)
                 umbral = self._calcular_umbral_ruido(nivel_usado)
@@ -472,13 +523,18 @@ class AudioManager:
                     # Una respuesta rápida ("sí") empezó durante la
                     # calibración: ese audio es el inicio de la frase.
                     voz_detectada = True
-                    bloques_audio.extend(
-                        np.asarray(bloque, dtype=np.float32).mean(axis=1)
-                        for bloque in calibracion
-                    )
+                    bloques_audio.append(ruido)
                 silencio_consecutivo = 0
                 voz_consecutiva = 0
                 bloques_voz_inicio = self._bloques_minimos_inicio_voz(bloque_ms)
+                # Ruido medido mientras se espera la voz (último segundo). El
+                # micrófono de la placa entrega silencio total los primeros
+                # segundos: calibrar solo al inicio dejaba el umbral casi en
+                # cero y el zumbido parecía voz (29/09/2026).
+                niveles_espera = deque(maxlen=12)
+                # Si la calibración fue silencio total (micrófono recién
+                # abierto), primero se mide medio segundo de ruido real.
+                calibracion_vacia = nivel_ruido < 1e-6
 
                 for numero_bloque in range(bloques_maximos):
                     depuracion.depurar(
@@ -493,11 +549,17 @@ class AudioManager:
                         depuracion.depurar("[DEBUG AUDIO] escucha cancelada")
                         return None
                     bloque = np.asarray(bloque, dtype=np.float32)
-                    bloque = bloque.mean(axis=1)
+                    bloque = filtro.procesar(bloque[:, canal])
                     nivel = self._calcular_nivel_audio(bloque)
 
                     if not voz_detectada:
                         pre_buffer.append(bloque)
+                        if nivel > 1e-6:
+                            if len(niveles_espera) >= 6:
+                                umbral = self._calcular_umbral_ruido(float(np.median(niveles_espera)))
+                            niveles_espera.append(nivel)
+                        if calibracion_vacia and len(niveles_espera) < 6:
+                            continue
                         if nivel >= umbral:
                             voz_consecutiva += 1
                             if voz_consecutiva >= bloques_voz_inicio:

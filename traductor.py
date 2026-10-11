@@ -46,8 +46,18 @@ def extraer_termino(entrada):
         )
         if coincidencia:
             texto = texto[coincidencia.end():].strip()
+            # El reconocedor a veces repite la pregunta: "cómo se dice, cómo
+            # se dice cómo estás" (29/09/2026).
+            while texto.startswith(marcador + " "):
+                texto = texto[len(marcador):].strip()
             break
-    texto = re.sub(r"\s+(?:en|de|al)\s+(?:quechua|qhichwa|español|espanol)$", "", texto)
+    # Hasta el primer "en quechua": el reconocedor a veces repite la frase
+    # ("verde en quechua verde en quechua").
+    texto = re.sub(r"\s+(?:en|de|al)\s+(?:quechua|qhichwa|español|espanol)\b.*$", "", texto)
+    # El reconocedor a veces corta "quechua": "perro en que", "en quechu".
+    texto = re.sub(r"\s+en\s+(?:que|quech\w*|qhich\w*|kech\w*)$", "", texto)
+    # "verde quechua", "perro en" (sin la palabra completa).
+    texto = re.sub(r"\s+(?:quechua|qhichwa|en)$", "", texto)
     texto = re.sub(r"^(?:la palabra|el|la|los|las|un|una)\s+", "", texto)
     texto = re.sub(r"^(?:color|colores)\s+", "", texto)
     return texto.strip()
@@ -174,6 +184,8 @@ def buscar_vocabulario(texto, idioma_entrada, conexion_db):
 
     if not candidatos and idioma_entrada == "quechua":
         candidatos = _buscar_quechua_aproximado(texto, registros)
+    if not candidatos and idioma_entrada == "espanol":
+        candidatos = _buscar_espanol_aproximado(texto_comparacion, registros)
 
     if not candidatos:
         return respuesta_vacia
@@ -186,6 +198,44 @@ def buscar_vocabulario(texto, idioma_entrada, conexion_db):
     }
 
 
+def _buscar_espanol_aproximado(buscado, registros):
+    """El reconocedor a veces cambia una letra ("verdi" por verde). Si la
+    palabra es larga y solo UNA palabra del diccionario está a una letra de
+    distancia, se usa esa."""
+    if len(buscado) < 5 or " " in buscado:
+        return []
+    cercanas = {}
+    for registro in registros:
+        espanol = _normalizar_para_comparar(registro["espanol"])
+        if espanol and texto_util.distancia_edicion(buscado, espanol) == 1:
+            cercanas.setdefault(espanol, []).append(registro)
+    if len(cercanas) == 1:
+        return next(iter(cercanas.values()))
+    return _buscar_familia_espanol(buscado, registros)
+
+
+# Terminaciones de la misma familia de palabras: plata -> plat-eado,
+# casa -> cas-ita, perro -> perr-ito (pedido en vivo: "¿cómo se dice plata?").
+_TERMINACIONES_FAMILIA = ("eado", "eada", "ado", "ada", "ito", "ita", "itos", "itas", "illo", "illa", "s", "es")
+
+
+def _buscar_familia_espanol(buscado, registros):
+    if len(buscado) < 4 or " " in buscado:
+        return []
+    raiz = buscado[:-1] if buscado[-1] in "aeo" else buscado
+    familia = {}
+    for registro in registros:
+        espanol = _normalizar_para_comparar(registro["espanol"])
+        if not espanol or " " in espanol or espanol == buscado:
+            continue
+        resto = espanol[len(raiz):] if espanol.startswith(raiz) else None
+        if resto in _TERMINACIONES_FAMILIA or (
+            buscado.startswith(espanol[:-1]) and buscado[len(espanol[:-1]):] in _TERMINACIONES_FAMILIA
+        ):
+            familia.setdefault(espanol, []).append(registro)
+    return next(iter(familia.values())) if len(familia) == 1 else []
+
+
 def _buscar_quechua_aproximado(texto, registros):
     """El reconocedor de voz no escribe apóstrofos ni distingue q/k: "qumir"
     o "kumir" por Q'umir. Se compara la forma simplificada (la misma del
@@ -193,10 +243,11 @@ def _buscar_quechua_aproximado(texto, registros):
     buscado = texto_util.simplificar_quechua(texto)
     if len(buscado.replace(" ", "")) < 3:
         return []
+    junto = buscado.replace(" ", "")
     candidatos = [
         registro for registro in registros
         if registro["quechua"] and any(
-            texto_util.simplificar_quechua(registro["quechua"], ll) == buscado
+            texto_util.simplificar_quechua(registro["quechua"], ll).replace(" ", "") == junto
             for ll in ("l", "y")
         )
     ]
@@ -210,15 +261,6 @@ def _buscar_quechua_aproximado(texto, registros):
         registro for registro in registros
         if _normalizar_para_comparar(registro["quechua"]) == _normalizar_para_comparar(palabra)
     ]
-
-
-def buscar_traduccion_local(texto, conexion_db):
-    resultado = buscar_vocabulario(texto, "espanol", conexion_db)
-    if not resultado["resultados"]:
-        return None, None
-
-    registro = resultado["resultados"][0]
-    return registro["quechua"], registro["significado"]
 
 
 # Palabras que no aparecen en ninguna fuente boliviana (documento 002,
@@ -299,7 +341,12 @@ def _coincide_palabra(token, palabra):
     )
 
 
-def vocabulario_relevante(texto, conexion_db, limite=40):
+# Base para conversar que Groq recibe siempre (además de lo relacionado con
+# lo que se dijo): así arma sus frases con el diccionario y no inventa.
+_CATEGORIAS_BASE = {"saludos", "dialogo_infantil", "pronombres", "preguntas"}
+
+
+def vocabulario_relevante(texto, conexion_db, limite=90):
     """Elige del diccionario las palabras relacionadas con lo que se preguntó.
 
     Siempre incluye los saludos y agrega las palabras mencionadas y las de
@@ -330,7 +377,7 @@ def vocabulario_relevante(texto, conexion_db, limite=40):
             )
         )
         if (
-            registro["categoria"] == "saludos"
+            registro["categoria"] in _CATEGORIAS_BASE
             or any(
                 _coincide_palabra(token, palabra)
                 for token in tokens
@@ -419,7 +466,8 @@ def traducir_online(texto, groq_client, conexion_db=None):
         )
 
         contenido = respuesta.choices[0].message.content
-        contenido = str(contenido or "").strip()
+        # Nada en otro idioma ni sobre compras (29/09/2026).
+        contenido = texto_util.limpiar_respuesta_ia(str(contenido or "").strip())
         print(f"[TRADUCTOR] GROQ RESPUESTA: {contenido}")
 
         contenido = re.sub(r"\s+", " ", contenido).strip()

@@ -224,3 +224,57 @@ def test_filtro_por_participante_en_la_pagina():
     resultados.registrar_intento("juego", "luna", "Killa", "x", False, "b", participante="Grupo 2")
     html = _cliente().get("/resultados?participante=Grupo 1").get_data(as_text=True)
     assert "Mostrando solo" in html and "Inti" in html and "Killa" not in html
+
+
+def test_toda_palabra_de_practica_se_puede_acertar():
+    """Saludos ("Sulpayki"), "Ari", "Para" (lluvia) o "Tupananchiskama" son
+    también respuestas válidas cuando son la palabra pedida."""
+    registros = conversacion._obtener_vocabulario_para_practica(conversacion._obtener_conexion_vocabulario())
+    for registro in registros:
+        conversacion.cancelar_sesion_educativa()
+        conversacion.procesar_entrada("enséñame quechua", None)
+        conversacion._sesion_educativa["registro"] = registro
+        conversacion.procesar_entrada(registro["quechua"], None)
+        assert conversacion._sesion_educativa["estado"] == "resultado", registro["quechua"]
+    conversacion.cancelar_sesion_educativa()
+
+
+def test_contar_algo_no_empieza_la_practica_y_se_puede_salir():
+    conversacion.cancelar_sesion_educativa()
+    conversacion.procesar_entrada("me gusta jugar con mi perro", None)
+    assert conversacion._sesion_educativa is None  # contó algo, no pidió practicar
+    conversacion.procesar_entrada("quiero practicar", None)
+    assert conversacion._sesion_educativa is not None
+    conversacion.procesar_entrada("estoy cansado de esto", None)
+    assert conversacion._sesion_educativa is None  # frase normal: sale de la práctica
+
+
+def test_groq_recibe_siempre_la_base_del_diccionario():
+    import traductor
+    vocabulario = traductor.vocabulario_relevante("hola", conversacion._obtener_conexion_vocabulario())
+    categorias = {r["categoria"] for r in vocabulario}
+    assert {"saludos", "dialogo_infantil"} <= categorias
+
+
+def test_todo_el_diccionario_se_responde_bien_en_las_dos_direcciones():
+    """Para cada palabra de la base: "¿cómo se dice <castellano>?" responde la
+    palabra quechua y "¿qué significa <quechua>?" responde el castellano."""
+    import re
+    import texto as texto_util
+    import traductor
+
+    def limpiar(texto):
+        return texto_util.normalizar(texto).replace("'", "")
+
+    fallas = []
+    for registro in traductor._leer_registros_vocabulario(conversacion._obtener_conexion_vocabulario()):
+        castellano = re.split(r"[/(;]", str(registro["espanol"]))[0].strip().lower()
+        for pregunta, debe in ((f"como se dice {castellano} en quechua", registro["quechua"]),
+                               (f"que significa {registro['quechua']}", castellano)):
+            conversacion.cancelar_sesion_educativa()
+            conversacion._PALABRA_ESPERADA["palabra"] = None
+            conversacion._ULTIMO_TEMA["tema"] = None
+            respuesta = conversacion.procesar_entrada(pregunta, None).get("respuesta", "")
+            if limpiar(debe) not in limpiar(respuesta):
+                fallas.append(pregunta)
+    assert not fallas, fallas[:10]

@@ -74,6 +74,8 @@ CARD_EXAMPLES = [
 
 
 app = Flask(__name__)
+# Solo se reciben formularios y JSON pequeños (ningún archivo).
+app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024
 
 # La pantalla consulta /api/status cada 5 s: sin esto el registro anotaba
 # unas 17.000 peticiones al día. Con YURA_DEBUG=1 se ven todas.
@@ -189,7 +191,11 @@ def index():
 
 @app.get("/api/status")
 def status():
-    return jsonify(_status_payload())
+    datos = _status_payload()
+    if not _es_local() and not _credenciales_docentes_validas():
+        # Las respuestas también pueden repetir datos personales.
+        datos.update(participante="", content="", translation="", result=None)
+    return jsonify(datos)
 
 
 @app.get("/api/card")
@@ -205,6 +211,15 @@ RUTAS_DE_RESULTADOS = (
 # El modo docente cambia el diccionario: la misma protección.
 PREFIJOS_DE_DOCENTE = ("/ensenar", "/api/ensenar")
 DIRECCIONES_LOCALES = ("127.0.0.1", "::1")
+# Una página maliciosa abierta en esta computadora puede hacer que su propio
+# dominio apunte a 127.0.0.1 (rebinding de DNS): la entrada sin contraseña
+# vale solo si la dirección escrita es la de esta computadora.
+NOMBRES_LOCALES = ("localhost", "127.0.0.1", "[::1]")
+
+
+def _es_local():
+    nombre = request.host.rsplit(":", 1)[0] if not request.host.endswith("]") else request.host
+    return request.remote_addr in DIRECCIONES_LOCALES and nombre.lower() in NOMBRES_LOCALES
 
 
 def _es_ruta_de_docente(ruta):
@@ -219,13 +234,24 @@ def _origen_ajeno():
     return bool(origen) and urlparse(origen).netloc != request.host
 
 
+def _credenciales_docentes_validas():
+    clave = os.environ.get("YURA_RESULTADOS_CLAVE", "").strip()
+    credenciales = request.authorization
+    return bool(
+        clave and credenciales and credenciales.type.lower() == "basic"
+        and hmac.compare_digest(
+            (credenciales.password or "").encode("utf-8"), clave.encode("utf-8")
+        )
+    )
+
+
 @app.before_request
 def proteger_resultados():
     if not _es_ruta_de_docente(request.path):
         return None
     if request.method == "POST" and _origen_ajeno():
         return Response("Origen no permitido.", status=403, mimetype="text/plain; charset=utf-8")
-    if request.remote_addr in DIRECCIONES_LOCALES:
+    if _es_local():
         return None
 
     clave = os.environ.get("YURA_RESULTADOS_CLAVE", "").strip()
@@ -237,11 +263,7 @@ def proteger_resultados():
             mimetype="text/plain; charset=utf-8",
         )
 
-    credenciales = request.authorization
-    if credenciales and hmac.compare_digest(
-        (credenciales.password or "").encode("utf-8"),
-        clave.encode("utf-8"),
-    ):
+    if _credenciales_docentes_validas():
         return None
 
     return Response(
@@ -250,6 +272,16 @@ def proteger_resultados():
         mimetype="text/plain; charset=utf-8",
         headers={"WWW-Authenticate": 'Basic realm="Resultados de Yura", charset="UTF-8"'},
     )
+
+
+@app.after_request
+def cabeceras_de_proteccion(respuesta):
+    # Ninguna otra página puede mostrar las de Yura dentro de un marco.
+    respuesta.headers.setdefault("X-Frame-Options", "DENY")
+    respuesta.headers.setdefault("X-Content-Type-Options", "nosniff")
+    if request.path == "/api/status" or _es_ruta_de_docente(request.path):
+        respuesta.headers["Cache-Control"] = "no-store"
+    return respuesta
 
 
 def _filtro_participante():
@@ -279,6 +311,15 @@ def api_resultados():
     return jsonify(resultados.resumen(participante=_filtro_participante()))
 
 
+def _texto_csv_seguro(valor):
+    if not isinstance(valor, str):
+        return valor
+    # Neutralizar solo la exportación; conservar el dato original en SQLite.
+    if valor.lstrip().startswith(("=", "+", "-", "@")) or valor.startswith(("\t", "\r", "\n")):
+        return "'" + valor
+    return valor
+
+
 @app.get("/resultados.csv")
 def exportar_resultados():
     salida = io.StringIO()
@@ -290,12 +331,12 @@ def exportar_resultados():
         "palabra_espanol", "palabra_quechua", "respuesta", "correcto"
     ])
     for intento in resultados.todos_los_intentos():
-        escritor.writerow([
+        escritor.writerow([_texto_csv_seguro(valor) for valor in (
             intento["id"], intento["fecha"], intento["actividad"],
             intento["sesion"], intento["participante"], intento["palabra_espanol"],
             intento["palabra_quechua"], intento["respuesta"],
             "sí" if intento["correcto"] else "no",
-        ])
+        )])
     return Response(
         salida.getvalue(),
         mimetype="text/csv; charset=utf-8",
@@ -370,14 +411,13 @@ def api_terminar_docente():
 
 @app.post("/api/ensenar/grabar")
 def api_grabar_docente():
+    datos = request.get_json(silent=True)
+    if not isinstance(datos, dict):
+        return jsonify({"error": "Se necesita un objeto JSON válido."}), 400
     actual, error = _robot_o_error()
     if error:
         return error
-    datos = request.get_json(silent=True) or {}
-    try:
-        palabra = pronunciaciones.palabra_del_diccionario(str(datos.get("tabla", "")), int(datos.get("id")))
-    except (TypeError, ValueError):
-        palabra = None
+    palabra = _palabra_pedida(datos)
     if palabra is None:
         return jsonify({"error": "Esa palabra no está en el diccionario."}), 400
     if actual.ensenanza.get("estado") in ("esperando", "grabando"):
@@ -421,6 +461,74 @@ def api_borrar_grabacion(id_grabacion):
     if not pronunciaciones.borrar(id_grabacion):
         return jsonify({"error": "Esa grabación no existe."}), 404
     return jsonify({"ok": True})
+
+
+def _palabra_pedida(datos):
+    tabla = datos.get("tabla")
+    identificador = datos.get("id")
+    if not isinstance(tabla, str) or isinstance(identificador, bool):
+        return None
+    if not isinstance(identificador, (int, str)):
+        return None
+    try:
+        identificador = int(identificador)
+        if identificador <= 0:
+            return None
+        return pronunciaciones.palabra_del_diccionario(tabla, identificador)
+    except (TypeError, ValueError):
+        return None
+
+
+@app.get("/api/ensenar/voz")
+def api_voz_docente():
+    """Cómo dice Yura la palabra con su voz, y si la fijó la docente."""
+    palabra = _palabra_pedida(request.args)
+    if palabra is None:
+        return jsonify({"error": "Esa palabra no está en el diccionario."}), 400
+    texto, fijada = pronunciaciones.voz_de(palabra["quechua"])
+    return jsonify({"texto": texto, "fijada": fijada})
+
+
+@app.post("/api/ensenar/voz")
+def api_fijar_voz_docente():
+    datos = request.get_json(silent=True)
+    if not isinstance(datos, dict):
+        return jsonify({"error": "Se necesita un objeto JSON válido."}), 400
+    texto_pedido = datos.get("texto", "")
+    if not isinstance(texto_pedido, str) or len(texto_pedido) > 80:
+        return jsonify({"error": "La pronunciación debe ser texto de hasta 80 caracteres."}), 400
+    palabra = _palabra_pedida(datos)
+    if palabra is None:
+        return jsonify({"error": "Esa palabra no está en el diccionario."}), 400
+    pronunciaciones.fijar_voz(palabra["quechua"], texto_pedido)
+    texto, fijada = pronunciaciones.voz_de(palabra["quechua"])
+    return jsonify({"ok": True, "texto": texto, "fijada": fijada})
+
+
+@app.get("/api/ensenar/voz/escuchar")
+def api_escuchar_voz_docente():
+    """Genera con la voz de Yura (la misma de siempre) el texto que escribe
+    la docente, para que lo escuche antes de guardarlo."""
+    import asyncio
+    import edge_tts
+    texto = str(request.args.get("texto", "")).strip()[:80]
+    if not texto:
+        return Response(status=400)
+    texto = pronunciaciones._CHK.sub(lambda m: "sh" if m.group(0).islower() else "Sh", texto)
+    voz = os.environ.get("YURA_VOZ", "es-BO-SofiaNeural").strip() or "es-BO-SofiaNeural"
+
+    async def generar():
+        partes = []
+        async for trozo in edge_tts.Communicate(texto, voz, rate="+5%").stream():
+            if trozo["type"] == "audio":
+                partes.append(trozo["data"])
+        return b"".join(partes)
+    try:
+        audio = asyncio.run(generar())
+    except Exception:
+        return Response("No se pudo generar la voz (¿hay internet?).", status=503,
+                        mimetype="text/plain; charset=utf-8")
+    return Response(audio, mimetype="audio/mpeg", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/ensenar/audio/pendiente")

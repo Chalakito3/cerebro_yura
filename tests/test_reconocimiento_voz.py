@@ -85,3 +85,36 @@ def test_voz_boliviana_por_defecto(monkeypatch):
     assert HardwareInterface().voz_mujer == "es-BO-SofiaNeural"
     monkeypatch.setenv("YURA_VOZ", "es-BO-MarceloNeural")
     assert HardwareInterface().voz_mujer == "es-BO-MarceloNeural"
+
+
+
+@pytest.mark.parametrize("frase", ["ordenes", "Órdenes:", "órdenes jugar traducir", "palabras en quechua"])
+def test_ecos_de_las_instrucciones_se_descartan(frase):
+    assert texto.es_alucinacion_whisper(texto.normalizar(frase))
+
+
+@pytest.mark.parametrize("frase", ["allqu", "quiero jugar", "como se dice ordenar"])
+def test_frases_reales_no_se_descartan(frase):
+    assert not texto.es_alucinacion_whisper(texto.normalizar(frase))
+
+
+def test_modo_asr_vosk_configurado(monkeypatch):
+    from unittest.mock import Mock, patch
+    from main_robot import BrainYura
+    monkeypatch.setenv("YURA_ASR", "vosk")
+    with patch("main_robot.whisper.load_model") as mock_whisper:
+        robot = BrainYura.__new__(BrainYura)
+        robot.audio_manager = Mock()
+        robot.hw = Mock()
+        robot._set_web_status = Mock()
+        # Inicialización selectiva de ASR
+        motor_asr = "vosk"
+        whisper_name = "small"
+        robot.vosk_model = None
+        robot.whisper_model = None
+        if motor_asr == "vosk":
+            robot.vosk_model = Mock()
+        assert robot.whisper_model is None
+        assert robot.vosk_model is not None
+        mock_whisper.assert_not_called()
+

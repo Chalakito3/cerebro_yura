@@ -495,8 +495,14 @@ def test_respuesta_rapida_durante_la_calibracion_se_graba(monkeypatch):
             return senal, False
 
     monkeypatch.setattr(modulo.sd, "InputStream", Microfono)
-    audio = manager.grabar_hasta_silencio(espera_maxima=2, duracion_maxima=5, silencio_final=1.0)
+    avisos = []
+    audio = manager.grabar_hasta_silencio(
+        espera_maxima=2, duracion_maxima=5, silencio_final=1.0,
+        al_escuchar=lambda: avisos.append(True),
+    )
 
+    # Se avisa "hable ahora" una vez, con el micrófono ya captando.
+    assert avisos == [True]
     assert audio is not None
     muestras = np.frombuffer(audio, dtype=np.int16)
     assert np.abs(muestras).max() > 3000
@@ -565,3 +571,54 @@ def test_archivo_de_claves_con_bom_de_windows(tmp_path, monkeypatch):
     main_robot.cargar_archivo_claves()
     assert main_robot.os.environ.get("GROQ_API_KEY") == "clave-de-prueba"
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
+
+
+def test_microfono_ruidoso_aprende_su_ruido_normal():
+    manager = _audio_manager()
+    manager.ruido_referencia = None
+    # La primera calibración alta puede ser alguien hablando...
+    assert manager._ruido_para_umbral(0.04) == (0.002, True)
+    # ...pero si la siguiente mide casi lo mismo, es el ruido de la sala.
+    assert manager._ruido_para_umbral(0.038) == (0.038, False)
+    assert manager.ruido_referencia == 0.038
+
+
+def test_umbral_se_adapta_al_ruido_mientras_espera(monkeypatch):
+    """Micrófono que entrega silencio al abrirse y después un zumbido
+    constante: antes el zumbido parecía voz y se grababa hasta el máximo."""
+    import numpy as np
+    import audio_manager as modulo
+
+    manager = _audio_manager()
+    manager.ruido_referencia = None
+    manager.sample_rate = 16000
+    manager.input_device = 0
+    manager.input_candidates = [{"index": 0}]
+    manager.input_sample_rate = 16000
+    manager.input_channels = 1
+    monkeypatch.setattr(manager, "detectar_dispositivos", lambda: None)
+    monkeypatch.setattr(manager, "seleccionar_entrada", lambda: None)
+    # 0,4 s de ceros, luego zumbido de 300 Hz (0,05) durante todo el resto.
+    t = np.arange(16000 * 20) / 16000
+    zumbido = (0.05 * np.sin(2 * np.pi * 300 * t)).astype(np.float32)
+    zumbido[:6400] = 0
+    posicion = {"i": 0}
+
+    class Microfono:
+        def __init__(self, **kwargs):
+            self.frames = kwargs["blocksize"]
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, frames):
+            i = posicion["i"]
+            posicion["i"] += frames
+            return zumbido[i:i + frames][:, None], False
+
+    monkeypatch.setattr(modulo.sd, "InputStream", Microfono)
+    # Solo zumbido, nadie habla: no debe devolver 15 s de "voz".
+    assert manager.grabar_hasta_silencio(espera_maxima=4, duracion_maxima=15, silencio_final=1.0) is None
