@@ -207,15 +207,16 @@ def voz_de_yura(texto, destino_wav):
 _modelo = {}
 
 
-def se_entiende(ruta_wav, palabra, otras):
+def se_entiende(ruta_wav, palabra, otras, semilla=None):
     """¿El reconocedor de Yura entiende la palabra correcta al oír esta voz?
-    Mismas pistas que en el juego (la palabra mezclada con otras)."""
+    Mismas pistas que en el juego (la palabra mezclada con otras). La semilla
+    cambia el orden de las pistas, para comprobar con una segunda prueba."""
     import random
     import whisper
     import aprender_de_audios
     if "whisper" not in _modelo:
         _modelo["whisper"] = whisper.load_model(os.environ.get("YURA_WHISPER_MODEL", "small"), device="cpu")
-    azar = random.Random(palabra)
+    azar = random.Random(palabra if semilla is None else f"{palabra}|{semilla}")
     resultado = _modelo["whisper"].transcribe(
         ruta_wav, language="es", initial_prompt=aprender_de_audios.instruccion("juego", palabra, otras, azar),
         fp16=False, temperature=0, beam_size=5, best_of=1,

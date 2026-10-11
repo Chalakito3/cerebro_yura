@@ -105,8 +105,15 @@ def _leer_medidas_previas(palabra):
     return {}, {}
 
 
+# Modo --priorizar-entender (11/10/2026): si ninguna de las 5 escrituras más
+# parecidas se entiende, se revisan hasta REVISAR_PARA_ENTENDER (más las
+# variantes de vocales y w) y se prefiere una que se entienda en DOS pruebas
+# (pistas en otro orden), aunque sea algo menos parecida a la docente.
+REVISAR_PARA_ENTENDER = 20
+
+
 def afinar_palabra(argumentos):
-    palabra, rondas = argumentos
+    palabra, rondas, priorizar_entender = argumentos
     audio = pronunciaciones.audio_de(palabra)
     if not audio:
         return None
@@ -169,13 +176,26 @@ def afinar_palabra(argumentos):
         if opcion == palabra or se_entiende(opcion):
             mejor = opcion
             break
-    if mejor != palabra and puntajes[mejor] > original * (1 - MEJORA_MINIMA):
+    def se_entiende_dos_veces(opcion):
+        if not se_entiende(opcion):
+            return False
+        return pron.se_entiende(ruta_de(opcion), palabra, otras, semilla=2)[0]
+
+    entendida_nueva = False
+    if priorizar_entender and not se_entiende(mejor):
+        for opcion in pron.candidatas_extra(palabra):
+            medir(opcion, forzar=True)
+        for opcion in sorted(puntajes, key=puntaje)[:REVISAR_PARA_ENTENDER]:
+            if se_entiende_dos_veces(opcion):
+                mejor, entendida_nueva = opcion, True
+                break
+    if not entendida_nueva and mejor != palabra and puntajes[mejor] > original * (1 - MEJORA_MINIMA):
         mejor = palabra
     # Lo ya guardado (afinado antes, u oficial de Laime) solo se reemplaza si
     # lo nuevo es claramente más parecido que eso, no solo que la normal.
     # Se protege aunque el reconocedor no la entienda en esta corrida (le
     # pasaba a "Jukú": el cambio empeoraba el parecido).
-    if guardada in puntajes and guardada != mejor:
+    if guardada in puntajes and guardada != mejor and not entendida_nueva:
         if puntajes[mejor] > puntajes[guardada] * (1 - MEJORA_MINIMA):
             mejor = guardada
     # Audio "después" para escuchar.
@@ -215,10 +235,20 @@ def main():
     parametros.add_argument("--rondas", type=int, default=5)
     parametros.add_argument("--procesos", type=int, default=2)
     parametros.add_argument("--palabra")
+    parametros.add_argument("--solo-no-entendidas", action="store_true",
+                            help="solo las palabras cuya voz todavía no se entiende")
+    parametros.add_argument("--priorizar-entender", action="store_true",
+                            help="preferir una escritura que se entienda aunque sea algo menos parecida")
     opciones = parametros.parse_args()
     palabras = sorted({g["palabra_frase"] for g in pronunciaciones.grabaciones()})
     if opciones.palabra:
         palabras = [opciones.palabra]
+    if opciones.solo_no_entendidas:
+        with pronunciaciones._conectar() as conexion:
+            entendidas = {f[0] for f in conexion.execute(
+                f"SELECT palabra_frase FROM {pronunciaciones.TABLA_VOZ} WHERE se_entiende = 1")}
+        palabras = [p for p in palabras if p not in entendidas]
+        print(f"Palabras que todavía no se entienden: {len(palabras)}", flush=True)
     inicio = time.time()
     resultados = []
     nuevo = not os.path.exists(RESULTADOS)
@@ -227,7 +257,7 @@ def main():
         if nuevo:
             escritor.writerow(["palabra", "escritura_para_la_voz", "distancia_original", "distancia_ahora",
                                "se_entendia", "se_entiende", "escrituras_probadas"])
-        for numero, resultado in enumerate(grupo.imap_unordered(afinar_palabra, [(p, opciones.rondas) for p in palabras]), 1):
+        for numero, resultado in enumerate(grupo.imap_unordered(afinar_palabra, [(p, opciones.rondas, opciones.priorizar_entender) for p in palabras]), 1):
             if not resultado:
                 continue
             guardar(resultado)

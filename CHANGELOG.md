@@ -16,7 +16,8 @@ Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detal
 - Reconocimiento con Vosk en la CPU (`YURA_ASR=auto`), con lo aprendido de los audios de la docente (88 % de sus palabras).
 - Voz de Sofía sin internet: frases guardadas para todo lo que Yura dice.
 - Entrenamiento de órdenes con la voz de quien usa a Yura (`entrenar_ordenes.py`).
-- Afinado de la pronunciación de Sofía hacia la docente (`afinar_pronunciacion.py`).
+- Afinado de la pronunciación de Sofía hacia la docente (`afinar_pronunciacion.py`); modo `--solo-no-entendidas --priorizar-entender`: la voz de Sofía pasó de 86 % a 91 % de palabras entendidas.
+- Escucha entrenada con la voz de Sofía (`aprender_voz_sofia_vosk.py`): las 328 palabras del diccionario, sin aprender castellano común.
 - Cuerpo con ESP32 (programa v6): movimiento por voz, límite de 3 s, freno ante obstáculos y `SENSORES:OFF/ON` para pruebas.
 - Pedido de hablar en español aunque Vosk deforme la frase («conversa en español»).
 - Control de traducciones: si Groq enseña una palabra quechua que no está en el diccionario («fútbol se dice pukllay bola»), esa oración se cambia por «Esa palabra todavía no está en mi diccionario».
