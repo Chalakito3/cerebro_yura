@@ -1,0 +1,114 @@
+palabra,texto_para_voz,distancia_antes,distancia_ahora,mejora_%,se_entendia_antes,se_entiende_ahora,todas_las_pruebas (*=no se entiende)
+Allin,Allin,4.122,4.122,0,sí,sí,alin=4.064 | Allin=4.122 | allin=4.122
+Allin p'unchay,Allin p'unchay,4.238,4.238,7,sí,sí,alimpunchay=3.944 | alimpúnchay=3.944 | Allin púnchay=4.163 | allin punchay=4.163 | Allin p'unchay=4.238
+Allin sukha,Allin sukha,4.707,4.707,0,sí,sí,adien suca=4.700* | Allin sukha=4.707 | allin sukha=4.707 | allin suqa=4.797 | all insuka=4.893 | Allin suja=5.050
+Allin tuta,Allin tuta,4.638,4.638,0,sí,sí,Allin tuta=4.638 | allin tuta=4.638 | alli en tuta=4.972
+Allqu,Allqu,3.504,3.504,0,sí,sí,alqu=3.436 | Allqu=3.504 | Allku=3.504 | alco=3.743
+Alpaka,Alpaka,4.485,4.485,0,sí,sí,Alpaka=4.485 | alpaka=4.485 | alpaca=4.485
+Anqas,Ankas,5.737,3.990,30,sí,sí,Ankas=3.990 | angkas=3.990 | ancas=3.990 | Anqas=5.737 | anqas=5.737
+Api,Api,3.133,3.133,0,sí,sí,Api=3.133 | api=3.133
+Ari,Ari,5.093,5.093,0,sí,sí,Ari=5.093 | ari=5.093
+Asnu,Asnu,3.484,3.484,0,sí,sí,Asnu=3.484 | asnu=3.484 | haz no=3.708
+Atuq,Atuq,4.407,4.407,0,sí,sí,atu=4.084* | a tu=4.215* | Átuj=4.326 | Atuq=4.407 | Átuk=4.407 | atuq=4.407 | átuq=4.407
+Aywa,Aywa,5.254,5.254,0,sí,sí,agua=4.590* | Aywa=5.254 | aywa=5.254
+Ch'aki ñan,Ch'aki ñan,4.403,4.403,0,sí,sí,aqui ñang=4.028* | Chaki nan=4.278 | chaki ñan=4.280 | Ch'aki ñan=4.403 | acínñang=4.449* | acinñang=4.515*
+Ch'umpi,Chumpi,4.607,4.324,6,sí,sí,un pi=3.396* | umpi=3.755* | Chumpi=4.324 | chumpi=4.324 | Ch'umpi=4.607
+Ch'uspi,Chuspi,4.115,3.884,6,sí,sí,uspi=3.739* | uzpi=3.739* | hospi=3.796* | Chuspi=3.884 | Ch'uspi=4.115
+Chay,Chay,4.213,4.213,0,sí,sí,Chay=4.213 | chay=4.213 | chai=4.213
+Chuwa,Chuwa,5.439,5.439,0,sí,sí,Chuwa=5.439 | chuwa=5.439 | chua=6.121
+Ima,Ima,3.969,3.969,0,sí,sí,Ima=3.969 | ima=3.969 | y mas=4.285*
+Imayna,Imayna,5.414,5.414,0,sí,sí,imay=4.540* | ímay=4.554* | imaj=4.574* | ímaj=4.663* | Imayna=5.414
+Imaynalla kachkanki,Imaynalla kachkanki,4.186,4.186,0,sí,sí,Imaynalla kachkanki=4.186 | imaynalla kachkanki=4.194 | y maynaya kashanki=4.260
+Inti,Inti,4.161,4.161,0,sí,sí,en ti=4.121 | Inti=4.161 | inti=4.161
+Irqi,Irki,6.099,4.193,31,no,sí,Irki=4.193 | irki=4.193 | ir que=4.350 | Irqi=6.099* | irqi=6.099*
+Iskay,Iskay,3.382,3.382,6,sí,sí,es khai=3.195 | Ískay=3.274 | ískay=3.274 | Iskay=3.382 | iskay=3.382 | yiskay=3.572 | yískay=3.572
+Jallp'a,jalpa,3.980,3.660,8,sí,sí,jai pa=3.605* | jalpa=3.660 | Jallpa=3.939 | jallpa=3.939 | Jallp'a=3.980
+Jamk'a,Jamk'a,3.621,3.621,0,no,no,Jamka=3.567* | Jamk'a=3.621* | hanka=3.699* | hanca=3.699* | hanga=4.276*
+Jamp'atu,Jampatu,3.965,3.688,10,sí,sí,hampatu=3.585 | Jampatu=3.688 | jampatu=3.688 | hampato=3.857 | Jamp'atu=3.965
+Jampina wasi,Jampina wasi,4.386,4.386,0,sí,sí,Jampina wasi=4.386 | jampina wasi=4.386 | campina wasi=4.420
+Janaqpacha,Janaqpacha,4.292,4.292,0,sí,sí,khananpacha=4.241 | Janaqpacha=4.292 | Janakpacha=4.292 | kanan pacha=4.369 | chananpacha=4.434
+Jaqay,Jákay,4.117,4.224,-3,no,sí,Jaqay=4.117* | jaqay=4.117* | Jákay=4.224 | jáqay=4.224 | hacay=4.339 | hácay=4.362 | haak ay=4.368
+Jatun,Jatun,3.441,3.441,0,sí,sí,Jatun=3.441 | jatun=3.441 | hátung=3.626* | hatung=3.888*
+Juch'uy,Juch'uy,5.105,5.105,7,sí,sí,hóchuy=4.746 | pu chuy=4.797 | hochuy=4.811 | Juch'uy=5.105 | Júchuy=5.208 | juchuy=5.208 | júchuy=5.208
+Juk'ucha,Jukucha,4.799,4.391,14,sí,sí,kukucha=4.143 | hucucha=4.290* | Jukucha=4.391 | jukucha=4.391 | Juk'ucha=4.799
+Juku,Juku,5.676,5.676,0,sí,sí,pukku=5.217* | pupu=5.280* | punku=5.643* | Juku=5.676 | juku=5.676
+K'acha,Kacha,4.448,3.936,12,sí,sí,Kacha=3.936 | kacha=3.936 | K'acha=4.448
+K'anchaq,Kánchak,5.006,4.676,7,sí,sí,Kánchak=4.676 | Kánchaj=4.719 | kanchaq=4.724 | kánchaq=4.737 | un chak=4.925* | K'anchaq=5.006
+K'anchay,kanchay,3.708,3.505,5,sí,sí,kanchay=3.505 | Kánchay=3.506 | kánchay=3.506 | anchai=3.540 | K'anchay=3.708 | un chay=3.983*
+K'anka,K'anka,4.512,4.512,0,sí,sí,K'anka=4.512 | Kanka=4.531 | kanka=4.531
+K'aspi,K'aspi,3.078,3.078,0,sí,sí,K'aspi=3.078 | Kaspi=3.121 | kaspi=3.121 | espi=3.200*
+K'uchara,Kuchara,4.564,4.050,13,sí,sí,uchara=3.971 | Kuchara=4.050 | kuchara=4.050 | K'uchara=4.564
+K'uchillu,K'uchillu,4.610,4.610,0,sí,sí,Kuchillu=4.389 | kuchillu=4.389 | kochi yu=4.530 | K'uchillu=4.610 | cochillo=4.798
+K'usillu,K'usillu,4.792,4.792,0,sí,sí,osillu=4.585 | Kusillu=4.654 | oscilio=4.712* | K'usillu=4.792 | osilio=5.038*
+Kanka,Kanka,4.531,4.531,0,sí,sí,Kanka=4.531 | kanka=4.531 | canca=4.531
+Kawallu,Kawallu,4.612,4.612,6,sí,sí,cagual lo=4.333 | Kawallu=4.612 | kawallu=4.612 | caballo=4.814
+Kay,kaai,4.185,3.939,6,sí,sí,kaai=3.939 | Kay=4.185 | kay=4.185
+Khuchi,Khuchi,4.560,4.560,0,sí,sí,Juchi=4.466 | Khuchi=4.560 | khuchi=4.560
+Killa,Killa,5.093,5.093,0,sí,sí,Killa=5.093 | killa=5.093 | quilla=5.093
+Kimsa,Kimsa,3.947,3.947,0,sí,sí,Kimsa=3.947 | kimsa=3.947 | que imsa=4.915*
+Kulli,Kulli,4.710,4.710,0,sí,sí,Kulli=4.710 | olgi=4.881* | oli=4.953*
+Kusisqa,Kusisqa,5.225,5.225,0,sí,sí,Kusiska=5.068 | cusiska=5.068 | cusisca=5.068 | Kusisqa=5.225 | kusisqa=5.225
+Kututu,Kututu,4.724,4.724,0,sí,sí,Kututu=4.724 | kututu=4.724 | tututu=4.819
+Llapa,lapa,3.515,3.178,10,sí,sí,lapa=3.178 | Llapa=3.515 | llapa=3.515
+Llaqta,Llaqta,3.698,3.698,0,sí,sí,Llaqta=3.698 | llaqta=3.698 | Llakta=3.773
+Machu,Machu,3.783,3.783,0,sí,sí,Machu=3.783 | machu=3.783
+Mama,Mama,4.053,4.053,0,sí,sí,Mama=4.053 | mama=4.053
+Mana,Mana,4.461,4.461,0,sí,sí,Mana=4.461 | mana=4.461
+Manka,Manka,3.660,3.660,0,sí,sí,Manka=3.660 | manka=3.660 | manca=3.660
+Mayqin,Mayqin,3.730,3.730,0,sí,sí,Mayqin=3.730 | Maykin=3.730 | mayqin=3.730 | maykin=3.730 | mayu king=4.136
+Mayu,Mayu,3.998,3.998,0,sí,sí,Mayu=3.998 | mayu=3.998
+Mikhuna,Mikhuna,3.832,3.832,0,sí,sí,Mikhuna=3.832 | mikhuna=3.832 | mi kuna=3.853 | mi cuna=3.853 | Mijuna=4.757
+Misi,Misi,4.860,4.860,0,sí,sí,Misi=4.860 | misi=4.860
+Misk'i,Misk'i,4.369,4.369,0,sí,sí,Misk'i=4.369 | a mis ki=4.485 | Miski=4.762 | miski=4.762 | amiski=4.880
+Muya,Muya,5.070,5.070,0,sí,sí,Muya=5.070 | muya=5.070 | mulla=5.070
+Napaykuy,Napaykuy,4.104,4.104,0,sí,sí,napaikkui=3.940 | Napáykuy=3.955 | napáykuy=3.955 | napai kui=4.079 | Napaykuy=4.104 | napaykuy=4.104
+Nina,Nina,4.357,4.357,0,sí,sí,Nina=4.357 | mina=4.499
+P'acha,Pacha,3.474,3.160,9,sí,sí,Pacha=3.160 | pacha=3.160 | P'acha=3.474
+P'ukuru,Pukuru,5.331,4.269,20,sí,sí,Pukuru=4.269 | pukuru=4.269 | uro=4.887* | P'ukuru=5.331
+Pampa,Pampa,3.236,3.236,0,sí,sí,Pampa=3.236 | pampa=3.236
+Para,Para,6.024,6.024,0,sí,sí,Para=6.024 | para=6.024
+Phichqa,Pichka,4.595,4.216,8,sí,sí,Pichka=4.216 | pizca=4.333* | Phichqa=4.595 | pizqa=5.661*
+Phuyu,Phuyu,5.564,5.564,0,sí,sí,ullu=5.544* | Phuyu=5.564 | Puyu=5.564 | oh llu=5.586*
+Pilli,Pelle,5.739,5.654,1,no,sí,villee=5.615* | Pelle=5.654 | Pilli=5.739* | pilli=5.739*
+Puka,Puka,3.667,3.667,0,sí,sí,uca=3.609* | Puka=3.667 | puka=3.667
+Punku,Punku,4.844,4.844,0,sí,sí,Punku=4.844 | punku=4.844 | dunco=6.009
+Pusaq,Pusaq,3.953,3.953,0,sí,sí,Pusaq=3.953 | Púsak=3.953 | pusaq=3.953 | púsaq=3.953 | Púsaj=4.127 | púsach=4.965 | pusach=5.038
+Q'alachu,Kalachu,4.549,4.152,9,sí,sí,Kalachu=4.152 | qalachu=4.152 | a la choo=4.300 | Q'alachu=4.549 | nala ñu=5.745*
+Q'umir,Q'umir,5.888,5.888,8,sí,sí,omer=5.429 | o mer=5.694 | qumir=5.762 | Kúmir=5.886 | Q'umir=5.888 | qúmir=5.973 | ómer=6.004
+Q'uncha,Q'uncha,3.764,3.764,0,sí,sí,Kuncha=3.636 | quncha=3.636 | Q'uncha=3.764 | onja=4.854*
+Qanchis,Qanchis,4.170,4.170,0,sí,sí,Qanchis=4.170 | Kanchis=4.170 | canchis=4.170 | kanchis=4.170 | canches=4.353 | quanchis=4.473
+Qillqana,Killkana,5.902,4.122,30,no,sí,Killkana=4.122 | kilkana=4.122 | quilcana=4.122 | Qillqana=5.902* | qillqana=5.902*
+Qiru,Kiru,5.815,6.126,-5,no,sí,Qiru=5.815* | yro=6.102* | Kiru=6.126 | y ro=6.477*
+Qucha,Qucha,4.078,4.078,8,sí,sí,ucha=3.749 | Qucha=4.078 | Kucha=4.078 | qucha=4.078
+Quwi,Quwi,5.821,5.821,0,sí,sí,Quwi=5.821 | Kuwi=5.821 | quwi=5.821
+Rumi,Rumi,6.640,6.640,0,sí,sí,Rumi=6.640 | rumi=6.640
+Runa,Runa,5.746,5.746,0,sí,sí,Runa=5.746 | runa=5.746
+Runtu,Runtu,4.215,4.215,0,sí,sí,Runtu=4.215 | runtu=4.215 | zontu=4.481 | zonto=4.992
+Sach'a,Sach'a,3.730,3.730,0,sí,sí,Sach'a=3.730 | Sacha=3.754 | sacha=3.754
+Saqra,Saqra,4.677,4.677,0,sí,sí,Saqra=4.677 | Sakra=4.677 | saqra=4.677 | sacra=4.677
+Sara,Sara,5.072,5.072,0,sí,sí,Sara=5.072 | sara=5.072
+Sumaq,Súmaj,7.685,7.232,6,sí,sí,Súmaj=7.232 | Sumaq=7.685 | Súmak=7.685 | sumaq=7.685 | súmaq=7.685
+Suqta,Suqta,4.301,4.301,0,sí,sí,tohta=4.178* | Suqta=4.301 | Sukta=4.301 | suqta=4.301
+T'anta,T'anta,3.969,3.969,0,sí,sí,Tanta=3.814 | tanta=3.814 | anta=3.890 | T'anta=3.969 | anda=4.700*
+T'ika,T'ika,4.279,4.279,0,sí,sí,pika=3.965* | Tika=4.203 | tika=4.203 | T'ika=4.279
+Tata,Tata,2.678,2.678,0,sí,sí,Tata=2.678 | tata=2.678
+Tawa,taua,4.056,3.726,8,sí,sí,taua=3.726 | Tawa=4.056 | tawa=4.056
+Tukuy,Tukuy,5.907,5.907,0,sí,sí,cuy=5.397* | Túkuy=5.893 | túkuy=5.893 | Tukuy=5.907 | tukuy=5.907
+Tullu,Tullu,5.065,5.065,0,sí,sí,Tullu=5.065 | tullu=5.065 | tollo=5.439 | tolyu=5.574
+Uchu,Uchu,3.833,3.833,0,sí,sí,Uchu=3.833 | uchu=3.833 | ocho=3.994
+Uj,Oj,6.939,6.521,6,no,no,Oj=6.521* | Uj=6.939*
+Unu,Unu,5.887,5.887,0,sí,sí,Unu=5.887 | unu=5.887 | uno=5.928
+Urqu,Urqu,4.573,4.573,0,sí,sí,Urqu=4.573 | Urku=4.573 | urqu=4.573 | orco=4.583*
+Usqullu,Usqullu,6.006,6.006,0,sí,sí,ollu=5.406* | ullu=5.485* | Usqullu=6.006 | Uskullu=6.006
+Uwija,Uwija,4.983,4.983,0,sí,sí,Uwija=4.983 | uwija=4.983 | uyy hija=5.143 | uija=5.772
+Wakin,Wakin,3.961,3.961,1,no,no,walking=3.922 | Wakin=3.961* | wakin=3.961* | wacking=3.961* | wácking=3.961* | wálking=4.047*
+Warmi,Warmi,4.170,4.170,0,sí,sí,Warmi=4.170 | warmi=4.170 | warme=4.202
+Wasi,wassi,4.292,4.136,4,no,sí,wassi=4.136 | Wasi=4.292* | wasi=4.292*
+Wawa,guaua,4.111,4.035,2,no,sí,guaua=4.035 | Wawa=4.111* | wawa=4.111* | wa wa=4.453
+Wayra,Wayra,3.785,3.785,0,sí,sí,Wayra=3.785 | wayra=3.785 | guaira=3.785
+Wayrana,Wayrana,4.416,4.416,0,sí,sí,Wayrana=4.416 | wayrana=4.416 | uairana=4.466 | o irana=4.728*
+Wira,uira,4.331,4.054,6,no,sí,uira=4.054 | Wira=4.331* | wira=4.331*
+Yachaqana wasi,Yachaqana wasi,4.835,4.835,8,sí,sí,y a chacana oasi=4.440 | ya chakkana wasi=4.727 | Yachaqana wasi=4.835 | Yachakana wasi=4.836 | yachaqana wasi=4.837
+Yaku,Yaku,3.907,3.907,0,sí,sí,Yaku=3.907 | yaku=3.907 | llacu=3.907
+Ñan,Ñan,3.896,3.896,0,sí,sí,Nan=3.695* | Ñan=3.896 | ñan=3.896 | añan=4.819
+Ñuqanchik,Nukánchik,4.038,3.646,10,sí,sí,Nukánchik=3.646 | ñuqanchis=3.810 | Ñuqanchik=4.038 | niogantis=4.568*

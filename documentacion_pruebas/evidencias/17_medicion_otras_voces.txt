@@ -1,0 +1,2 @@
+juego: acierto 90 % (267/297) | falsos positivos 13 de 29106 pares
+menu: acierto 75 % (223/297) | falsos positivos 15 de 29106 pares

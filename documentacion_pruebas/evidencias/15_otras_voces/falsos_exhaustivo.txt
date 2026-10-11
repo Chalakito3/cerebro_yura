@@ -1,0 +1,26 @@
+Palabras: 99; con variantes aprendidas seguras: 97; variantes en total: 213
+
+juego: pares revisados 29100; aceptados como otra palabra sin aprendido 85, con aprendido 85
+
+menu: pares revisados 29100; aceptados como otra palabra sin aprendido 61, con aprendido 61
+
+Ganados gracias a lo aprendido (evaluador):
+   menu es-BO-MarceloNeural: «chai» -> Chay  (variantes ['chay', 'chai'])
+   menu es-BO-MarceloNeural: «hukucha» -> Juk'ucha  (variantes ["juk'ucha", 'kukucha', 'hucucha'])
+   menu es-EC-AndreaNeural: «chai» -> Chay  (variantes ['chay', 'chai'])
+   menu es-PE-AlexNeural: «chai» -> Chay  (variantes ['chay', 'chai'])
+   menu es-PE-AlexNeural: «hukucha» -> Juk'ucha  (variantes ["juk'ucha", 'kukucha', 'hucucha'])
+   menu es-PE-AlexNeural: «mina» -> Nina  (variantes ['mina'])
+
+Ganados gracias a lo aprendido (búsqueda en consultas del menú):
+   es-BO-MarceloNeural: «chai» -> Chay
+   es-BO-MarceloNeural: «hukucha» -> Juk'ucha
+   es-EC-AndreaNeural: «chai» -> Chay
+   es-EC-AndreaNeural: «iskai» -> Iskay
+   es-EC-AndreaNeural: «guaira» -> Wayra
+   es-PE-AlexNeural: «azno» -> Asnu
+   es-PE-AlexNeural: «chai» -> Chay
+   es-PE-AlexNeural: «hukucha» -> Juk'ucha
+   es-PE-AlexNeural: «mina» -> Nina
+
+Perdidos o empeorados por lo aprendido:

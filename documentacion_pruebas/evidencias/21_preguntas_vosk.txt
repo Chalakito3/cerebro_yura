@@ -1,0 +1,4 @@
+  quechua   : se entendían 602/1212 = 50 %; escrituras aprendidas: 342
+  castellano: se entendían 1072/1212 = 88 %; escrituras aprendidas: 89
+  ambiguas (no se usan): 15
+Listo en 1293 s -> /home/yura/Proyecto Yura /cerebro_yura/basedatos/mapa_preguntas_vosk.json

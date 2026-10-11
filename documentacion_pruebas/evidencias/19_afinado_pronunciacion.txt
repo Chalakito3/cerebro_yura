@@ -1,0 +1,395 @@
+[1/113] Allin -> «Allin» (0 % más parecida, 11 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[2/113] Allqu -> «Ayqu» (6 % más parecida, 32 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[3/113] Allin tuta -> «Allin totá» (3 % más parecida, 48 escrituras probadas, se entiende: sí)
+[4/113] Alpaka -> «Alpaka» (0 % más parecida, 14 escrituras probadas, se entiende: sí)
+[5/113] Allin sukha -> «Alin sukhá» (6 % más parecida, 54 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[6/113] Api -> «Api» (0 % más parecida, 8 escrituras probadas, se entiende: sí)
+[7/113] Ari -> «Aré» (5 % más parecida, 7 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[8/113] Asnu -> «Asnu» (0 % más parecida, 10 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[9/113] Allin p'unchay -> «Alin -phónchay» (7 % más parecida, 84 escrituras probadas, se entiende: sí)
+[10/113] Anqas -> «Ankhas» (33 % más parecida, 37 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[11/113] Aywa -> «Aygua» (13 % más parecida, 22 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[12/113] Atuq -> «Atuq» (0 % más parecida, 36 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[13/113] Chay -> «Chaé» (7 % más parecida, 12 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[14/113] Ch'aki ñan -> «Chake ñan» (8 % más parecida, 36 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[15/113] Ch'uspi -> «Chúspi» (10 % más parecida, 36 escrituras probadas, se entiende: sí)
+[16/113] Ima -> «Éma» (8 % más parecida, 8 escrituras probadas, se entiende: sí)
+[17/113] Ch'umpi -> «Chompé» (18 % más parecida, 45 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[18/113] Chuwa -> «Chuuá» (12 % más parecida, 26 escrituras probadas, se entiende: sí)
+[19/113] Inti -> «Inti» (0 % más parecida, 10 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[20/113] Imayna -> «Imayna» (0 % más parecida, 23 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[21/113] Irqi -> «Erke» (37 % más parecida, 43 escrituras probadas, se entiende: sí)
+[22/113] Imaynalla kachkanki -> «Imaynallá kachcanki» (3 % más parecida, 51 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[23/113] Jallp'a -> «Jay-pa» (13 % más parecida, 39 escrituras probadas, se entiende: sí)
+[24/113] Iskay -> «Eskall» (8 % más parecida, 57 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[25/113] Jamk'a -> «Jam-ka» (3 % más parecida, 30 escrituras probadas, se entiende: sí)
+[26/113] Jamp'atu -> «Jampátu» (10 % más parecida, 29 escrituras probadas, se entiende: sí)
+[27/113] Jatun -> «Jatun» (0 % más parecida, 10 escrituras probadas, se entiende: sí)
+[28/113] Jaqay -> «Jaqay» (0 % más parecida, 18 escrituras probadas, se entiende: no)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[29/113] Juch'uy -> «Jóchuy» (7 % más parecida, 34 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[30/113] Jampina wasi -> «Jampena gúasi» (16 % más parecida, 65 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[31/113] K'acha -> «Kacha» (12 % más parecida, 12 escrituras probadas, se entiende: sí)
+[32/113] Janaqpacha -> «Janak-phakhá» (15 % más parecida, 69 escrituras probadas, se entiende: sí)
+[33/113] Juk'ucha -> «Ju-kuchá» (15 % más parecida, 48 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[34/113] Juku -> «Jukú» (9 % más parecida, 40 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[35/113] K'anchay -> «Kánchall» (10 % más parecida, 34 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[36/113] K'anka -> «K'anká» (8 % más parecida, 35 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[37/113] K'anchaq -> «K'anchaq» (0 % más parecida, 53 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[38/113] K'aspi -> «Káspi» (4 % más parecida, 35 escrituras probadas, se entiende: sí)
+[39/113] K'uchara -> «Ghuchara» (18 % más parecida, 33 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[40/113] K'uchillu -> «Khuchillu» (5 % más parecida, 33 escrituras probadas, se entiende: sí)
+[41/113] K'usillu -> «K'usillu» (0 % más parecida, 21 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[42/113] Kanka -> «Kan-ka» (6 % más parecida, 28 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[43/113] Kay -> «Kaae» (6 % más parecida, 27 escrituras probadas, se entiende: sí)
+[44/113] Kimsa -> «Kimsa» (0 % más parecida, 10 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[45/113] Kulli -> «Kulli» (0 % más parecida, 11 escrituras probadas, se entiende: sí)
+[46/113] Kawallu -> «Kahuallú» (14 % más parecida, 48 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[47/113] Khuchi -> «Ghoche» (25 % más parecida, 44 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[48/113] Killa -> «Gillá» (5 % más parecida, 36 escrituras probadas, se entiende: sí)
+[49/113] Llapa -> «lapa» (10 % más parecida, 14 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[50/113] Kusisqa -> «Kusiská» (11 % más parecida, 36 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[51/113] Machu -> «Machú» (5 % más parecida, 13 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[52/113] Llaqta -> «Laqta» (11 % más parecida, 25 escrituras probadas, se entiende: sí)
+[53/113] Mama -> «Mama» (0 % más parecida, 4 escrituras probadas, se entiende: sí)
+[54/113] Mana -> «Mana» (0 % más parecida, 4 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[55/113] Mayu -> «Mayu» (0 % más parecida, 11 escrituras probadas, se entiende: sí)
+[56/113] Mayqin -> «Mayqin» (0 % más parecida, 18 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[57/113] Manka -> «Man-ka» (9 % más parecida, 26 escrituras probadas, se entiende: sí)
+[58/113] Kututu -> «Ku-tótu» (7 % más parecida, 64 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[59/113] Misi -> «Mese» (5 % más parecida, 19 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[60/113] Muya -> «Muya» (0 % más parecida, 15 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[61/113] Nina -> «Niná» (4 % más parecida, 7 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[62/113] P'acha -> «Phacha» (9 % más parecida, 18 escrituras probadas, se entiende: sí)
+[63/113] Mikhuna -> «Mekhoná» (7 % más parecida, 54 escrituras probadas, se entiende: sí)
+[64/113] Misk'i -> «Mísg'i» (5 % más parecida, 44 escrituras probadas, se entiende: sí)
+[65/113] Para -> «Para» (0 % más parecida, 5 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[66/113] Pampa -> «Pam-pa» (6 % más parecida, 20 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[67/113] P'ukuru -> «Pucuru» (20 % más parecida, 31 escrituras probadas, se entiende: sí)
+[68/113] Phuyu -> «Phuyu» (0 % más parecida, 14 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[69/113] Phichqa -> «Píchka» (16 % más parecida, 36 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[70/113] Napaykuy -> «Na-páegkui» (10 % más parecida, 84 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[71/113] Puka -> «Puká» (7 % más parecida, 27 escrituras probadas, se entiende: sí)
+[72/113] Pusaq -> «Pusaq» (0 % más parecida, 19 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[73/113] Pilli -> «Pilli» (0 % más parecida, 30 escrituras probadas, se entiende: no)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[74/113] Punku -> «Pon-ku» (4 % más parecida, 43 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[75/113] Q'umir -> «Q'omér» (10 % más parecida, 38 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[76/113] Qanchis -> «Qanchis» (0 % más parecida, 22 escrituras probadas, se entiende: sí)
+[77/113] Q'alachu -> «Kalaku» (12 % más parecida, 37 escrituras probadas, se entiende: sí)
+[78/113] Q'uncha -> «Kunchá» (8 % más parecida, 35 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[79/113] Qiru -> «Giru» (7 % más parecida, 27 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[80/113] Qillqana -> «Cillkana» (34 % más parecida, 37 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[81/113] Runa -> «Runá» (12 % más parecida, 7 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[82/113] Qucha -> «Gochá» (13 % más parecida, 40 escrituras probadas, se entiende: sí)
+[83/113] Rumi -> «Rumé» (9 % más parecida, 13 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[84/113] Runtu -> «Runtu» (0 % más parecida, 18 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[85/113] Saqra -> «Sáqra» (12 % más parecida, 19 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[86/113] Sara -> «Sará» (4 % más parecida, 6 escrituras probadas, se entiende: sí)
+[87/113] Quwi -> «Quwi» (0 % más parecida, 51 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[88/113] Sach'a -> «Sákh'a» (5 % más parecida, 34 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[89/113] T'anta -> «Tantha» (6 % más parecida, 22 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[90/113] Sumaq -> «Somáq» (23 % más parecida, 30 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[91/113] Tata -> «Tata» (0 % más parecida, 18 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[92/113] Tawa -> «Tagua» (15 % más parecida, 24 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[93/113] Suqta -> «Soqtá» (8 % más parecida, 50 escrituras probadas, se entiende: sí)
+[94/113] T'ika -> «Te-ka» (12 % más parecida, 42 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[95/113] Tullu -> «Tullu» (0 % más parecida, 17 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[96/113] Uj -> «Úg» (16 % más parecida, 12 escrituras probadas, se entiende: sí)
+[97/113] Uchu -> «Ucho» (3 % más parecida, 22 escrituras probadas, se entiende: sí)
+[98/113] Unu -> «Unu» (0 % más parecida, 10 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[99/113] Uwija -> «Uwijá» (6 % más parecida, 21 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[100/113] Usqullu -> «Usqullu» (0 % más parecida, 26 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[101/113] Tukuy -> «Tukuy» (0 % más parecida, 66 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[102/113] Urqu -> «Ur-ku» (4 % más parecida, 46 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[103/113] Warmi -> «Uarme» (4 % más parecida, 21 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[104/113] Wakin -> «Wachin» (14 % más parecida, 43 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[105/113] Wayra -> «Wallra» (3 % más parecida, 19 escrituras probadas, se entiende: sí)
+[106/113] Wawa -> «Wawa» (0 % más parecida, 25 escrituras probadas, se entiende: no)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[107/113] Wasi -> «Uase» (16 % más parecida, 41 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[108/113] Wayrana -> «Wayrana» (0 % más parecida, 25 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[109/113] Ñan -> «Nán» (5 % más parecida, 6 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[110/113] Wira -> «Uirá» (7 % más parecida, 21 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[111/113] Yaku -> «Yaku» (0 % más parecida, 24 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[112/113] Ñuqanchik -> «Nukánchij» (10 % más parecida, 35 escrituras probadas, se entiende: sí)
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[113/113] Yachaqana wasi -> «Yakhaqana huázi» (12 % más parecida, 85 escrituras probadas, se entiende: sí)
+
+Listo en 1778 s. Palabras: 113. Más parecidas a la docente que con la escritura normal: 80 (71 %). Se entienden: 110 (97 %). Distancia media al audio: 4.53 -> 4.19.

@@ -1,0 +1,76 @@
+ENTENDER (audios de la docente; lo aprendido de otras situaciones)
+  menu      : antes  69 %  ahora  83 %  (95/115)
+  juego     : antes  79 %  ahora  90 %  (103/115)
+  sin_pistas: antes  57 %  ahora  71 %  (82/115)
+  TOTAL     : ahora 81 %  (meta 80 %) -> CUMPLE
+
+PRONUNCIAR (la voz de Yura se entiende como la palabra correcta)
+  antes 90 %  ahora 97 %  (110/113 palabras) (meta 80 %) -> CUMPLE
+  Palabras que la voz de Yura todavía no logra: Jamk'a, Uj, Wakin
+
+No entendidas (situación, palabra, lo que escribió el reconocedor):
+  juego      Jamk'a                 «hank'a»
+  juego      Juku                   «punku»
+  juego      K'acha                 «aca»
+  juego      Phuyu                  «oh llu»
+  juego      Q'alachu               «kulli»
+  juego      Q'uncha                «orda»
+  juego      Quwi                   «huy»
+  juego      T'ika                  «p'ika»
+  juego      Tukuy                  «quwi»
+  juego      Uj                     «oh»
+  juego      Uj                     «oh»
+  juego      Ñan                    «añan»
+  menu       Ch'umpi                «un pi»
+  menu       Chuwa                  «quechua»
+  menu       Imayna                 «y machu»
+  menu       Jamk'a                 «hanga»
+  menu       Juku                   «pukku»
+  menu       K'acha                 «aca»
+  menu       K'anka                 «thank you»
+  menu       Khuchi                 «gee»
+  menu       Phuyu                  «all you»
+  menu       Pilli                  «»
+  menu       Punku                  «»
+  menu       Q'alachu               «nala ñu»
+  menu       Quwi                   «uy»
+  menu       Sumaq                  «»
+  menu       Suqta                  «tohta»
+  menu       T'ika                  «p a»
+  menu       Uj                     «oh»
+  menu       Uj                     «oh»
+  menu       Ñan                    «adios»
+  menu       Ñuqanchik              «nyogakis»
+  sin_pistas Allin sukha            «adien suca»
+  sin_pistas Allqu                  «»
+  sin_pistas Ari                    «adios»
+  sin_pistas Aywa                   «agua»
+  sin_pistas Ch'umpi                «un p»
+  sin_pistas Ima                    «y mas»
+  sin_pistas Imayna                 «y mas»
+  sin_pistas Imaynalla kachkanki    «y maynaya kashanki»
+  sin_pistas Jamk'a                 «hanca»
+  sin_pistas Jatun                  «»
+  sin_pistas Juku                   «pupu»
+  sin_pistas K'acha                 «aca»
+  sin_pistas K'anchaq               «chuck»
+  sin_pistas K'anchay               «chai»
+  sin_pistas K'anka                 «»
+  sin_pistas K'usillu               «oscilio»
+  sin_pistas Kay                    «bye»
+  sin_pistas Khuchi                 «guau si»
+  sin_pistas Mayqin                 «mike king»
+  sin_pistas Phuyu                  «oh will you»
+  sin_pistas Pilli                  «villee»
+  sin_pistas Qiru                   «y ro»
+  sin_pistas Quwi                   «uy»
+  sin_pistas Sumaq                  «mas o menos»
+  sin_pistas Suqta                  «tochta»
+  sin_pistas T'anta                 «anda»
+  sin_pistas T'ika                  «y a»
+  sin_pistas Tawa                   «esta agua»
+  sin_pistas Uj                     «oh»
+  sin_pistas Uj                     «oh»
+  sin_pistas Wayrana                «o irana»
+  sin_pistas Ñan                    «muy bien»
+  sin_pistas Ñuqanchik              «niogantis»

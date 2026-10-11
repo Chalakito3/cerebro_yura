@@ -1,0 +1,110 @@
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[101/115] Imaynalla kachkanki: menu: «imaynalla kachkanki» | juego: «imaynalla kachkanki» | sin_pistas: «y maynaya kashanki» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[102/115] Allin p'unchay: menu: «allin punchay» | juego: «allin punchay» | sin_pistas: «alimpunchay»
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[103/115] Allin tuta: menu: «allin tuta» | juego: «allin tuta» | sin_pistas: «alli en tuta»
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[104/115] Napaykuy: menu: «napaikkui» * | juego: «napaykuy» | sin_pistas: «napai kui» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[105/115] Ari: menu: «ari» | juego: «ari» | sin_pistas: «adios» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[106/115] Mana: menu: «mana» | juego: «mana» | sin_pistas: «mana»
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[107/115] Aywa: menu: «aywa» | juego: «aywa» | sin_pistas: «agua» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[108/115] Allin sukha: menu: «all insuka» | juego: «allin suqa» | sin_pistas: «adien suca» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[109/115] K'uchara: menu: «uchara» | juego: «uchara» | sin_pistas: «uchara»
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[110/115] K'uchillu: menu: «kochi yu» | juego: «k'uchillu» | sin_pistas: «cochillo»
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[111/115] Juk: menu: «oh» * | juego: «oh» * | sin_pistas: «oh» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[112/115] Imayna: menu: «y machu» * | juego: «imaj» * | sin_pistas: «y mas» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[113/115] Sumaq: menu: «» * | juego: «sumaq» | sin_pistas: «mas o menos» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[114/115] Qiru: menu: «yro» * | juego: «yro» * | sin_pistas: «y ro» *
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+/home/yura/Proyecto Yura /cerebro_yura/.venv/lib/python3.12/site-packages/whisper/transcribe.py:130: UserWarning: Performing inference on CPU when CUDA is available
+  warnings.warn("Performing inference on CPU when CUDA is available")
+[115/115] Chuwa: menu: «quechua» * | juego: «chuwa» | sin_pistas: «chua»
+
+Listo en 539 s. Reconocidas sin lo aprendido (* = no reconocida):
+  menu      : 9/15 = 60 %
+  juego     : 12/15 = 80 %
+  sin_pistas: 6/15 = 40 %

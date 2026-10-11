@@ -1,0 +1,12 @@
+    [AVISO] No se pudo generar (¿falta conexión a internet?)
+[LISTO en 5462.1 s]
+  • Ya estaban guardados: 24
+  • Nuevos generados:     2303
+  • Fallidos:             1
+  • Total en disco:       2327 audios WAV locales en /home/yura/Proyecto Yura /cerebro_yura/basedatos/voces_sofia
+[LISTO en 8316.1 s]
+  • Ya estaban guardados: 2328
+  • Nuevos generados:     3306
+  • Fallidos:             3
+  • Total en disco:       5634 audios WAV locales en /home/yura/Proyecto Yura /cerebro_yura/basedatos/voces_sofia
+Traceback (most recent call last):

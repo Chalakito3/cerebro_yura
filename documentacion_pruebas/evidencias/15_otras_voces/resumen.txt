@@ -1,0 +1,63 @@
+TOTAL (todas las voces)
+  juego evaluador sin aprendido 263/297 = 89 % | con aprendido 263/297 = 89 % | ganados solo por lo aprendido 0 | falsos positivos: pares sin 9/1485, con 9/1485 (audios afectados sin 9, con 9) | tiempo 3362 s, 11.3 s por audio
+  menu  evaluador sin aprendido 202/297 = 68 % | con aprendido 208/297 = 70 % | ganados solo por lo aprendido 6 | falsos positivos: pares sin 7/1485, con 7/1485 (audios afectados sin 7, con 7) | tiempo 3615 s, 12.2 s por audio
+        búsqueda en consultas: correcta sin aprendido 150/297 = 51 % | con aprendido 159/297 = 54 % | encuentra OTRA palabra: sin 0, con 0 | ambigua (con) 2
+VOZ es-BO-MarceloNeural
+  juego evaluador sin aprendido 85/99 = 86 % | con aprendido 85/99 = 86 % | ganados solo por lo aprendido 0 | falsos positivos: pares sin 3/495, con 3/495 (audios afectados sin 3, con 3) | tiempo 1123 s, 11.3 s por audio
+  menu  evaluador sin aprendido 67/99 = 68 % | con aprendido 69/99 = 70 % | ganados solo por lo aprendido 2 | falsos positivos: pares sin 3/495, con 3/495 (audios afectados sin 3, con 3) | tiempo 1210 s, 12.2 s por audio
+        búsqueda en consultas: correcta sin aprendido 49/99 = 49 % | con aprendido 51/99 = 52 % | encuentra OTRA palabra: sin 0, con 0 | ambigua (con) 0
+VOZ es-EC-AndreaNeural
+  juego evaluador sin aprendido 93/99 = 94 % | con aprendido 93/99 = 94 % | ganados solo por lo aprendido 0 | falsos positivos: pares sin 3/495, con 3/495 (audios afectados sin 3, con 3) | tiempo 1123 s, 11.3 s por audio
+  menu  evaluador sin aprendido 70/99 = 71 % | con aprendido 71/99 = 72 % | ganados solo por lo aprendido 1 | falsos positivos: pares sin 2/495, con 2/495 (audios afectados sin 2, con 2) | tiempo 1197 s, 12.1 s por audio
+        búsqueda en consultas: correcta sin aprendido 54/99 = 55 % | con aprendido 57/99 = 58 % | encuentra OTRA palabra: sin 0, con 0 | ambigua (con) 1
+VOZ es-PE-AlexNeural
+  juego evaluador sin aprendido 85/99 = 86 % | con aprendido 85/99 = 86 % | ganados solo por lo aprendido 0 | falsos positivos: pares sin 3/495, con 3/495 (audios afectados sin 3, con 3) | tiempo 1116 s, 11.3 s por audio
+  menu  evaluador sin aprendido 65/99 = 66 % | con aprendido 68/99 = 69 % | ganados solo por lo aprendido 3 | falsos positivos: pares sin 2/495, con 2/495 (audios afectados sin 2, con 2) | tiempo 1209 s, 12.2 s por audio
+        búsqueda en consultas: correcta sin aprendido 47/99 = 47 % | con aprendido 51/99 = 52 % | encuentra OTRA palabra: sin 0, con 0 | ambigua (con) 1
+
+FALSOS POSITIVOS CON LO APRENDIDO (audio de X aceptado como Y):
+  es-BO-MarceloNeural juego: «k'anchaq» (K'anchaq) aceptado como ["K'anchay"]
+  es-BO-MarceloNeural menu: «kaan chay» (K'anchay) aceptado como ['Chay']
+  es-BO-MarceloNeural juego: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-BO-MarceloNeural menu: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-BO-MarceloNeural juego: «sara» (Sara) aceptado como ['Saqra']
+  es-BO-MarceloNeural menu: «sara» (Sara) aceptado como ['Saqra']
+  es-EC-AndreaNeural juego: «k'anchaq» (K'anchaq) aceptado como ["K'anchay"]
+  es-EC-AndreaNeural juego: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-EC-AndreaNeural menu: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-EC-AndreaNeural juego: «sara» (Sara) aceptado como ['Saqra']
+  es-EC-AndreaNeural menu: «sara» (Sara) aceptado como ['Saqra']
+  es-PE-AlexNeural juego: «k'anchaq» (K'anchaq) aceptado como ["K'anchay"]
+  es-PE-AlexNeural menu: «kaan chay» (K'anchay) aceptado como ['Chay']
+  es-PE-AlexNeural juego: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-PE-AlexNeural menu: «sacha» (Sach'a) aceptado como ["P'acha"]
+  es-PE-AlexNeural juego: «sara» (Sara) aceptado como ['Saqra']
+
+PALABRAS POR NÚMERO DE RECONOCIMIENTOS CON APRENDIDO (de voces x situaciones):
+Nunca reconocidas (1):
+  Irqi (variantes aprendidas: 3): BO/juego: «iri»; BO/menu: «iri»; EC/juego: «iri»; EC/menu: «iri»; PE/juego: «iri»; PE/menu: «iri»
+Reconocidas en la mitad o menos (24):
+  Allin 3/6 (variantes: 2): BO/juego: «adjim»; BO/menu: «adjim»; EC/juego: «allin»; EC/menu: «allin»; PE/juego: «ajin»; PE/menu: «algin»
+  Anqas 3/6 (variantes: 3): BO/juego: «anas»; BO/menu: «anas»; EC/juego: «ana»; EC/menu: «ana»; PE/juego: «ana»; PE/menu: «anas»
+  Jamk'a 3/6 (variantes: 0): BO/juego: «jamka»; BO/menu: «hamka»; EC/juego: «jamk'a»; EC/menu: «chamka»; PE/juego: «qanchis»; PE/menu: «chamka»
+  Jaqay 3/6 (variantes: 3): BO/juego: «fakay»; BO/menu: «fakai»; EC/juego: «jakay»; EC/menu: «hakai»; PE/juego: «jakay»; PE/menu: «hakai»
+  Juch'uy 3/6 (variantes: 3): BO/juego: «juch'uy»; BO/menu: «huchuli»; EC/juego: «juch'uy»; EC/menu: «huchui»; PE/juego: «juch'uy»; PE/menu: «fuchui»
+  Juk 1/6 (variantes: 0): BO/juego: «fu»; BO/menu: «fu»; EC/juego: «juk»; EC/menu: «hook»; PE/juego: «pu»; PE/menu: «pu»
+  Juku 1/6 (variantes: 3): BO/juego: «puku»; BO/menu: «puku»; EC/juego: «juku»; EC/menu: «fuku»; PE/juego: «puku»; PE/menu: «puku»
+  K'anchaq 3/6 (variantes: 2): BO/juego: «k'anchaq»; BO/menu: «con check»; EC/juego: «k'anchaq»; EC/menu: «gancek»; PE/juego: «k'anchaq»; PE/menu: «con check»
+  Kulli 3/6 (variantes: 2): BO/juego: «kujy»; BO/menu: «kuji»; EC/juego: «kulli»; EC/menu: «cudi»; PE/juego: «cugi»; PE/menu: «kuji»
+  Phichqa 3/6 (variantes: 2): BO/juego: «pichu»; BO/menu: «picha»; EC/juego: «picha»; EC/menu: «picha»; PE/juego: «pichu»; PE/menu: «richa»
+  Pilli 2/6 (variantes: 2): BO/juego: «pilli»; BO/menu: «pige»; EC/juego: «pigi»; EC/menu: «pg»; PE/juego: «pilli»; PE/menu: «pigi»
+  Qillqana 3/6 (variantes: 3): BO/juego: «quilana»; BO/menu: «kilana»; EC/juego: «quilana»; EC/menu: «kilana»; PE/juego: «quilana»; PE/menu: «kilana»
+  Quwi 3/6 (variantes: 1): BO/juego: «cugui»; BO/menu: «cuguy»; EC/juego: «gurwi»; EC/menu: «gurwi»; PE/juego: «cugui»; PE/menu: «kugui»
+  Runa 3/6 (variantes: 1): BO/juego: «runa»; BO/menu: «rune»; EC/juego: «runa»; EC/menu: «bruna»; PE/juego: «runa»; PE/menu: «rune»
+  T'ika 1/6 (variantes: 2): BO/juego: «teika»; BO/menu: «teika»; EC/juego: «t'ika»; EC/menu: «teika»; PE/juego: «teika»; PE/menu: «teika»
+  Tawa 3/6 (variantes: 2): BO/juego: «taba»; BO/menu: «daba»; EC/juego: «tawa»; EC/menu: «daba»; PE/juego: «tawa»; PE/menu: «daba»
+  Tukuy 3/6 (variantes: 2): BO/juego: «tukuy»; BO/menu: «tukwi»; EC/juego: «tukuy»; EC/menu: «tukwi»; PE/juego: «tukuy»; PE/menu: «tukwi»
+  Wasi 3/6 (variantes: 2): BO/juego: «basie»; BO/menu: «base»; EC/juego: «beisi»; EC/menu: «base»; PE/juego: «basie»; PE/menu: «base»
+  Wawa 2/6 (variantes: 3): BO/juego: «baikwai»; BO/menu: «baikwai»; EC/juego: «bagua»; EC/menu: «bagua»; PE/juego: «bacua»; PE/menu: «ba kua»
+  Wayrana 1/6 (variantes: 3): BO/juego: «way then»; BO/menu: «way then»; EC/juego: «wayrana»; EC/menu: «guairan»; PE/juego: «way then»; PE/menu: «way then»
+  Wira 3/6 (variantes: 2): BO/juego: «wira»; BO/menu: «vida»; EC/juego: «wira»; EC/menu: «guida»; PE/juego: «wira»; PE/menu: «uida»
+  Yachaqana wasi 3/6 (variantes: 3): BO/juego: «yachaqana wasi»; BO/menu: «ya checa en avesi»; EC/juego: «yachaqana wasi»; EC/menu: «ya te canabeis»; PE/juego: «yachaqana wasi»; PE/menu: «ya checan a beisi»
+  Ñan 2/6 (variantes: 2): BO/juego: «yen»; BO/menu: «yan»; EC/juego: «ñan»; EC/menu: «ñan»; PE/juego: «yen»; PE/menu: «yan»
+  Ñuqanchik 3/6 (variantes: 2): BO/juego: «puedes verlo»; BO/menu: «puedes verlo»; EC/juego: «ñuqanchik»; EC/menu: «ñukanchik»; PE/juego: «uqanchik»; PE/menu: «puedes verlo»

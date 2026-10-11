@@ -1,0 +1,502 @@
+palabra,escritura_para_la_voz,distancia_original,distancia_ahora,se_entendia,se_entiende,escrituras_probadas
+K'acha,Kacha,4.448,3.936,True,True,10
+Allin,Allin,4.122,4.122,True,True,11
+Allin sukha,Alin sukhá,4.707,4.441,True,True,36
+Allin p'unchay,Alén -punchay,4.238,3.862,True,True,55
+Allqu,Ayqu,3.504,3.295,True,True,18
+Q'umir,Q'omér,5.888,5.318,True,True,38
+Allin,Allin,4.122,4.122,True,True,11
+Allqu,Ayqu,3.504,3.295,True,True,32
+Allin tuta,Allin totá,4.638,4.492,True,True,48
+Alpaka,Alpaka,4.485,4.485,True,True,14
+Allin sukha,Alin sukhá,4.707,4.441,True,True,54
+Api,Api,3.133,3.133,True,True,8
+Ari,Aré,5.093,4.861,True,True,7
+Asnu,Asnu,3.484,3.484,True,True,10
+Allin p'unchay,Alin -phónchay,4.238,3.948,True,True,84
+Anqas,Ankhas,5.737,3.871,True,True,37
+Aywa,Aygua,5.254,4.588,True,True,22
+Atuq,Atuq,4.407,4.407,True,True,36
+Chay,Chaé,4.213,3.912,True,True,12
+Ch'aki ñan,Chake ñan,4.403,4.057,True,True,36
+Ch'uspi,Chúspi,4.115,3.692,True,True,36
+Ima,Éma,3.969,3.664,True,True,8
+Ch'umpi,Chompé,4.607,3.772,True,True,45
+Chuwa,Chuuá,5.439,4.773,True,True,26
+Inti,Inti,4.161,4.161,True,True,10
+Imayna,Imayna,5.414,5.414,True,True,23
+Irqi,Erke,6.099,3.871,False,True,43
+Imaynalla kachkanki,Imaynallá kachcanki,4.186,4.057,True,True,51
+Jallp'a,Jay-pa,3.980,3.475,True,True,39
+Iskay,Eskall,3.382,3.125,True,True,57
+Jamk'a,Jam-ka,3.621,3.498,False,True,30
+Jamp'atu,Jampátu,3.965,3.582,True,True,29
+Jatun,Jatun,3.441,3.441,True,True,10
+Jaqay,Jaqay,4.117,4.117,False,False,18
+Juch'uy,Jóchuy,5.105,4.746,True,True,34
+Jampina wasi,Jampena gúasi,4.386,3.682,True,True,65
+K'acha,Kacha,4.448,3.936,True,True,12
+Janaqpacha,Janak-phakhá,4.292,3.659,True,True,69
+Juk'ucha,Ju-kuchá,4.799,4.079,True,True,48
+Juku,Jukú,5.676,5.147,True,True,40
+K'anchay,Kánchall,3.708,3.334,True,True,34
+K'anka,K'anká,4.512,4.149,True,True,35
+K'anchaq,K'anchaq,5.006,5.006,True,True,53
+K'aspi,Káspi,3.078,2.942,True,True,35
+K'uchara,Ghuchara,4.564,3.721,True,True,33
+K'uchillu,Khuchillu,4.610,4.389,True,True,33
+K'usillu,K'usillu,4.792,4.792,True,True,21
+Kanka,Kan-ka,4.531,4.250,True,True,28
+Kay,Kaae,4.185,3.918,True,True,27
+Kimsa,Kimsa,3.947,3.947,True,True,10
+Kulli,Kulli,4.710,4.710,True,True,11
+Kawallu,Kahuallú,4.612,3.983,True,True,48
+Khuchi,Ghoche,4.560,3.413,True,True,44
+Killa,Gillá,5.093,4.835,True,True,36
+Llapa,lapa,3.515,3.178,True,True,14
+Kusisqa,Kusiská,5.225,4.675,True,True,36
+Machu,Machú,3.783,3.612,True,True,13
+Llaqta,Laqta,3.698,3.279,True,True,25
+Mama,Mama,4.053,4.053,True,True,4
+Mana,Mana,4.461,4.461,True,True,4
+Mayu,Mayu,3.998,3.998,True,True,11
+Mayqin,Mayqin,3.730,3.730,True,True,18
+Manka,Man-ka,3.660,3.339,True,True,26
+Kututu,Ku-tótu,4.724,4.407,True,True,64
+Misi,Mese,4.860,4.597,True,True,19
+Muya,Muya,5.070,5.070,True,True,15
+Nina,Niná,4.357,4.195,True,True,7
+P'acha,Phacha,3.474,3.160,True,True,18
+Mikhuna,Mekhoná,3.832,3.560,True,True,54
+Misk'i,Mísg'i,4.369,4.130,True,True,44
+Para,Para,6.024,6.024,True,True,5
+Pampa,Pam-pa,3.236,3.031,True,True,20
+P'ukuru,Pucuru,5.331,4.269,True,True,31
+Phuyu,Phuyu,5.564,5.564,True,True,14
+Phichqa,Píchka,4.595,3.847,True,True,36
+Napaykuy,Na-páegkui,4.104,3.697,True,True,84
+Puka,Puká,3.667,3.412,True,True,27
+Pusaq,Pusaq,3.953,3.953,True,True,19
+Pilli,Pilli,5.739,5.739,False,False,30
+Punku,Pon-ku,4.844,4.653,True,True,43
+Q'umir,Q'omér,5.888,5.318,True,True,38
+Qanchis,Qanchis,4.170,4.170,True,True,22
+Q'alachu,Kalaku,4.549,3.982,True,True,37
+Q'uncha,Kunchá,3.764,3.451,True,True,35
+Qiru,Giru,5.815,5.386,False,True,27
+Qillqana,Cillkana,5.902,3.918,False,True,37
+Runa,Runá,5.746,5.031,True,True,7
+Qucha,Gochá,4.078,3.561,True,True,40
+Rumi,Rumé,6.640,6.020,True,True,13
+Runtu,Runtu,4.215,4.215,True,True,18
+Saqra,Sáqra,4.677,4.136,True,True,19
+Sara,Sará,5.072,4.882,True,True,6
+Quwi,Quwi,5.821,5.821,True,True,51
+Sach'a,Sákh'a,3.730,3.528,True,True,34
+T'anta,Tantha,3.969,3.713,True,True,22
+Sumaq,Somáq,7.685,5.890,True,True,30
+Tata,Tata,2.678,2.678,True,True,18
+Tawa,Tagua,4.056,3.448,True,True,24
+Suqta,Soqtá,4.301,3.963,True,True,50
+T'ika,Te-ka,4.279,3.764,True,True,42
+Tullu,Tullu,5.065,5.065,True,True,17
+Uj,Úg,6.939,5.808,False,True,12
+Uchu,Ucho,3.833,3.710,True,True,22
+Unu,Unu,5.887,5.887,True,True,10
+Uwija,Uwijá,4.983,4.668,True,True,21
+Usqullu,Usqullu,6.006,6.006,True,True,26
+Tukuy,Tukuy,5.907,5.907,True,True,66
+Urqu,Ur-ku,4.573,4.379,True,True,46
+Warmi,Uarme,4.170,4.001,True,True,21
+Wakin,Wachin,3.961,3.399,False,True,43
+Wayra,Wallra,3.785,3.656,True,True,19
+Wawa,Wawa,4.111,4.111,False,False,25
+Wasi,Uase,4.292,3.587,False,True,41
+Wayrana,Wayrana,4.416,4.416,True,True,25
+Ñan,Nán,3.896,3.695,True,True,6
+Wira,Uirá,4.331,4.027,False,True,21
+Yaku,Yaku,3.907,3.907,True,True,24
+Ñuqanchik,Nukánchij,4.038,3.633,True,True,35
+Yachaqana wasi,Yakhaqana huázi,4.835,4.251,True,True,85
+Wasi,Uase,4.292,3.587,False,True,20
+Allin,Allin,4.122,4.122,True,True,11
+Allin sukha,Alin sukhá,4.707,4.438,True,True,23
+Allin p'unchay,Alin -pónchay,4.238,3.940,True,True,37
+Allin tuta,Allin totá,4.638,4.484,True,True,20
+Allqu,Ayqu,3.504,3.295,True,True,18
+Alpaka,Alpaka,4.485,4.485,True,True,14
+Api,Api,3.133,3.133,True,True,8
+Anqas,Ankhas,5.737,3.871,True,True,22
+Ari,Aré,5.093,4.861,True,True,7
+Asnu,Asnu,3.484,3.484,True,True,10
+Aywa,Aygua,5.254,4.588,True,True,19
+Atuq,Atuq,4.407,4.407,True,True,36
+Ch'aki ñan,Chake ñan,4.403,4.057,True,True,23
+Ch'umpi,Chompé,4.607,3.772,True,True,20
+Ch'uspi,Chúspi,4.115,3.692,True,True,21
+Chay,Chaé,4.213,3.912,True,True,9
+Chuwa,Chuuá,5.439,4.773,True,True,14
+Ima,Éma,3.969,3.664,True,True,8
+Imayna,Imayna,5.414,5.414,True,True,23
+Imataq sutiyki,Imataq sutiyki,3.761,3.761,True,True,35
+Inti,Inti,4.161,4.161,True,True,10
+Imataq sutiyki,Imátak sutiyki,3.757,3.762,True,True,67
+Allin p'unchay,Alin -phónchay,4.238,3.932,True,True,22
+Allin,Allin,4.122,4.122,True,True,11
+Allin p'unchay,Alin -phónchay,4.238,3.944,True,True,37
+Allin sukha,Alin sukhá,4.707,4.442,True,True,54
+Allqu,Ayqu,3.504,3.295,True,True,18
+Alpaka,Alpaka,4.485,4.485,True,True,14
+Allin tuta,Allin totá,4.638,4.484,True,True,45
+Api,Api,3.133,3.133,True,True,8
+Ari,Aré,5.093,4.861,True,True,7
+Anqas,Ankhas,5.737,3.871,True,True,22
+Asnu,Asnu,3.484,3.484,True,True,10
+Aywa,Aygua,5.254,4.588,True,True,19
+Atuq,Atuq,4.407,4.407,True,True,36
+Ch'aki ñan,Chake ñan,4.403,4.057,True,True,23
+Ch'umpi,Chompé,4.607,3.772,True,True,20
+Ch'uspi,Chúspi,4.115,3.692,True,True,21
+Chay,Chaé,4.213,3.912,True,True,9
+Ima,Éma,3.969,3.664,True,True,8
+Chuwa,Chuuá,5.439,4.773,True,True,14
+Imayna,Imayna,5.414,5.414,True,True,23
+Imataq sutiyki,Imátak sutiyki,3.755,3.764,True,True,67
+Inti,Inti,4.161,4.161,True,True,10
+Imaynalla kachkanki,Imaynalla kashanki,4.186,4.011,True,True,36
+Irqi,Erke,6.099,3.871,False,True,21
+Iskay,Eskall,3.382,3.125,True,True,24
+Jallp'a,Jay-pa,3.980,3.475,True,True,21
+Jamk'a,Jam-ka,3.621,3.498,False,True,22
+Jamp'atu,Jampátu,3.965,3.582,True,True,20
+Jampina wasi,Jampena gúasi,4.386,3.688,True,True,20
+Jaqay,Jaqay,4.117,4.117,False,False,18
+Jatun,Jatun,3.441,3.441,True,True,10
+Janaqpacha,Janak-phakhá,4.292,3.650,True,True,22
+Juch'uy,Jóchuy,5.105,4.746,True,True,24
+Juk'ucha,Ju-kuchá,4.799,4.079,True,True,21
+K'acha,Kacha,4.448,3.936,True,True,12
+Juku,Juku,5.676,5.676,True,True,33
+K'anchaq,Kankhak,5.006,4.513,True,True,53
+K'anchay,Kánchall,3.708,3.334,True,True,22
+K'anka,K'anká,4.512,4.149,True,True,19
+K'aspi,Káspi,3.078,2.942,True,True,21
+K'uchara,Ghuchara,4.564,3.721,True,True,19
+K'uchillu,Khuchillu,4.610,4.389,True,True,22
+K'usillu,K'usillu,4.792,4.792,True,True,21
+Kanka,Kan-ka,4.531,4.250,True,True,20
+Kawallu,Kahuallú,4.612,3.983,True,True,21
+Kay,Kaae,4.185,3.918,True,True,20
+Khuchi,Ghoche,4.560,3.413,True,True,18
+Kimsa,Kimsa,3.947,3.947,True,True,10
+Killa,Gillá,5.093,4.835,True,True,16
+Kulli,Kulli,4.710,4.710,True,True,11
+Kusisqa,Kusiská,5.225,4.675,True,True,22
+Kututu,Ku-tótu,4.724,4.407,True,True,20
+Llapa,lapa,3.515,3.178,True,True,14
+Llaqta,Laqta,3.698,3.279,True,True,14
+Machu,Machú,3.783,3.612,True,True,10
+Kusisqam kani,Koséskam -kani,3.971,3.229,True,True,67
+Mama,Mama,4.053,4.053,True,True,4
+Mana,Mana,4.461,4.461,True,True,4
+Manka,Man-ka,3.660,3.339,True,True,17
+Mayqin,Mayqin,3.730,3.730,True,True,18
+Mayu,Mayu,3.998,3.998,True,True,11
+Mikhuna,Mekhoná,3.832,3.560,True,True,22
+Mashkha watayuqtaq kanki,Mashca wathallóqtak -kan-ki,4.168,3.638,True,True,116
+Mikhuyta munani,Mikhúy-tha munani,3.733,3.563,True,True,66
+Misi,Mese,4.860,4.597,True,True,11
+Misk'i,Mísg'i,4.369,4.130,True,True,21
+Muya,Muya,5.070,5.070,True,True,15
+Nina,Niná,4.357,4.195,True,True,6
+P'acha,Phacha,3.474,3.160,True,True,12
+Napaykuy,Na-páegkui,4.104,3.694,True,True,39
+P'ukuru,Pucuru,5.331,4.269,True,True,21
+Para,Para,6.024,6.024,True,True,5
+Pampa,Pam-pa,3.236,3.031,True,True,14
+Phuyu,Phuyu,5.564,5.564,True,True,14
+Phichqa,Phíchka,4.595,3.847,True,True,21
+Puka,Puká,3.667,3.412,True,True,19
+Pilli,Pilli,5.739,5.739,False,False,30
+Punku,Pon-ku,4.844,4.653,True,True,19
+Pusaq,Pusaq,3.953,3.953,True,True,19
+Q'umir,Q'omér,5.888,5.318,True,True,23
+Q'alachu,Kalaku,4.549,3.982,True,True,36
+Q'uncha,Kunchá,3.764,3.451,True,True,20
+Qanchis,Qanchis,4.170,4.170,True,True,22
+Qillqana,Cilkana,5.902,3.918,False,True,22
+Qiru,Giru,5.815,5.386,False,True,19
+Qucha,Gochá,4.078,3.561,True,True,21
+Rumi,Rumé,6.640,6.020,True,True,9
+Runa,Runá,5.746,5.031,True,True,6
+Quwi,Qogui,5.821,5.232,True,True,51
+Runtu,Runtu,4.215,4.215,True,True,18
+Sach'a,Sákh'a,3.730,3.528,True,True,18
+Saqra,Sáqra,4.677,4.136,True,True,14
+Sara,Sará,5.072,4.882,True,True,6
+Sumaq,Somáq,7.685,5.890,True,True,17
+Suqta,Soqtá,4.301,3.963,True,True,19
+T'anta,Tantha,3.969,3.713,True,True,15
+T'ika,Te-ka,4.279,3.764,True,True,20
+Tata,Tata,2.678,2.678,True,True,18
+Tawa,Tagua,4.056,3.448,True,True,19
+Tullu,Tullu,5.065,5.065,True,True,17
+Uchu,Ucho,3.833,3.710,True,True,14
+Uj,Úg,6.939,5.809,False,True,12
+Tukuy,Tukuy,5.907,5.907,True,True,70
+Unu,Unu,5.887,5.887,True,True,10
+Usqullu,Usqullu,6.006,6.006,True,True,26
+Urqu,Ur-ku,4.573,4.379,True,True,34
+Uwija,Uwijá,4.983,4.668,True,True,19
+Wakin,Wachin,3.961,3.398,False,True,22
+Warmi,Uarme,4.170,4.001,True,True,13
+Wasi,Uase,4.292,3.587,False,True,19
+Wayra,Wallra,3.785,3.656,True,True,13
+Wawa,Wawa,4.111,4.111,False,False,25
+Wira,Uirá,4.331,4.027,False,True,15
+Wayrana,Wayrana,4.416,4.416,True,True,29
+Yachaqana wasi,Yakhaqana huázi,4.835,4.266,True,True,48
+Yaku,Yaku,3.907,3.907,True,True,24
+Yachaywasipi kani,Yakháyguasi-phe --kani,3.512,3.228,True,True,129
+Ñan,Nán,3.896,3.695,True,True,6
+Ñuqanchik,Nukánchij,4.038,3.633,True,True,20
+Yurata wañuchikuy,Yurá-ta huanuche-kull,3.776,3.378,True,True,114
+Allin,Allin,4.122,4.122,True,True,11
+Allin p'unchay,Alin -phónchay,4.238,3.937,True,True,22
+Allin sukha,Alin sukhá,4.707,4.438,True,True,23
+Allin tuta,Allin totá,4.638,4.482,True,True,20
+Allqu,Ayqu,3.504,3.295,True,True,18
+Alpaka,Alpaka,4.485,4.485,True,True,14
+Api,Api,3.133,3.133,True,True,8
+Anqas,Ankhas,5.737,3.871,True,True,22
+Ari,Aré,5.093,4.861,True,True,7
+Asnu,Asnu,3.484,3.484,True,True,10
+Aywa,Aygua,5.254,4.588,True,True,19
+Ch'aki ñan,Chake ñan,4.403,4.057,True,True,23
+Atuq,Atuq,4.407,4.407,True,True,36
+Ch'umpi,Chompé,4.607,3.772,True,True,20
+Ch'uspi,Chúspi,4.115,3.692,True,True,21
+Chay,Chaé,4.213,3.912,True,True,9
+Chuwa,Chuuá,5.439,4.773,True,True,14
+Ima,Éma,3.969,3.664,True,True,8
+Imataq sutiyki,Imátak sutiyki,3.759,3.762,True,False,19
+Imayna,Imayna,5.414,5.414,True,True,23
+Inti,Inti,4.161,4.161,True,True,10
+Imaynalla kachkanki,Imaynalla kashanki,4.186,4.005,True,False,36
+Irqi,Erke,6.099,3.871,False,True,20
+Iskay,Eskall,3.382,3.125,True,True,24
+Jallp'a,Jay-pa,3.980,3.475,True,True,21
+Jamp'atu,Jampátu,3.965,3.582,True,True,20
+Jamk'a,Jam-ka,3.621,3.498,False,True,22
+Jampina wasi,Jampena gúasi,4.386,3.695,True,True,20
+Janaqpacha,Janak-phakhá,4.292,3.653,True,True,22
+Jatun,Jatun,3.441,3.441,True,True,10
+Jaqay,Jaqay,4.117,4.117,False,False,18
+Juch'uy,Jóchuy,5.105,4.746,True,True,24
+Juk'ucha,Ju-kuchá,4.799,4.079,True,True,21
+K'acha,Kacha,4.448,3.936,True,True,12
+K'anchaq,Kankhak,5.006,4.513,True,True,22
+K'anchay,Kánchall,3.708,3.334,True,True,22
+Juku,Jukú,5.676,5.147,True,False,33
+K'anka,K'anká,4.512,4.149,True,True,19
+K'aspi,Káspi,3.078,2.942,True,True,21
+K'uchara,Ghuchara,4.564,3.721,True,True,19
+K'uchillu,Khuchillu,4.610,4.389,True,True,22
+K'usillu,K'usillu,4.792,4.792,True,True,21
+Kanka,Kan-ka,4.531,4.250,True,True,20
+Kawallu,Kahuallú,4.612,3.983,True,True,21
+Kay,Kaae,4.185,3.918,True,True,20
+Khuchi,Ghoche,4.560,3.413,True,True,18
+Killa,Gillá,5.093,4.835,True,True,16
+Kimsa,Kimsa,3.947,3.947,True,True,10
+Kulli,Kulli,4.710,4.710,True,True,11
+Kusisqa,Kusiská,5.225,4.675,True,True,22
+Kututu,Ku-tótu,4.724,4.407,True,True,20
+Llapa,lapa,3.515,3.178,True,True,14
+Kusisqam kani,Koséskam -kani,3.968,3.230,True,False,51
+Llaqta,Laqta,3.698,3.279,True,True,14
+Mama,Mama,4.053,4.053,True,True,4
+Machu,Machú,3.783,3.612,True,True,10
+Mana,Mana,4.461,4.461,True,True,4
+Manka,Man-ka,3.660,3.339,True,True,17
+Mayqin,Mayqin,3.730,3.730,True,True,18
+Mayu,Mayu,3.998,3.998,True,True,11
+Mashkha watayuqtaq kanki,Mashca wathallóqtak -kan-ki,4.162,3.656,True,False,36
+Mikhuna,Mekhoná,3.832,3.560,True,True,22
+Misi,Mese,4.860,4.597,True,True,11
+Misk'i,Mísg'i,4.369,4.130,True,True,21
+Mikhuyta munani,Mikhúy-tha munani,3.732,3.565,True,False,35
+Muya,Muya,5.070,5.070,True,True,14
+Nina,Niná,4.357,4.195,True,True,6
+P'acha,Phacha,3.474,3.160,True,True,12
+P'ukuru,Pucuru,5.331,4.269,True,True,21
+Pampa,Pam-pa,3.236,3.031,True,True,14
+Napaykuy,Na-páegkui,4.104,3.698,True,False,87
+Para,Para,6.024,6.024,True,True,5
+Phuyu,Phuyu,5.564,5.564,True,True,14
+Phichqa,Píchka,4.595,3.847,True,False,20
+Puka,Puká,3.667,3.412,True,True,19
+Pilli,Pilli,5.739,5.739,False,False,30
+Pusaq,Pusaq,3.953,3.953,True,True,19
+Punku,Pon-ku,4.844,4.653,True,True,19
+Q'umir,Q'omér,5.888,5.318,True,True,23
+Q'alachu,Kalaku,4.549,3.982,True,False,36
+Q'uncha,Kunchá,3.764,3.451,True,True,20
+Qanchis,Qanchis,4.170,4.170,True,True,22
+Qiru,Giru,5.815,5.386,False,True,19
+Qillqana,Cillkana,5.902,3.918,False,False,22
+Qucha,Gochá,4.078,3.561,True,True,21
+Rumi,Rumé,6.640,6.020,True,True,9
+Runa,Runá,5.746,5.031,True,True,6
+Quwi,Qogui,5.821,5.232,True,False,18
+Sach'a,Sákh'a,3.730,3.528,True,True,18
+Runtu,Runtu,4.215,4.215,True,True,18
+Sara,Sará,5.072,4.882,True,True,6
+Saqra,Sáqra,4.677,4.136,True,True,14
+Sumaq,Somáq,7.685,5.890,True,True,17
+Suqta,Soqtá,4.301,3.963,True,True,19
+T'anta,Tantha,3.969,3.713,True,True,15
+T'ika,Te-ka,4.279,3.764,True,True,20
+Tata,Tata,2.678,2.678,True,True,18
+Tawa,Tagua,4.056,3.448,True,True,19
+Tullu,Tullu,5.065,5.065,True,True,17
+Uchu,Ucho,3.833,3.710,True,True,14
+Uj,Úg,6.939,5.809,False,True,12
+Tukuy,Tukuy,5.907,5.907,True,True,70
+Unu,Unu,5.887,5.887,True,True,10
+Usqullu,Usqullu,6.006,6.006,True,True,26
+Urqu,Ur-ku,4.573,4.379,True,True,35
+Uwija,Uwijá,4.983,4.668,True,True,19
+Wakin,Wachin,3.961,3.398,False,True,22
+Warmi,Uarme,4.170,4.001,True,True,13
+Wasi,Uase,4.292,3.587,False,True,19
+Wawa,Wawa,4.111,4.111,False,False,25
+Wayra,Wallra,3.785,3.656,True,True,13
+Wira,Uirá,4.331,4.027,False,True,15
+Wayrana,Wayrana,4.416,4.416,True,True,25
+Yachaqana wasi,Yakhaqana huázi,4.835,4.268,True,False,48
+Yachaywasipi kani,Yakháyguasi-phe --kani,3.510,3.235,True,False,34
+Yaku,Yaku,3.907,3.907,True,True,24
+Ñan,Nán,3.896,3.695,True,True,6
+Ñuqanchik,Nukánchij,4.038,3.633,True,True,21
+Yurata wañuchikuy,Yurata uanuchíkul,3.771,3.446,True,True,66
+Allin,Allin,4.122,4.122,True,True,11
+Allin,Allin,4.122,4.122,True,True,11
+Allin sukha,Alin sukhá,4.707,4.442,True,False,39
+Allin p'unchay,Alin -phónchay,4.238,3.950,True,False,69
+Allin tuta,Allin totá,4.638,4.468,True,True,20
+Allqu,Ayqu,3.504,3.295,True,True,18
+Alpaka,Alpaka,4.485,4.485,True,True,14
+Api,Api,3.133,3.133,True,True,8
+Ari,Aré,5.093,4.861,True,True,7
+Anqas,Ankhas,5.737,3.871,True,True,22
+Asnu,Asnu,3.484,3.484,True,True,10
+Aywa,Aygua,5.254,4.588,True,True,19
+Atuq,Atuq,4.407,4.407,True,True,36
+Ch'aki ñan,Chake ñan,4.403,4.057,True,True,23
+Ch'umpi,Chompé,4.607,3.772,True,True,20
+Ch'uspi,Chúspi,4.115,3.692,True,True,21
+Chay,Chaé,4.213,3.912,True,True,9
+Chuwa,Chuuá,5.439,4.773,True,True,14
+Ima,Éma,3.969,3.664,True,True,8
+Imayna,Imayna,5.414,5.414,True,True,23
+Imataq sutiyki,Imátak sutiyki,3.759,3.762,True,False,83
+Inti,Inti,4.161,4.161,True,True,10
+Irqi,Erke,6.099,3.871,False,True,20
+Imaynalla kachkanki,Imaynalla --kashanghi,4.186,3.739,True,True,84
+Iskay,Eskall,3.382,3.125,True,True,24
+Jallp'a,Jay-pa,3.980,3.475,True,True,22
+Jamk'a,Jam-ka,3.621,3.498,False,True,22
+Jamp'atu,Jampátu,3.965,3.582,True,True,20
+Jampina wasi,Jampena gúasi,4.386,3.690,True,True,20
+Janaqpacha,Janak-phakhá,4.292,3.652,True,True,22
+Jaqay,Jaqay,4.117,4.117,False,False,18
+Jatun,Jatun,3.441,3.441,True,True,10
+Juk'ucha,Ju-kuchá,4.799,4.079,True,True,22
+Juch'uy,Jóchuy,5.105,4.746,True,True,24
+K'acha,Kacha,4.448,3.936,True,True,12
+K'anchaq,Kankhak,5.006,4.513,True,True,22
+K'anchay,Kánchall,3.708,3.334,True,True,22
+Juku,Jukú,5.676,5.147,True,False,32
+K'anka,K'anká,4.512,4.149,True,True,19
+K'aspi,Káspi,3.078,2.942,True,True,21
+K'uchara,Ghuchara,4.564,3.721,True,True,19
+K'uchillu,Khuchillu,4.610,4.389,True,True,22
+K'usillu,K'usillu,4.792,4.792,True,True,21
+Kawallu,Kahuallú,4.612,3.983,True,True,20
+Kanka,Kan-ka,4.531,4.250,True,True,20
+Khuchi,Ghoche,4.560,3.413,True,True,18
+Kay,Kaae,4.185,3.918,True,True,20
+Kimsa,Kimsa,3.947,3.947,True,True,10
+Killa,Gillá,5.093,4.835,True,True,16
+Kulli,Kulli,4.710,4.710,True,True,11
+Kusisqa,Kusiská,5.225,4.675,True,True,22
+Kututu,Ku-tótu,4.724,4.407,True,True,20
+Llapa,lapa,3.515,3.178,True,True,14
+Llaqta,Laqta,3.698,3.279,True,True,14
+Kusisqam kani,Koséskam -kani,3.970,3.233,True,False,67
+Mama,Mama,4.053,4.053,True,True,4
+Machu,Machú,3.783,3.612,True,True,10
+Mana,Mana,4.461,4.461,True,True,4
+Manka,Man-ka,3.660,3.339,True,True,17
+Mayqin,Mayqin,3.730,3.730,True,True,18
+Mayu,Mayu,3.998,3.998,True,True,11
+Mashkha watayuqtaq kanki,Mashca wathallóqtak -kan-ki,4.172,3.649,True,False,36
+Mikhuna,Mekhoná,3.832,3.560,True,True,22
+Misi,Mese,4.860,4.597,True,True,11
+Mikhuyta munani,Mikhúy-tha munani,3.735,3.562,True,True,19
+Misk'i,Mísg'i,4.369,4.130,True,True,21
+Muya,Muya,5.070,5.070,True,True,14
+Nina,Niná,4.357,4.195,True,True,6
+P'acha,Phacha,3.474,3.160,True,True,12
+Napaykuy,Na-páegkui,4.104,3.694,True,False,39
+P'ukuru,Pucuru,5.331,4.269,True,True,21
+Pampa,Pam-pa,3.236,3.031,True,True,14
+Para,Para,6.024,6.024,True,True,5
+Phuyu,Phuyu,5.564,5.564,True,True,14
+Phichqa,Píchka,4.595,3.847,True,False,21
+Puka,Puká,3.667,3.412,True,True,19
+Pilli,Pilli,5.739,5.739,False,False,30
+Pusaq,Pusaq,3.953,3.953,True,True,19
+Punku,Pon-ku,4.844,4.653,True,True,20
+Q'umir,Q'omér,5.888,5.318,True,True,23
+Q'alachu,Kalaku,4.549,3.982,True,False,37
+Q'uncha,Kunchá,3.764,3.451,True,True,20
+Qanchis,Qanchis,4.170,4.170,True,True,22
+Qiru,Giru,5.815,5.386,False,True,19
+Qillqana,Cillkana,5.902,3.918,False,False,22
+Qucha,Gochá,4.078,3.561,True,True,21
+Rumi,Rumé,6.640,6.020,True,True,9
+Quwi,Qogui,5.821,5.232,True,False,18
+Runa,Runá,5.746,5.031,True,True,6
+Runtu,Runtu,4.215,4.215,True,True,18
+Sach'a,Sákh'a,3.730,3.528,True,True,18
+Sara,Sará,5.072,4.882,True,True,6
+Saqra,Sáqra,4.677,4.136,True,True,14
+Sumaq,Somáq,7.685,5.890,True,True,17
+Suqta,Soqtá,4.301,3.963,True,True,19
+T'anta,Tantha,3.969,3.713,True,True,15
+T'ika,Te-ka,4.279,3.764,True,True,20
+Tata,Tata,2.678,2.678,True,True,18
+Tawa,Tagua,4.056,3.448,True,True,19
+Tullu,Tullu,5.065,5.065,True,True,17
+Uchu,Ucho,3.833,3.710,True,True,14
+Uj,Úg,6.939,5.809,False,True,12
+Unu,Unu,5.887,5.887,True,True,10
+Tukuy,Tukuy,5.907,5.907,True,True,68
+Usqullu,Usqullu,6.006,6.006,True,True,26
+Urqu,Ur-ku,4.573,4.379,True,True,34
+Uwija,Uwijá,4.983,4.668,True,True,20
+Wakin,Wachin,3.961,3.398,False,True,23
+Warmi,Uarme,4.170,4.001,True,True,13
+Wasi,Uase,4.292,3.587,False,True,19
+Wayra,Wallra,3.785,3.656,True,True,13
+Wawa,Wawa,4.111,4.111,False,False,25
+Wira,Uirá,4.331,4.027,False,True,15
+Wayrana,Wayrana,4.416,4.416,True,True,29
+Yachaqana wasi,Yakhaqana huázi,4.835,4.280,True,False,50
+Yachaywasipi kani,Yakháyguasi-phe --kani,3.515,3.235,True,False,34
+Yaku,Yaku,3.907,3.907,True,True,24
+Ñan,Nán,3.896,3.695,True,True,6
+Ñuqanchik,Nukánchij,4.038,3.633,True,True,20
+Yurata wañuchikuy,Yurata uanuchi-cull,3.773,3.426,True,True,98
