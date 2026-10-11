@@ -20,6 +20,13 @@ import depuracion
 import pronunciaciones
 import resultados
 
+# Versión del producto (archivo VERSION; historial en CHANGELOG.md).
+try:
+    with open(os.path.join(PROJECT_ROOT, "VERSION"), encoding="utf-8") as _archivo:
+        VERSION = _archivo.read().strip()
+except OSError:
+    VERSION = "desconocida"
+
 
 CARD_EXAMPLES = [
     {
@@ -192,6 +199,7 @@ def index():
 @app.get("/api/status")
 def status():
     datos = _status_payload()
+    datos["version"] = VERSION
     if not _es_local() and not _credenciales_docentes_validas():
         # Las respuestas también pueden repetir datos personales.
         datos.update(participante="", content="", translation="", result=None)
@@ -548,5 +556,6 @@ def audio_grabacion(id_grabacion):
 
 
 if __name__ == "__main__":
+    print(f"[YURA] Versión {VERSION}")
     start_robot()
     app.run(host="0.0.0.0", port=5000, debug=False)

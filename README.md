@@ -4,6 +4,10 @@ Yura escucha (Vosk), entiende, conversa (diccionario + Groq) y habla con la
 voz de Sofía (Edge TTS). Corre en una Raspberry Pi 5 y se ve en una pantalla
 web local (http://localhost:5000).
 
+## Versión
+Versión actual en [VERSION](VERSION); historial y reglas de numeración en
+[CHANGELOG.md](CHANGELOG.md).
+
 ## Cómo se usa
 Los comandos del día a día (encender, apagar, ver el registro, diagnosticar)
 están en [docs/comandos_yura.txt](docs/comandos_yura.txt).
