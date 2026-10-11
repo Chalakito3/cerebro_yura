@@ -16,6 +16,12 @@ al usarlo (pronunciaciones.variante_segura), no aquí.
 Uso (se puede repetir: solo procesa lo que falta):
     python basedatos/aprender_de_audios.py            # todas las grabaciones
     python basedatos/aprender_de_audios.py --rehacer  # vuelve a escuchar todo
+    python basedatos/aprender_de_audios.py --vosk     # con Vosk (Raspberry Pi)
+    python basedatos/aprender_de_audios.py --vosk --variaciones   # + voz aguda, rápida, lenta, ruido
+
+Con --vosk escucha con Vosk, el reconocedor que usa Yura sin GPU (Raspberry
+Pi). Vosk escribe las palabras distinto que Whisper ("mi cuna" por Mikhuna),
+así que lo aprendido con Whisper no le sirve: se guarda en el contexto "vosk".
 """
 import os
 import random
@@ -74,7 +80,85 @@ def aprender(modelo, rehacer=False, informar=print):
     return resumen
 
 
-if __name__ == "__main__":
+# Con --variaciones, cada grabación también se escucha cambiada, como la
+# dirían otras personas en el aula (contexto "vosk_<variación>"): más aguda
+# (voz de niño), más rápida, más lenta y con ruido. Son filtros de ffmpeg.
+VARIACIONES_VOSK = {
+    "agudo": "rubberband=pitch=1.3",
+    "muy_agudo": "rubberband=pitch=1.6",
+    "grave": "rubberband=pitch=0.9",
+    "rapido": "atempo=1.15",
+    "lento": "atempo=0.85",
+    "ruido": None,  # ruido rosa de fondo (ver audio_para_vosk)
+    "agudo_ruido": "rubberband=pitch=1.25",
+}
+
+
+def audio_para_vosk(ruta, filtro=None, ruido=0.0):
+    """El audio en 16 kHz mono para Vosk, con un filtro y ruido opcionales."""
+    import subprocess
+
+    orden = ["ffmpeg", "-loglevel", "error", "-i", ruta]
+    if ruido:
+        cadena = f"anoisesrc=color=pink:amplitude={ruido}:sample_rate=16000[r];[0:a]"
+        cadena += (filtro + "," if filtro else "") + "aresample=16000[v];[v][r]amix=inputs=2:duration=first:normalize=0"
+        orden += ["-filter_complex", cadena]
+    elif filtro:
+        orden += ["-af", filtro]
+    orden += ["-ar", "16000", "-ac", "1", "-f", "s16le", "-"]
+    return subprocess.run(orden, capture_output=True, check=True).stdout
+
+
+def escuchar_vosk(modelo, audio):
+    import json
+    from vosk import KaldiRecognizer
+
+    reconocedor = KaldiRecognizer(modelo, 16000)
+    reconocedor.AcceptWaveform(audio)
+    return texto_util.normalizar(json.loads(reconocedor.FinalResult()).get("text", ""))
+
+
+def aprender_vosk(modelo, rehacer=False, informar=print, variaciones=False):
+    grabaciones = pronunciaciones.grabaciones()
+    contextos = {"vosk": (None, 0.0)}
+    if variaciones:
+        for nombre, filtro in VARIACIONES_VOSK.items():
+            contextos[f"vosk_{nombre}"] = (filtro, 0.02 if "ruido" in nombre else 0.0)
+    resumen = {contexto: [0, 0] for contexto in contextos}
+    for numero, grabacion in enumerate(reversed(grabaciones), 1):
+        ruta = os.path.join(pronunciaciones.CARPETA_AUDIOS, os.path.basename(grabacion["archivo"]))
+        if not os.path.exists(ruta):
+            continue
+        hechos = set() if rehacer else pronunciaciones.contextos_aprendidos(grabacion["id"])
+        palabra = grabacion["palabra_frase"]
+        linea = []
+        for contexto, (filtro, ruido) in contextos.items():
+            if contexto in hechos:
+                continue
+            escuchado = escuchar_vosk(modelo, audio_para_vosk(ruta, filtro, ruido))
+            reconocida = texto_util.respuesta_quechua_correcta(
+                texto_util.normalizar(pronunciaciones.afinar_vosk(escuchado)), palabra
+            )
+            pronunciaciones.guardar_aprendida(grabacion["id"], palabra, contexto, escuchado)
+            resumen[contexto][0] += int(reconocida)
+            resumen[contexto][1] += 1
+            linea.append(f"{contexto}: «{escuchado}»{'' if reconocida else ' *'}")
+        if linea:
+            informar(f"[{numero}/{len(grabaciones)}] {palabra}: " + " | ".join(linea))
+    return resumen
+
+
+if __name__ == "__main__" and "--vosk" in sys.argv:
+    from vosk import Model, SetLogLevel
+    SetLogLevel(-1)
+    inicio = time.time()
+    resumen = aprender_vosk(Model(os.path.join(RAIZ, "model")), rehacer="--rehacer" in sys.argv,
+                            informar=lambda t: print(t, flush=True), variaciones="--variaciones" in sys.argv)
+    print(f"\nListo en {time.time() - inicio:.0f} s. Reconocidas sin lo aprendido (* = no reconocida):")
+    for contexto, (bien, total) in resumen.items():
+        if total:
+            print(f"  {contexto:10}: {bien}/{total} = {100 * bien / total:.0f} %")
+elif __name__ == "__main__":
     import whisper
     inicio = time.time()
     # En el procesador: la tarjeta de video la usa Yura mientras está encendida.

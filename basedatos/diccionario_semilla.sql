@@ -43,6 +43,65 @@ INSERT INTO "nivel1_colores" VALUES(19,'Qurichasqa','C:/audios/colores/quri.mp3'
 INSERT INTO "nivel1_colores" VALUES(20,'Qullqi','C:/audios/colores/qullqi.mp3','Plateado',NULL);
 INSERT INTO "nivel1_colores" VALUES(21,'Llimp''i',NULL,'Color',NULL);
 INSERT INTO "nivel1_colores" VALUES(22,'Quri',NULL,'Oro',NULL);
+CREATE TABLE nivel1_dialogo_infantil (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                palabra_frase TEXT NOT NULL UNIQUE,
+                pronunciacion TEXT,
+                traduccion TEXT NOT NULL,
+                significado TEXT
+            );
+INSERT INTO "nivel1_dialogo_infantil" VALUES(1,'Allillanmi','Allillanmi','Bien nomás','Respuesta afirmativa cortés a cómo estás (allillanchu)');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(2,'Kusisqam kani','Kusisqam kani','Estoy contento','Expresión de alegría del niño');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(3,'Imataq sutiyki','Imataq sutíyki','¿Cómo te llamas?','Pregunta básica para conocer el nombre');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(4,'Sutiymi','Sutíymi','Mi nombre es','Frase para presentarse');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(5,'Maymantataq kanki','Maymantataq kanki','¿De dónde eres?','Pregunta sobre procedencia o lugar de origen');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(6,'Mashkha watayuqtaq kanki','Mashkha watayoqtaq kanki','¿Cuántos años tienes?','Pregunta de edad escolar');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(7,'Munani','Munani','Quiero o me gusta','Expresión afirmativa de preferencia o deseo');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(8,'Mana munanichu','Mana munanichu','No quiero o no me gusta','Expresión negativa cortés');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(9,'Ama llakikuychu','Ama llakikúychu','No te preocupes','Frase de apoyo y consuelo afectuoso');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(10,'Kuska yachakusun','Kuska yachakusun','Juntos aprenderemos','Lema pedagógico de colaboración');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(11,'Allquchaymi kashan','Allqochaymi kashan','Tengo un perrito','Mascota cotidiana del estudiante');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(12,'Misichaymi kashan','Misichaymi kashan','Tengo un gatito','Mascota cotidiana del estudiante');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(13,'Chiri kashan','Chiri kashan','Hace frío','Expresión del clima andino');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(14,'Rupay kashan','Rupay kashan','Hace calor o sol','Expresión del clima soleado');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(15,'Yachaywasipi kani','Yachaywasipi kani','Estoy en la escuela','Espacio escolar de aprendizaje');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(16,'Mikhuyta munani','Mikhuyta munani','Quiero comer','Expresión infantil de necesidad');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(17,'Puñuyta munani','Puñuyta munani','Quiero dormir o descansar','Expresión infantil cotidiana');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(18,'Pukllayta munani','Pukllayta munani','Quiero jugar','Invitación lúdica al juego didáctico');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(19,'Sulpayki','Sulpayki','Gracias','Agradecimiento tradicional en quechua boliviano');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(20,'Tupananchiskama','Tupananchiskama','Hasta volver a encontrarnos','Despedida respetuosa y afectuosa');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(21,'Yurata wañuchikuy',NULL,'Yura, apágate','Orden por voz para apagar al robot Yura');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(22,'Parlapashanki',NULL,'Vas a estar hablando','Del verbo parlay (hablar) con sufijos de acción continuada (-pa-) y progresivo (-sha-), 2da persona (-nki)');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(23,'Llakisqam kani',NULL,'Estoy triste','Para decir cómo se siente.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(24,'Sayk''usqam kani',NULL,'Estoy cansado','Para decir cómo se siente.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(25,'Yarqhasqam kani',NULL,'Tengo hambre','Para pedir comida.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(26,'Ch''akisqam kani',NULL,'Tengo sed','Para pedir agua.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(27,'Unqusqam kani',NULL,'Estoy enfermo','Para avisar que se siente mal.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(28,'Manchakuni',NULL,'Tengo miedo','Para decir que tiene miedo.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(29,'Allillanmi, qamrí',NULL,'Bien nomás, ¿y tú?','Respuesta a cómo estás, devolviendo la pregunta.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(30,'Yanapaway',NULL,'Ayúdame','Para pedir ayuda.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(31,'Jamuy',NULL,'Ven','Invitación a acercarse.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(32,'Tiyakuy',NULL,'Siéntate','Indicación en el aula.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(33,'Uyariy',NULL,'Escucha','Indicación para prestar atención.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(34,'Qhawariy',NULL,'Mira','Indicación para mirar algo.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(35,'Pukllasun',NULL,'Juguemos','Invitación a jugar.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(36,'Pukllasunchu',NULL,'¿Jugamos?','Pregunta para invitar a jugar.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(37,'Takisun',NULL,'Cantemos','Invitación a cantar.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(38,'Yupasun',NULL,'Contemos','Invitación a contar números.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(39,'Qillqasun',NULL,'Escribamos','Invitación a escribir.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(40,'Ancha allin',NULL,'Muy bien','Felicitación.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(41,'Sumaqta ruwanki',NULL,'Lo haces muy bien','Felicitación por un trabajo.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(42,'Kusa',NULL,'¡Qué bien!','Exclamación de alegría.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(43,'Imatataq ruwashanki',NULL,'¿Qué estás haciendo?','Pregunta para conversar.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(44,'Maypitaq tiyanki',NULL,'¿Dónde vives?','Pregunta para conocerse.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(45,'Imatataq munanki',NULL,'¿Qué quieres?','Pregunta sobre deseos.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(46,'Pitaq kay',NULL,'¿Quién es este?','Pregunta sobre una persona.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(47,'Mamay',NULL,'Mamá, madre','Familia.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(48,'Tatay',NULL,'Papá, padre','Familia.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(49,'Wawqiy',NULL,'Hermano (de un varón)','Familia (hermano de un varón).');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(50,'Ñañay',NULL,'Hermana (de una mujer)','Familia (hermana de una mujer).');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(51,'Q''ayakama',NULL,'Hasta mañana','Despedida.');
+INSERT INTO "nivel1_dialogo_infantil" VALUES(52,'Kunankama',NULL,'Hasta luego','Despedida.');
 CREATE TABLE nivel1_elementos_casa (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     palabra_frase TEXT NOT NULL,
@@ -111,6 +170,21 @@ INSERT INTO "nivel1_familia" VALUES(16,'Jatun mama',NULL,'Abuela',NULL);
 INSERT INTO "nivel1_familia" VALUES(17,'Imilla',NULL,'Muchacha',NULL);
 INSERT INTO "nivel1_familia" VALUES(18,'Yachachiq',NULL,'Profesor','Persona que enseña');
 INSERT INTO "nivel1_familia" VALUES(19,'Yachakuq',NULL,'Estudiante','Persona que aprende');
+CREATE TABLE nivel1_frutas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    palabra_frase TEXT NOT NULL,
+    pronunciacion TEXT,
+    traduccion TEXT,
+    significado TEXT
+);
+INSERT INTO "nivel1_frutas" VALUES(1,'Ruru',NULL,'Fruta','Palabra genérica para fruta o fruto. También: wayu, puquy');
+INSERT INTO "nivel1_frutas" VALUES(2,'Puquchi',NULL,'Plátano','También: banana');
+INSERT INTO "nivel1_frutas" VALUES(3,'Rurasnu',NULL,'Durazno','Fruto del duraznero');
+INSERT INTO "nivel1_frutas" VALUES(4,'Uwas',NULL,'Uva','Fruto de la vid');
+INSERT INTO "nivel1_frutas" VALUES(5,'Achupalla',NULL,'Piña','También: ananá');
+INSERT INTO "nivel1_frutas" VALUES(6,'Lukma',NULL,'Lúcuma','Fruto del lúcumo');
+INSERT INTO "nivel1_frutas" VALUES(7,'Tintin',NULL,'Granadilla','Planta de la familia pasifloráceas');
+INSERT INTO "nivel1_frutas" VALUES(8,'Chirimuya',NULL,'Chirimoya','Árbol frutal de la familia de las anonáceas');
 CREATE TABLE nivel1_herramientas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     palabra_frase TEXT NOT NULL,
@@ -145,7 +219,7 @@ CREATE TABLE nivel1_numeros (
     traduccion TEXT,
     significado TEXT
 );
-INSERT INTO "nivel1_numeros" VALUES(1,'Juk','C:/audios/nivel1/numeros/huk.mp3','Uno','Número uno');
+INSERT INTO "nivel1_numeros" VALUES(1,'Uj','C:/audios/nivel1/numeros/huk.mp3','Uno','Número uno (escritura normalizada: Juk)');
 INSERT INTO "nivel1_numeros" VALUES(2,'Iskay','C:/audios/nivel1/numeros/iskay.mp3','Dos','Número dos');
 INSERT INTO "nivel1_numeros" VALUES(3,'Kimsa','C:/audios/nivel1/numeros/kimsa.mp3','Tres','Número tres');
 INSERT INTO "nivel1_numeros" VALUES(4,'Tawa','C:/audios/nivel1/numeros/tawa.mp3','Cuatro','Número cuatro');
@@ -290,7 +364,7 @@ CREATE TABLE nivel2_adjetivos_determinativos (
 );
 INSERT INTO "nivel2_adjetivos_determinativos" VALUES(1,'Kay','C:/audios/nivel2/adjetivos/kay.mp3','Este / Esta / Esto','Indica algo cercano a quien habla');
 INSERT INTO "nivel2_adjetivos_determinativos" VALUES(2,'Chay','C:/audios/nivel2/adjetivos/chay.mp3','Ese / Esa / Eso','Indica algo cercano a quien escucha');
-INSERT INTO "nivel2_adjetivos_determinativos" VALUES(3,'Juk','C:/audios/nivel2/adjetivos/huk.mp3','Uno','Indica unidad o singularidad');
+INSERT INTO "nivel2_adjetivos_determinativos" VALUES(3,'Uj','C:/audios/nivel2/adjetivos/huk.mp3','Uno','Indica unidad o singularidad (escritura normalizada: Juk)');
 INSERT INTO "nivel2_adjetivos_determinativos" VALUES(4,'Llapa','C:/audios/nivel2/adjetivos/llapa.mp3','Todo','Indica totalidad o conjunto completo');
 INSERT INTO "nivel2_adjetivos_determinativos" VALUES(5,'Mayqin','C:/audios/nivel2/adjetivos/mayqin.mp3','Cuál','Indica selección o identificación');
 INSERT INTO "nivel2_adjetivos_determinativos" VALUES(6,'Imayna','C:/audios/nivel2/adjetivos/imayna.mp3','Cómo','Indica modo o manera');
@@ -376,6 +450,7 @@ INSERT INTO "nivel2_verbos" VALUES(17,'Llamk''ay',NULL,'Trabajar',NULL);
 INSERT INTO "nivel2_verbos" VALUES(18,'Tarpuy',NULL,'Sembrar',NULL);
 INSERT INTO "nivel2_verbos" VALUES(19,'Pukllay',NULL,'Jugar',NULL);
 INSERT INTO "nivel2_verbos" VALUES(20,'Munay',NULL,'Querer',NULL);
+INSERT INTO "nivel2_verbos" VALUES(21,'Wañuchikuy',NULL,'Apágate','Orden para apagar a Yura (imperativo)');
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('nivel1_alimentos',14);
 INSERT INTO "sqlite_sequence" VALUES('nivel1_colores',22);
@@ -393,5 +468,7 @@ INSERT INTO "sqlite_sequence" VALUES('nivel2_adjetivos_determinativos',9);
 INSERT INTO "sqlite_sequence" VALUES('nivel2_animales',37);
 INSERT INTO "sqlite_sequence" VALUES('nivel2_pronombres',7);
 INSERT INTO "sqlite_sequence" VALUES('nivel2_preguntas',5);
-INSERT INTO "sqlite_sequence" VALUES('nivel2_verbos',20);
+INSERT INTO "sqlite_sequence" VALUES('nivel2_verbos',21);
+INSERT INTO "sqlite_sequence" VALUES('nivel1_dialogo_infantil',52);
+INSERT INTO "sqlite_sequence" VALUES('nivel1_frutas',8);
 COMMIT;

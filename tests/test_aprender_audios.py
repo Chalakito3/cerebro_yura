@@ -104,3 +104,42 @@ def test_aprender_escucha_cada_audio_una_vez_por_situacion(diccionario):
     # Al borrar la grabación se borra también lo aprendido.
     pronunciaciones.borrar(id_grabacion)
     assert pronunciaciones.contextos_aprendidos(id_grabacion) == set()
+
+
+@pytest.fixture
+def diccionario_amplio():
+    with sqlite3.connect(pronunciaciones.RUTA_DB) as conexion:
+        conexion.execute(
+            "CREATE TABLE nivel1_varios (id INTEGER PRIMARY KEY, palabra_frase TEXT, "
+            "pronunciacion TEXT, traduccion TEXT, significado TEXT)"
+        )
+        conexion.executemany(
+            "INSERT INTO nivel1_varios VALUES (?, ?, NULL, ?, NULL)",
+            [(1, "Ch'umpi", "Café"), (2, "Ch'uspi", "Mosca"), (3, "K'acha", "Lindo"), (4, "P'acha", "Ropa"),
+             (5, "Aqha", "Chicha"), (6, "Atuq", "Zorro"), (7, "Jatun", "Grande"), (8, "Tullu", "Flaco"),
+             (9, "Imaynalla kachkanki", "¿Cómo estás?"), (10, "Tawa", "Cuatro"), (11, "Killa", "Luna")],
+        )
+
+
+@pytest.mark.parametrize("dicho, palabra", [
+    ("umpi", "Ch'umpi"),                 # se perdió el sonido fuerte del inicio
+    ("atu", "Atuq"),                     # se perdió la q final
+    ("hatung", "Jatun"),
+    ("tolyu", "Tullu"),                  # ll escrita "ly"
+    ("y mayna", "Imayna"),                # i inicial escrita "y"
+    ("taua", "Tawa"),
+    ("quilla", "Killa"),
+])
+def test_acepta_como_escribe_el_reconocedor(diccionario_amplio, dicho, palabra):
+    assert pronunciaciones.respuesta_aceptada(dicho, palabra)
+
+
+@pytest.mark.parametrize("dicho, palabra", [
+    ("k'acha", "P'acha"),     # es otra palabra del diccionario
+    ("ch'umpi", "Ch'uspi"),
+    ("aca", "K'acha"),        # sin el inicio se confunde con aqha
+    ("oh", "Atuq"),
+    ("perro", "Tullu"),
+])
+def test_no_acepta_otra_palabra_por_parecido(diccionario_amplio, dicho, palabra):
+    assert not pronunciaciones.respuesta_aceptada(dicho, palabra)
