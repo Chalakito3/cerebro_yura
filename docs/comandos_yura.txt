@@ -81,3 +81,14 @@ YURA_DEBUG=1 .venv/bin/python web/app.py
 
 Las claves API deben guardarse únicamente en .env.local, con permisos 600.
 No pegarlas en este archivo ni en conversaciones.
+
+# 13. Actividades de clase desde Laravel (contrato v1.2)
+#    Por defecto apagado. Lo activa el dueño, con URL y token propios, en .env.local:
+#      YURA_LARAVEL_SYNC_ENABLED=1
+#      YURA_LARAVEL_URL=https://...        (raíz, sin /api)
+#      YURA_LARAVEL_TOKEN=...              (token de la cuenta robot; no compartirlo)
+#    y reinicia Yura:  systemctl --user restart yura
+#    Yura pide actividades solo cuando está libre en el menú.
+#    Resultados guardados antes de enviar: basedatos/outbox_laravel/
+#      pendientes/ (sin red, se reintentan)  enviados/  revisar/ (Laravel los rechazó)
+#    Para apagarlo: YURA_LARAVEL_SYNC_ENABLED=0 y reiniciar Yura. No borrar el outbox.

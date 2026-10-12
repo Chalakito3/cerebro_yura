@@ -21,3 +21,5 @@ documentacion_pruebas/evidencias/18_frases_yura/*.wav
 basedatos/voces_sofia/
 basedatos/ordenes_aprendidas_vosk.json
 basedatos/whisper_tiny_yura.pt
+# Resultados de actividades para Laravel (nombres de alumnos y notas): no se suben.
+basedatos/outbox_laravel/

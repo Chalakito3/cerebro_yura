@@ -20,6 +20,7 @@ import tempfile
 import whisper
 from groq import Groq
 import conversacion
+import laravel_actividades
 import pronunciaciones
 import voz_sofia
 from audio_manager import AudioManager
@@ -743,6 +744,25 @@ class BrainYura:
             self.audio_manager,
             on_status=self._set_web_status
         )
+        # Actividades de clase desde Laravel (contrato v1.2). Desactivado
+        # salvo YURA_LARAVEL_SYNC_ENABLED=1 con URL y token en .env.local.
+        self.actividades = None
+        self.proxima_consulta_laravel = 0.0
+        conexion_laravel = laravel_actividades.configuracion()
+        if conexion_laravel:
+            cliente = laravel_actividades.ClienteLaravel(*conexion_laravel)
+            self.actividades = laravel_actividades.EjecutorActividad(
+                cliente,
+                laravel_actividades.Outbox(),
+                hablar=self.hw.hablar,
+                escuchar=lambda pistas: self._normalizar_texto(
+                    self.escuchar_voz(solo_local=True, pistas=pistas) or ""
+                ),
+                mostrar=lambda nombre, pregunta: self._set_web_status(
+                    "PENSANDO", content=nombre, translation=pregunta, fijar=True
+                ),
+            )
+            print("[LARAVEL] Sincronización de actividades activada.")
         # Selector de motor de escucha: "whisper", "vosk", o auto-detección según GPU
         motor_asr = os.environ.get("YURA_ASR", "").strip().lower()
         whisper_name = os.environ.get("YURA_WHISPER_MODEL", "small").strip() or "small"
@@ -1345,6 +1365,27 @@ class BrainYura:
         pedido = getattr(self, "pedido_docente", None)
         return pedido is not None and pedido.is_set()
 
+    def _revisar_actividad_laravel(self):
+        """Si Yura está libre en el menú, pide a Laravel la próxima actividad
+        y la ejecuta. Devuelve True si ejecutó una."""
+        actividades = getattr(self, "actividades", None)
+        if actividades is None or time.monotonic() < getattr(self, "proxima_consulta_laravel", 0.0):
+            return False
+        self.proxima_consulta_laravel = time.monotonic() + laravel_actividades.intervalo_consultas()
+        cliente = self.actividades.cliente
+        try:
+            self.actividades.outbox.enviar_pendientes(cliente)
+            actividad = cliente.reclamar()
+        except (laravel_actividades.ErrorRed, laravel_actividades.ErrorLaravel) as exc:
+            print(f"[LARAVEL] No se pudo consultar actividades: {exc}")
+            return False
+        if actividad is None:
+            return False
+        conversacion.cancelar_sesion_educativa()
+        self.actividades.ejecutar(actividad)
+        self._set_web_status("ESPERANDO", content="Rimaykullayki", translation="")
+        return True
+
     def _revisar_pedido_docente(self):
         if self._docente_pedido() and self.state != RobotStates.ENSENAR:
             raise ModoDocentePedido()
@@ -1687,6 +1728,8 @@ class BrainYura:
 
         if self.state == RobotStates.MENU:
 
+            if self._revisar_actividad_laravel():
+                return
             self.ejecutar_menu()
 
         # --------------------------------------------

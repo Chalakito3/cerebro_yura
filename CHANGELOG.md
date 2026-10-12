@@ -13,6 +13,7 @@ La versión actual está en el archivo `VERSION`, se muestra al arrancar y en `/
 Traslado de la computadora de escritorio (GPU NVIDIA) a la Raspberry Pi 5. Detalle en `documentacion_pruebas/avance_raspberry_2026-10-07.md` y `avance_2026-10-11.md`.
 
 **Agregado**
+- Actividades de clase desde Laravel (contrato v1.2, `laravel_actividades.py`): reclamar, preguntar con el diccionario local, calificar por grupo, respetar cancelaciones y enviar con outbox. Desactivado salvo `YURA_LARAVEL_SYNC_ENABLED=1`.
 - Reconocimiento con Vosk en la CPU (`YURA_ASR=auto`), con lo aprendido de los audios de la docente (88 % de sus palabras).
 - Voz de Sofía sin internet: frases guardadas para todo lo que Yura dice.
 - Entrenamiento de órdenes con la voz de quien usa a Yura (`entrenar_ordenes.py`).
