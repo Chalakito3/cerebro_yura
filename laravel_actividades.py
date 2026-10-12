@@ -13,8 +13,10 @@ Configuración (.env.local):
     YURA_DICTIONARY_PATH=/ruta/diccionario.db   (opcional)
 
 Decisiones donde el contrato no es explícito (ver el informe del 12/10/2026):
-- Cada respuesta planificada vale round(100 / respuestas del grupo, 2); los
-  totales del grupo son la suma y el porcentaje sale de los totales.
+- Cada grupo vale siempre 100 puntos (pedido del equipo, 12/10/2026): las
+  respuestas planificadas se reparten 100 en partes iguales; si no es exacto,
+  los centavos que sobran van a las primeras (3 respuestas: 33,34 + 33,33 +
+  33,33). El porcentaje sale de los totales.
 - Nunca se envía "partial": si algo falla a mitad, se envía "failed" sin
   notas, para que el docente pueda reintentar con el mismo plan.
 - Sin respuesta, se repite la pregunta una vez; si sigue el silencio, cuenta
@@ -330,19 +332,25 @@ def planificar(actividad, vocabulario, azar):
     return preguntas
 
 
+def pesos_del_grupo(planificadas):
+    """100 puntos repartidos en partes iguales, en centavos, que suman 100."""
+    base, sobra = divmod(10000, planificadas)
+    return [(base + (1 if i < sobra else 0)) / 100 for i in range(planificadas)]
+
+
 def calificar(actividad, respuestas):
     """group_results del contrato. respuestas: {question_id: (correcta, answered_at)}."""
     por_respondiente = int(actividad["execution"]["questions_per_respondent"])
     resultados = []
     for indice, grupo in enumerate(actividad["groups"], 1):
         respondientes = list(grupo["respondent_student_ids"])
-        planificadas = len(respondientes) * por_respondiente
-        peso = round(100 / planificadas, 2)
+        pesos = iter(pesos_del_grupo(len(respondientes) * por_respondiente))
         detalle = []
         for student_id in respondientes:
             for numero in range(1, por_respondiente + 1):
                 question_id = f"group-{indice}-{student_id}-{numero}"
                 correcta, answered_at = respuestas.get(question_id, (False, None))
+                peso = next(pesos)
                 detalle.append({
                     "student_id": student_id,
                     "question_id": question_id,

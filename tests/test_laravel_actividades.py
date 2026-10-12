@@ -221,11 +221,21 @@ def test_nota_del_ejemplo_del_contrato():
         "points_earned": 50, "points_possible": 50, "answered_at": "2026-10-06T17:03:12Z"}
 
 
-def test_nota_con_tres_respuestas_sale_de_los_totales():
+def test_cada_grupo_vale_siempre_100_puntos():
+    # Pedido del equipo (12/10/2026): todo grupo sobre 100, aunque no se divida exacto.
     actividad = _actividad(respondientes=(101, 102, 103))
     respuestas = {"group-1-101-1": (True, None), "group-1-102-1": (True, None), "group-1-103-1": (False, None)}
     grupo = la.calificar(actividad, respuestas)[0]
-    assert (grupo["points_earned"], grupo["points_possible"], grupo["score_percentage"]) == (66.66, 99.99, 66.67)
+    assert [r["points_possible"] for r in grupo["responses"]] == [33.34, 33.33, 33.33]
+    assert (grupo["points_earned"], grupo["points_possible"], grupo["score_percentage"]) == (66.67, 100, 66.67)
+
+
+@pytest.mark.parametrize("planificadas", [1, 2, 3, 6, 7, 9, 11, 30])
+def test_los_pesos_suman_exactamente_100(planificadas):
+    pesos = la.pesos_del_grupo(planificadas)
+    assert len(pesos) == planificadas
+    assert round(sum(pesos), 2) == 100
+    assert max(pesos) - min(pesos) <= 0.011
 
 
 # ------------------------------------------------------------ ejecución
