@@ -19,6 +19,10 @@ documentacion_pruebas/evidencias/18_frases_yura/*.wav
 # Caché local de la voz de Sofía (basedatos/pregenerar_voces_sofia.py): se
 # regenera con el script; no hace falta subir los audios ni el índice.
 basedatos/voces_sofia/
+# Voz de Sofía sin internet (voz_sofia_local.py): modelo de Piper y frases
+# convertidas; se rehacen en la máquina.
+modelos_voz/
+basedatos/voces_sofia_local/
 basedatos/ordenes_aprendidas_vosk.json
 basedatos/whisper_tiny_yura.pt
 # Resultados de actividades para Laravel (nombres de alumnos y notas): no se suben.

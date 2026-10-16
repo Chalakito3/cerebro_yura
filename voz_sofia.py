@@ -111,6 +111,21 @@ def hay_internet(espera=1.5):
     return hay
 
 
+_edge = {"falla_hasta": 0.0}
+
+
+def marcar_falla_edge(minutos=5):
+    """Microsoft rechazó o no respondió (13/10/2026: error 403 en todo): por
+    un rato no se intenta Edge, que hacía esperar ~5 s en cada frase."""
+    import time
+    _edge["falla_hasta"] = time.monotonic() + minutos * 60
+
+
+def edge_disponible():
+    import time
+    return time.monotonic() >= _edge["falla_hasta"] and hay_internet()
+
+
 def oraciones(texto_voz):
     """Divide la frase en oraciones ("¡Muy bien!", "Allqu significa perro.")
     para decirla con trozos guardados cuando no está entera en la caché."""

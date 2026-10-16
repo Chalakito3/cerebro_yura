@@ -479,6 +479,8 @@ def test_respuesta_rapida_durante_la_calibracion_se_graba(monkeypatch):
     bloques = iter([0.0005] * 2 + [0.1] * 6 + [0.0005] * 40)
 
     class Microfono:
+        read_available = 10 ** 9
+
         def __init__(self, **kwargs):
             self.frames = kwargs["blocksize"]
 
@@ -605,6 +607,8 @@ def test_umbral_se_adapta_al_ruido_mientras_espera(monkeypatch):
     posicion = {"i": 0}
 
     class Microfono:
+        read_available = 10 ** 9
+
         def __init__(self, **kwargs):
             self.frames = kwargs["blocksize"]
 

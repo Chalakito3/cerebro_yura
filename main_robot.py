@@ -23,6 +23,7 @@ import conversacion
 import laravel_actividades
 import pronunciaciones
 import voz_sofia
+import voz_sofia_local
 from audio_manager import AudioManager
 from cuerpo import CuerpoESP32
 from juego import Juego
@@ -292,6 +293,8 @@ class HardwareInterface:
 
         try:
             espera_reproduccion = 30 + len(texto_voz) / 10
+            if self.audio_manager and hasattr(self.audio_manager, "preferir_parlante_usb"):
+                self.audio_manager.preferir_parlante_usb()
 
             # 1. Verificar si la frase ya está guardada en la caché local offline de Sofía
             ruta_cache = self._ruta_cache_voz(texto_voz)
@@ -314,9 +317,9 @@ class HardwareInterface:
             try:
                 # Sin internet no se espera a Edge TTS (antes, hasta 40 s): se
                 # anota la frase para generarla con Sofía cuando vuelva.
-                if not voz_sofia.hay_internet():
+                if not voz_sofia.edge_disponible():
                     voz_sofia.anotar_faltante(self.carpeta_cache_voz, texto_limpio)
-                    raise RuntimeError("Sin internet y sin esta frase guardada con la voz de Sofía")
+                    raise RuntimeError("Sin internet (o Microsoft no responde) y sin esta frase guardada con la voz de Sofía")
                 if self._hablar_edge_en_vivo(texto_voz, ruta_cache, espera_reproduccion):
                     return
                 edge_tts = os.path.join(
@@ -365,6 +368,8 @@ class HardwareInterface:
                 ):
                     codigo = res.returncode if res is not None else "desconocido"
                     print(f"[AUDIO] Edge TTS no generó voz (código {codigo}).")
+                    voz_sofia.marcar_falla_edge()
+                    voz_sofia.anotar_faltante(self.carpeta_cache_voz, texto_limpio)
                     raise RuntimeError("Falló la generación de voz con Edge TTS")
 
                 wav_temp = f"{self.audio_temp}.wav"
@@ -468,6 +473,19 @@ class HardwareInterface:
                 print("[AUDIO] Ningún reproductor disponible pudo emitir la voz.")
             except Exception as exc:
                 print(f"[AUDIO] Error al generar o reproducir la voz: {exc}")
+
+            # Sin Microsoft: la voz de Sofía hecha en la Raspberry (Piper +
+            # kNN-VC). espeak queda solo por si eso también falla.
+            try:
+                if voz_sofia_local.decir(
+                    texto_voz,
+                    lambda ruta: self._reproducir_archivo_audio(ruta, espera=espera_reproduccion),
+                    self.carpeta_cache_voz,
+                    self.voz_mujer,
+                ):
+                    return
+            except Exception as exc:
+                print(f"[AUDIO] La voz de Sofía sin internet falló: {exc}")
 
             spd_say = shutil.which("spd-say")
             if spd_say:

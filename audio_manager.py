@@ -1,9 +1,12 @@
+import glob
+import json
 import numpy as np
 import math
 import os
 import re
 import subprocess
 import threading
+import time
 from collections import deque
 import sounddevice as sd
 import depuracion
@@ -97,12 +100,19 @@ class AudioManager:
         self.input_sample_rate = sample_rate
         self.input_channels = channels
         self.input_candidates = []
+        # Micrófono en uso y tarjetas conectadas: al enchufar o sacar uno se
+        # cambia sin reiniciar Yura (13/10/2026).
+        self.input_name = None
+        self._tarjetas = self._leer_tarjetas()
+        self._entradas_conocidas = None
+        self._entrada_nueva = None
         # Ruido normal de la sala, aprendido en calibraciones anteriores.
         self.ruido_referencia = None
         # Al activar el modo docente se corta la escucha en curso.
         self.cancelar = threading.Event()
 
         print("[AUDIO] Buscando dispositivos...")
+        self.preferir_parlante_usb()
         self.detectar_dispositivos()
         self.seleccionar_entrada()
         self.seleccionar_salida()
@@ -257,7 +267,95 @@ class AudioManager:
 
         return prioridad
 
+    @staticmethod
+    def _leer_tarjetas():
+        """Tarjetas de sonido conectadas ahora; cambia al enchufar o sacar
+        una (USB u otra). None si el sistema no lo informa (no es Linux).
+        Incluye los archivos /dev/snd/pcm*: al reconectar la misma tarjeta
+        vuelve con igual número y nombre, pero sus archivos son nuevos."""
+        try:
+            with open("/proc/asound/cards", encoding="utf-8") as archivo:
+                texto = archivo.read()
+        except OSError:
+            return None
+        for ruta in sorted(glob.glob("/dev/snd/pcmC*")):
+            try:
+                texto += f"\n{ruta} {os.stat(ruta).st_ino}"
+            except OSError:
+                continue
+        return texto
+
+    def tarjetas_cambiaron(self):
+        previas = getattr(self, "_tarjetas", None)
+        tarjetas = self._leer_tarjetas()
+        return None not in (previas, tarjetas) and tarjetas != previas
+
+    def _actualizar_lista_de_portaudio(self):
+        """PortAudio guarda la lista de dispositivos de cuando arrancó: un
+        micrófono enchufado después no aparece hasta reiniciarlo."""
+        if not self.tarjetas_cambiaron():
+            return
+        self._tarjetas = self._leer_tarjetas()
+        print("[AUDIO] Cambiaron las tarjetas de sonido; se buscan los micrófonos de nuevo.")
+        self._parlante_revisado_hasta = 0.0
+        self.preferir_parlante_usb()
+        try:
+            sd._terminate()
+            sd._initialize()
+        except Exception as exc:
+            print(f"[AUDIO] No se pudo actualizar la lista de dispositivos: {exc}")
+
+    @staticmethod
+    def _salidas_pipewire():
+        """[(id, node.name, descripción)] de cada salida de sonido de PipeWire."""
+        resultado = subprocess.run(["pw-dump"], capture_output=True, text=True, timeout=3, check=False)
+        salidas = []
+        for objeto in json.loads(resultado.stdout or "[]"):
+            props = (objeto.get("info") or {}).get("props") or {}
+            if props.get("media.class") == "Audio/Sink":
+                salidas.append((objeto["id"], str(props.get("node.name", "")),
+                                str(props.get("node.description", ""))))
+        return salidas
+
+    @staticmethod
+    def _parlante_actual():
+        resultado = subprocess.run(["wpctl", "inspect", "@DEFAULT_AUDIO_SINK@"],
+                                   capture_output=True, text=True, timeout=2, check=False)
+        coincidencia = re.search(r'node\.name\s*=\s*"([^"]+)"', resultado.stdout or "")
+        return coincidencia.group(1) if coincidencia else None
+
+    @staticmethod
+    def elegir_parlante(salidas, actual=None, preferido=""):
+        """El parlante es la tarjeta USB (no un audífono). Si ya se usa una
+        así, se respeta. YURA_PARLANTE=<parte del nombre> elige otra."""
+        if preferido:
+            pedido = preferido.casefold()
+            return next((s for s in salidas if pedido in f"{s[1]} {s[2]}".casefold()), None)
+        usb = [s for s in salidas if "usb" in s[1].lower()]
+        parlantes = [s for s in usb if not any(
+            palabra in f"{s[1]} {s[2]}".lower() for palabra in ("headset", "headphone", "audifono"))]
+        if any(s[1] == actual for s in parlantes):
+            return None
+        return (parlantes or usb or [None])[0]
+
+    def preferir_parlante_usb(self):
+        """Al trabajar con Yura el parlante es la tarjeta USB: después de un
+        reinicio PipeWire volvía al HDMI y la voz no se oía (13/10/2026)."""
+        ahora = time.monotonic()
+        if ahora < getattr(self, "_parlante_revisado_hasta", 0.0):
+            return
+        self._parlante_revisado_hasta = ahora + 5
+        try:
+            elegido = self.elegir_parlante(self._salidas_pipewire(), self._parlante_actual(),
+                                           os.environ.get("YURA_PARLANTE", "").strip())
+            if elegido and elegido[1] != self._parlante_actual():
+                subprocess.run(["wpctl", "set-default", str(elegido[0])], timeout=2, check=False)
+                print(f"[AUDIO] Parlante en uso: {elegido[2] or elegido[1]}")
+        except (OSError, ValueError, subprocess.SubprocessError) as exc:
+            depuracion.depurar(f"[AUDIO] No se pudo elegir el parlante USB: {exc}")
+
     def detectar_dispositivos(self):
+        self._actualizar_lista_de_portaudio()
         self.input_candidates = []
         try:
             dispositivos = sd.query_devices()
@@ -286,6 +384,17 @@ class AudioManager:
             key=lambda candidato: candidato["priority"],
             reverse=True
         )
+
+        # El micrófono que se acaba de enchufar es el que se quiere usar.
+        nombres = {candidato["name"] for candidato in self.input_candidates}
+        conocidas = getattr(self, "_entradas_conocidas", None)
+        if conocidas is not None:
+            nuevas = [c["name"] for c in self.input_candidates if c["name"] not in conocidas]
+            if nuevas:
+                self._entrada_nueva = nuevas[0]
+        if getattr(self, "_entrada_nueva", None) not in nombres:
+            self._entrada_nueva = None
+        self._entradas_conocidas = nombres
 
     def validar_entrada(self, candidato):
         indice = candidato["index"]
@@ -321,6 +430,9 @@ class AudioManager:
 
         if not indice_configurado:
             candidatos = self._reordenar_candidatos_por_dispositivo_activo(candidatos)
+            entrada_nueva = getattr(self, "_entrada_nueva", None)
+            if entrada_nueva:
+                candidatos.sort(key=lambda candidato: candidato["name"] != entrada_nueva)
 
         if indice_configurado.lower() in {"pipewire", "pw"}:
             candidatos.sort(
@@ -349,12 +461,16 @@ class AudioManager:
             self.input_device = candidato["index"]
             self.input_sample_rate = frecuencia
             self.input_channels = canales
+            if candidato["name"] != getattr(self, "input_name", None):
+                print(f"[AUDIO] Micrófono en uso: {candidato['name']}")
+            self.input_name = candidato["name"]
             depuracion.depurar(
                 f"[AUDIO] Entrada seleccionada: {candidato['name']} "
                 f"({canales} canal(es), {frecuencia} Hz)"
             )
             return
 
+        self.input_name = None
         print("[AUDIO] No se encontró una entrada de audio compatible.")
 
     def seleccionar_salida(self):
@@ -429,6 +545,18 @@ class AudioManager:
         print("[AUDIO] No se encontró una salida de audio validada.")
 
 
+    @staticmethod
+    def _leer_bloque(stream, frames, limite=2.0):
+        """Lee un bloque sin quedarse colgado: si el micrófono se desconectó,
+        PortAudio no avisa y stream.read() esperaba para siempre (Yura quedó
+        "escuchando" sin responder, 13/10/2026)."""
+        fin = time.monotonic() + limite
+        while stream.read_available < frames:
+            if time.monotonic() > fin:
+                raise RuntimeError("el micrófono dejó de enviar audio (¿se desconectó?)")
+            time.sleep(0.01)
+        return stream.read(frames)
+
     def grabar_hasta_silencio(
         self,
         espera_maxima=10.0,
@@ -485,7 +613,7 @@ class AudioManager:
                 bloques_arranque = max(1, int(0.2 * frecuencia / frames_por_bloque))
                 for _ in range(bloques_arranque):
                     depuracion.depurar("[DEBUG AUDIO] antes de esperar audio arranque")
-                    stream.read(frames_por_bloque)
+                    self._leer_bloque(stream, frames_por_bloque)
                     depuracion.depurar("[DEBUG AUDIO] después de recibir audio arranque")
 
                 if al_escuchar:
@@ -494,7 +622,7 @@ class AudioManager:
                 calibracion = []
                 for _ in range(max(1, int(0.2 * frecuencia / frames_por_bloque))):
                     depuracion.depurar("[DEBUG AUDIO] antes de esperar audio calibración")
-                    bloque, _ = stream.read(frames_por_bloque)
+                    bloque, _ = self._leer_bloque(stream, frames_por_bloque)
                     depuracion.depurar("[DEBUG AUDIO] después de recibir audio calibración")
                     calibracion.append(np.asarray(bloque, dtype=np.float32))
 
@@ -540,7 +668,7 @@ class AudioManager:
                     depuracion.depurar(
                         f"[DEBUG AUDIO] antes de esperar audio bloque={numero_bloque}"
                     )
-                    bloque, _ = stream.read(frames_por_bloque)
+                    bloque, _ = self._leer_bloque(stream, frames_por_bloque)
                     depuracion.depurar(
                         f"[DEBUG AUDIO] después de recibir audio bloque={numero_bloque}"
                     )
@@ -553,6 +681,12 @@ class AudioManager:
                     nivel = self._calcular_nivel_audio(bloque)
 
                     if not voz_detectada:
+                        # Mientras espera la voz, mira cada segundo si se
+                        # enchufó o sacó un micrófono: se corta como un
+                        # silencio y la próxima escucha abre el nuevo.
+                        if numero_bloque % max(1, int(1000 / bloque_ms)) == 0 and self.tarjetas_cambiaron():
+                            print("[AUDIO] Se conectó o desconectó un dispositivo de audio.")
+                            return None
                         pre_buffer.append(bloque)
                         if nivel > 1e-6:
                             if len(niveles_espera) >= 6:

@@ -36,3 +36,21 @@ def _modo_idioma_quechua():
 def _sin_voz_en_vivo(monkeypatch):
     """Las pruebas nunca hacen sonar la voz en vivo (Edge TTS + pw-play)."""
     monkeypatch.setenv("YURA_VOZ_EN_VIVO", "0")
+
+
+@pytest.fixture(autouse=True)
+def _sin_voz_sofia_local(monkeypatch):
+    """Las pruebas no cargan los modelos de la voz sin internet (~1,5 GB) y
+    empiezan con Edge TTS sin marcas de falla de otra prueba."""
+    import voz_sofia
+
+    monkeypatch.setenv("YURA_VOZ_LOCAL", "0")
+    monkeypatch.setitem(voz_sofia._edge, "falla_hasta", 0.0)
+
+
+@pytest.fixture(autouse=True)
+def _sin_cambiar_el_parlante_real(monkeypatch):
+    """Las pruebas nunca cambian el parlante por defecto de la Raspberry."""
+    import audio_manager
+
+    monkeypatch.setattr(audio_manager.AudioManager, "_salidas_pipewire", staticmethod(lambda: []))

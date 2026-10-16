@@ -19,6 +19,8 @@ from main_robot import BrainYura, RobotStates
 import depuracion
 import pronunciaciones
 import resultados
+import voz_sofia
+import voz_sofia_local
 
 # Versión del producto (archivo VERSION; historial en CHANGELOG.md).
 try:
@@ -169,6 +171,7 @@ def start_robot():
         if robot is not None:
             return robot
         robot = BrainYura()
+        voz_sofia_local.precargar()
 
         def _ejecutar_y_cerrar():
             # Si Yura se apaga por voz, se cierra todo el proceso
@@ -532,8 +535,19 @@ def api_escuchar_voz_docente():
                 partes.append(trozo["data"])
         return b"".join(partes)
     try:
+        if not voz_sofia.edge_disponible():
+            raise RuntimeError("Microsoft no responde")
         audio = asyncio.run(generar())
     except Exception:
+        # Sin Microsoft: la misma voz de Sofía hecha en la Raspberry.
+        try:
+            if voz_sofia_local.activa():
+                ruta = voz_sofia_local.ruta_local(texto)
+                if not os.path.exists(ruta):
+                    voz_sofia_local.convertir(texto, ruta)
+                return send_file(ruta, mimetype="audio/wav", max_age=0)
+        except Exception:
+            pass
         return Response("No se pudo generar la voz (¿hay internet?).", status=503,
                         mimetype="text/plain; charset=utf-8")
     return Response(audio, mimetype="audio/mpeg", headers={"Cache-Control": "no-store"})
