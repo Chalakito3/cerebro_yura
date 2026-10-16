@@ -478,6 +478,7 @@ _TEMAS = {
     "saludos": "saludos", "verbos": "verbos", "lugares": "lugares", "pronombres": "pronombres",
     "utensilios": "utensilios_cocina", "herramientas": "herramientas", "escolares": "objetos_escolares",
     "naturaleza": "elementos_naturales", "preguntas": "preguntas",
+    "familiares": "familia", "parientes": "familia",
 }
 _NOMBRE_TEMA = {
     "numeros": "los números", "colores": "los colores", "animales": "los animales", "frutas": "las frutas",
@@ -496,15 +497,134 @@ _NUMEROS_ES = {
 _ULTIMO_TEMA = {"tema": None, "desde": 0, "hasta": 0.0}
 
 
+_ANTES_DEL_TEMA = {"los", "las", "la", "del", "de", "mi", "mis", "tu", "tus", "su", "sus",
+                   "nuestra", "nuestras", "nuestros"}
+_PIDE_TEMA = re.compile(
+    r"(?<![a-zñ])(?:como se dice|como se dicen|dime|describe|describeme|ensename|cuales son|"
+    r"nombres|palabras|miembros|quienes son|hablame)(?![a-zñ])"
+)
+# La familia empieza por los parientes ("papá, mamá...") y no por "niño,
+# hombre, persona" (pedido del equipo, 13/10/2026).
+_ORDEN_FAMILIA = ("papa", "padre", "madre", "mama", "abuelo", "abuela", "hermano", "hermana", "hijo", "bebe")
+
+
+def _es_palabra_del_diccionario(palabra):
+    try:
+        registros = traductor._leer_registros_vocabulario(_obtener_conexion_vocabulario())
+    except Exception:
+        return False
+    return any(traductor._normalizar_para_comparar(r["espanol"]) == palabra for r in registros)
+
+
 def _tema_pedido(entrada):
     palabras = entrada.split()
-    # "los números", "las frutas", "la familia", "partes del cuerpo": con artículo,
-    # para no confundir "¿cómo se dice familia?" (una palabra) con la lista.
     for i, palabra in enumerate(palabras):
         tema = _TEMAS.get(palabra)
-        if tema and i > 0 and palabras[i - 1] in {"los", "las", "la", "del", "de"}:
+        if not tema:
+            continue
+        # "los números", "las frutas", "la familia", "mi familia".
+        if i > 0 and palabras[i - 1] in _ANTES_DEL_TEMA:
+            return tema
+        # Sin artículo ("¿cómo se dice familia?", visto en vivo 13/10/2026):
+        # si no es una palabra suelta del diccionario, se da la lista del tema.
+        if (entrada == palabra or _PIDE_TEMA.search(entrada)) and not _es_palabra_del_diccionario(palabra):
             return tema
     return None
+
+
+def _ordenar_tema(tema, registros):
+    registros = sorted(registros, key=lambda r: r["id"])
+    if tema != "familia":
+        return registros
+
+    def _orden(registro):
+        espanol = traductor._normalizar_para_comparar(registro["espanol"])
+        return next((i for i, clave in enumerate(_ORDEN_FAMILIA) if espanol.startswith(clave)),
+                    len(_ORDEN_FAMILIA))
+
+    # "Tata" está como padre y como papá: se dice una vez ("Tata es papá o padre").
+    unidos = {}
+    for registro in sorted(registros, key=_orden):
+        clave = registro["quechua"]
+        if clave in unidos:
+            unidos[clave] = dict(unidos[clave], espanol=f"{unidos[clave]['espanol']} o {str(registro['espanol']).lower()}")
+        else:
+            unidos[clave] = dict(registro)
+    return list(unidos.values())
+
+
+_QUITAR_ANTES = {"el", "la", "los", "las", "mi", "mis", "un", "una", "tu", "tus", "su", "sus"}
+# "Mamá" está en el diccionario como "Madre" (Mama) y como "Mamá, madre" (Mamay).
+_SINONIMOS = {"mama": "madre", "mami": "madre", "papi": "papa", "padre": "papa"}
+
+
+def _buscar_varias(partes):
+    conexion = _obtener_conexion_vocabulario()
+
+    def _buscar(termino):
+        for forma in (termino, re.sub(r"es$", "", termino), re.sub(r"s$", "", termino)):
+            if forma:
+                resultados = traductor.buscar_vocabulario(forma, "espanol", conexion)["resultados"]
+                if resultados:
+                    if forma in _SINONIMOS:
+                        resultados = resultados + traductor.buscar_vocabulario(
+                            _SINONIMOS[forma], "espanol", conexion)["resultados"]
+                    return resultados
+        return []
+
+    encontrados = []
+    for parte in partes:
+        palabras = [p for p in parte.split() if p not in _QUITAR_ANTES]
+        termino = " ".join(palabras)
+        resultados = _buscar(termino)
+        if not resultados and len(palabras) > 1:
+            # Por voz no llegan comas: "papa mama y hermanos".
+            encontrados.extend((palabra, _buscar(palabra)) for palabra in palabras)
+        else:
+            encontrados.append((termino, resultados))
+    return encontrados
+
+
+def _responder_varias_palabras(entrada):
+    """"¿Cómo se dice papá, mamá y hermanos?": cada una desde el diccionario
+    (antes iba a Groq, que la contestaba en puro quechua; 13/10/2026)."""
+    if not _PIDE_TEMA.search(entrada):
+        return None
+    termino = traductor.extraer_termino(entrada)
+    partes = [p.strip() for p in re.split(r"\s*,\s*|\s+(?:y|e)\s+", termino) if p.strip()]
+    if len(partes) < 2:
+        return None
+    try:
+        encontrados = _buscar_varias(partes)
+    except Exception:
+        return None
+    if sum(1 for _, resultados in encontrados if resultados) < 2:
+        return None
+    # "papa" es papá (familia) o papa (alimento): se elige la categoría de las demás.
+    categorias = [c for _, resultados in encontrados for c in {r["categoria"] for r in resultados}]
+    comun = max(sorted(set(categorias), key=lambda c: c != "familia"), key=categorias.count)
+    dichas, faltan = [], []
+    for termino, resultados in encontrados:
+        if not resultados:
+            faltan.append(termino)
+            continue
+        elegidos = [r for r in resultados if r["categoria"] == comun] or resultados[:1]
+        for registro in elegidos:  # "hermano": Wawqi (del hombre) y Tura (de la mujer)
+            par = (str(registro["espanol"]).split(",")[0].strip(), registro["quechua"])
+            if par not in dichas:
+                dichas.append(par)
+    lista = ", ".join(f"{espanol} es {quechua}" for espanol, quechua in dichas)
+    respuesta = f"En quechua: {lista}."
+    if faltan:
+        respuesta += f" {', '.join(faltan).capitalize()} todavía no lo tengo en mi diccionario."
+    return {
+        "accion": "responder",
+        "respuesta": respuesta + " ¿Los repetimos juntos?",
+        "pantalla": {
+            "content": " · ".join(q for _, q in dichas),
+            "translation": " · ".join(e for e, _ in dichas),
+        },
+    }
 
 
 def _responder_tema(entrada):
@@ -524,7 +644,7 @@ def _responder_tema(entrada):
         return None
     if not registros:
         return None
-    registros.sort(key=lambda r: r["id"])
+    registros = _ordenar_tema(tema, registros)
     titulo = _NOMBRE_TEMA.get(tema, "estas palabras")
     rango = re.search(r"del? (\w+) (?:al|hasta el|hasta) (\w+)", entrada)
     if tema == "numeros" and rango:
@@ -1168,7 +1288,7 @@ def procesar_entrada(entrada, groq_client, historial=None):
     if intento:
         return {"accion": "responder", "respuesta": intento}
 
-    tema = _responder_tema(entrada)
+    tema = _responder_tema(entrada) or _responder_varias_palabras(entrada)
     if tema:
         return tema
 

@@ -163,3 +163,31 @@ def test_lista_por_tema_sale_del_diccionario():
     assert "Puka es rojo" in colores and "más" in colores
     mas = conversacion.procesar_entrada("si", None)["respuesta"]
     assert mas.startswith("Más de los colores") and "Puka" not in mas
+
+
+@pytest.mark.parametrize("pedido", [
+    "como se dice familia en quechua",  # sin artículo, visto en vivo 13/10/2026
+    "como se dice la familia",
+    "describe mi familia",
+    "familia",
+])
+def test_la_familia_empieza_por_papa_y_mama(pedido):
+    import conversacion
+    respuesta = conversacion.procesar_entrada(pedido, None)["respuesta"]
+    assert respuesta.startswith("La familia en quechua: Tata es papá o padre, Mama es madre")
+    assert "Jatun tata es abuelo" in respuesta
+
+
+def test_varias_palabras_salen_del_diccionario():
+    import conversacion
+    respuesta = conversacion.procesar_entrada("como se dice papa mama y hermanos", None)["respuesta"]
+    assert respuesta.startswith("En quechua: Papá es Tata, Madre es Mama")
+    assert "Wawqi" in respuesta and "Tura" in respuesta
+    con_falta = conversacion.procesar_entrada("como se dice perro gato y tio", None)["respuesta"]
+    assert "Perro es Allqu" in con_falta and "Gato es Misi" in con_falta
+    assert "todavía no lo tengo" in con_falta
+
+
+def test_una_sola_palabra_sigue_igual():
+    import conversacion
+    assert "Allqu" in conversacion.procesar_entrada("como se dice perro", None)["respuesta"]
