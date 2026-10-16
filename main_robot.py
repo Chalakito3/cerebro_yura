@@ -1513,7 +1513,8 @@ class BrainYura:
             return ""
         movimiento = texto_util.orden_movimiento(normalizado)
         if movimiento and (permitir_movimiento or movimiento == "ALTO"):
-            self._mover_por_voz(movimiento, hablar=permitir_movimiento)
+            self._mover_por_voz(movimiento, hablar=permitir_movimiento,
+                                pasos=texto_util.pasos_pedidos(normalizado))
             return ""
         return texto
 
@@ -1527,7 +1528,27 @@ class BrainYura:
         "DERECHA": "Giro a la derecha.",
     }
 
-    def _mover_por_voz(self, movimiento, hablar=True):
+    # Pasos pedidos por voz («camina dos pasos»): cada paso es un avance corto
+    # con una pausa; como máximo MAXIMO_PASOS seguidos (los sensores pueden
+    # estar desconectados y el ESP32 no frenaría ante un obstáculo).
+    PASO_MS = 1000
+    PAUSA_ENTRE_PASOS = 0.3
+    MAXIMO_PASOS = 5
+    _NOMBRE_PASOS = {1: "un paso", 2: "dos pasos", 3: "tres pasos", 4: "cuatro pasos", 5: "cinco pasos"}
+
+    def _caminar_pasos(self, movimiento, pasos):
+        cuerpo = self.cuerpo
+        if pasos > self.MAXIMO_PASOS:
+            self.hw.hablar(f"Puedo caminar hasta {self.MAXIMO_PASOS} pasos seguidos.")
+            pasos = self.MAXIMO_PASOS
+        nombre = self._NOMBRE_PASOS[pasos]
+        self.hw.hablar(f"Camino {nombre} hacia adelante." if movimiento == "ADELANTE" else f"Retrocedo {nombre}.")
+        for _ in range(pasos):
+            cuerpo.mover(movimiento, self.PASO_MS)
+            time.sleep(self.PASO_MS / 1000 + self.PAUSA_ENTRE_PASOS)
+        cuerpo.alto()
+
+    def _mover_por_voz(self, movimiento, hablar=True, pasos=None):
         cuerpo = getattr(self, "cuerpo", None)
         if movimiento == "ALTO":
             if cuerpo is not None:
@@ -1537,6 +1558,9 @@ class BrainYura:
             return
         if cuerpo is None or not cuerpo.conectado:
             self.hw.hablar("Todavía no tengo mi cuerpo conectado para moverme.")
+            return
+        if pasos and movimiento in ("ADELANTE", "ATRAS"):
+            self._caminar_pasos(movimiento, pasos)
             return
         cuerpo.mover(movimiento, self.DURACION_MOVIMIENTO_MS[movimiento])
         self.hw.hablar(self._AVISO_MOVIMIENTO[movimiento])

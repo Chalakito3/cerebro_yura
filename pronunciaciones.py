@@ -726,6 +726,9 @@ def afinar_vosk(texto):
         t_norm = texto_limpio = corregido
     if t_norm in _COMANDOS_SISTEMA_VOSK:
         return texto_limpio
+    # «camina cinco pasos»: el número no se cambia por quechua («cinco» -> Sunqu).
+    if texto_util.pasos_pedidos(t_norm) and texto_util.orden_movimiento(t_norm):
+        return texto_limpio
     orden = _orden_vosk(t_norm)
     if orden:
         return orden

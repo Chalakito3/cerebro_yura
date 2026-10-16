@@ -157,7 +157,7 @@ _VERBOS_MOVIMIENTO = {
     "camina", "caminar", "camine", "avanza", "avanzar", "avance", "anda", "andar",
     "ve", "vete", "vaya", "ir", "muevete", "mueve", "moverte", "muevase",
     "retrocede", "retroceder", "regresa", "gira", "girar", "gire", "voltea",
-    "voltear", "dobla", "doblar", "vamos", "hacia",
+    "voltear", "dobla", "doblar", "vamos", "hacia", "da", "dame", "danos",
 }
 # Verbos que ya dicen la dirección sin nombrarla.
 _VERBOS_CON_DIRECCION = {
@@ -175,6 +175,30 @@ _ALTO_EN_FRASE = ("detente", "deten", "detenerte", "no te muevas", "frena", "fre
 _RELLENO_MOVIMIENTO = {"yura", "yuraq", "jura", "llora", "por", "favor", "ya", "ahora", "un", "poco", "mas", "la", "a", "el", "al"}
 
 
+# Cuántos pasos pide la orden («camina dos pasos», «retrocede 3 pasos»,
+# «iskay pasos»). Vosk escribe los números con letras.
+_NUMEROS_PASOS = {
+    "un": 1, "uno": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5,
+    "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10,
+    "uj": 1, "juk": 1, "huk": 1, "iskay": 2, "kimsa": 3, "tawa": 4, "phichqa": 5, "pichqa": 5,
+}
+_PALABRAS_PASO = {"paso", "pasos", "pasito", "pasitos"}
+
+
+def pasos_pedidos(texto_normalizado):
+    """Número de pasos pedidos, o None si la orden no habla de pasos.
+    «un paso» y «da pasos» cuentan como 1."""
+    palabras_texto = str(texto_normalizado or "").split()
+    for posicion, palabra in enumerate(palabras_texto):
+        if palabra not in _PALABRAS_PASO:
+            continue
+        previa = palabras_texto[posicion - 1] if posicion else ""
+        if previa.isdigit():
+            return max(1, int(previa))
+        return _NUMEROS_PASOS.get(previa, 1)
+    return None
+
+
 def orden_movimiento(texto_normalizado):
     """La orden de movimiento dicha a Yura: "ADELANTE", "ATRAS", "IZQUIERDA",
     "DERECHA", "ALTO", o None.
@@ -185,7 +209,9 @@ def orden_movimiento(texto_normalizado):
     if not texto_normalizado or es_pregunta_de_idioma(texto_normalizado):
         return None
     palabras_texto = texto_normalizado.split()
-    nucleo = [p for p in palabras_texto if p not in _RELLENO_MOVIMIENTO]
+    # Los pasos y su número no cuentan («camina dos pasos» es «camina»).
+    nucleo = [p for p in palabras_texto if p not in _RELLENO_MOVIMIENTO
+              and p not in _PALABRAS_PASO and p not in _NUMEROS_PASOS and not p.isdigit()]
     if " ".join(nucleo) in _ALTO_SOLO or texto_normalizado in _ALTO_SOLO:
         return "ALTO"
     if any(contiene_frase(texto_normalizado, frase) for frase in _ALTO_EN_FRASE):

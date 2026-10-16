@@ -59,3 +59,38 @@ def test_sin_cuerpo_conectado_avisa_y_no_mueve():
     robot._escuchar_con_ordenes()
     robot.cuerpo.mover.assert_not_called()
     assert "cuerpo" in robot.hw.hablar.call_args.args[0]
+
+
+@pytest.mark.parametrize("frase, orden, pasos", [
+    ("camina dos pasos", "ADELANTE", 2), ("camina dos pasos hacia adelante", "ADELANTE", 2),
+    ("avanza 3 pasos", "ADELANTE", 3), ("da un paso adelante", "ADELANTE", 1),
+    ("Yura camina cuatro pasos por favor", "ADELANTE", 4), ("retrocede dos pasos", "ATRAS", 2),
+    ("camina iskay pasos", "ADELANTE", 2), ("camina hacia adelante", "ADELANTE", None),
+])
+def test_entiende_cuantos_pasos(frase, orden, pasos):
+    normalizado = texto_util.normalizar(frase)
+    assert texto_util.orden_movimiento(normalizado) == orden
+    assert texto_util.pasos_pedidos(normalizado) == pasos
+
+
+def test_camina_los_pasos_pedidos(monkeypatch):
+    monkeypatch.setattr("main_robot.time.sleep", lambda _s: None)
+    robot = _robot("camina tres pasos")
+    assert robot._escuchar_con_ordenes() == ""
+    assert robot.cuerpo.mover.call_count == 3
+    robot.cuerpo.mover.assert_called_with("ADELANTE", 1000)
+    robot.cuerpo.alto.assert_called_once()
+    robot.hw.hablar.assert_called_with("Camino tres pasos hacia adelante.")
+
+
+def test_no_camina_mas_de_cinco_pasos_seguidos(monkeypatch):
+    monkeypatch.setattr("main_robot.time.sleep", lambda _s: None)
+    robot = _robot("camina diez pasos")
+    robot._escuchar_con_ordenes()
+    assert robot.cuerpo.mover.call_count == 5
+
+
+def test_el_numero_de_pasos_no_se_cambia_por_quechua():
+    import pronunciaciones
+    afinado = pronunciaciones.afinar_vosk("camina cinco pasos hacia adelante")
+    assert texto_util.pasos_pedidos(texto_util.normalizar(afinado)) == 5
